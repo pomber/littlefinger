@@ -139,7 +139,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready: function() {
         var auth = this.$.auth;
         if (!auth.signedIn) {
-          console.log("already signed in");
+          // console.log("already signed in");
         } else {
           auth.signInWithEmailAndPassword("pomber@test.com", "changeme")
             .then(function(response) { console.log("login success");})

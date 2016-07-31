@@ -12,6 +12,9 @@
             :host {
                 display: block;
             }
+            [hidden] {
+                display: none !important;
+            }
         </style>
 
         <firebase-document
@@ -31,6 +34,7 @@
             </paper-input>
 
             <div class="buttons">
+                <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
                 <paper-button dialog-dismiss>Cancel</paper-button>
                 <paper-button dialog-confirm id="confirm">Save</paper-button>
             </div>
@@ -45,6 +49,7 @@
                 route: Object,
                 user: Object,
                 recordId: String,
+                isNew: Boolean,
                 record: {
                     type: Object,
                     observer: "_recordChanged"
@@ -53,7 +58,8 @@
 
             show: function(recordId) {
                 this.recordId = recordId;
-                if (recordId) {
+                this.isNew = !this.recordId;                
+                if (recordId) {                    
                     this.$.document.path = "/records/" + this.user.uid + "/" + recordId;
                 } 
                 this.$.modal.open();
@@ -66,6 +72,10 @@
                     this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
                 }
                 this.$.document.reset();
+            },
+
+            _delete: function(e) {
+                this.$.document.destroy();                
             },
 
             _recordChanged: function() {
