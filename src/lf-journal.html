@@ -1,11 +1,12 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="lf-record.html">
 
 <dom-module id="lf-journal">
 
-    <template>
-        
+    <template>        
 
         <style>
             :host {
@@ -27,6 +28,8 @@
         </firebase-query>
 
         <h1>Journal</h1>
+        <paper-button raised on-tap="newRecord">New Record</paper-button>
+        <lf-record id="recordForm" user="[[user]]"></lf-record>
         <table style="width:100%">
             <tr>
                 <th>Category</th>
@@ -50,6 +53,10 @@
             properties: {
                 route: Object,
                 user: Object
+            },
+
+            newRecord: function() {
+                this.$.recordForm.show();
             }
         });
     </script>

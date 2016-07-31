@@ -1,0 +1,56 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="lf-record">
+
+    <template>        
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <firebase-document
+            id="document"
+            path="/records/[[user.uid]]/{{recordId}}"
+            data="{{record}}">
+        </firebase-document>
+
+        <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
+            <h2>Record {{recordId}}</h2>
+            <p>Sarasa</p>
+            <div class="buttons">
+                <paper-button dialog-dismiss>Cancel</paper-button>
+                <paper-button dialog-confirm autofocus>Accept</paper-button>
+            </div>
+        </paper-dialog>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-record',
+            properties: {
+                route: Object,
+                user: Object,
+                recordId: String
+            },
+
+            show: function(recordId) {
+                this.recordId = recordId;
+                this.$.modal.open();
+            },
+
+            // https://github.com/PolymerElements/paper-dialog/issues/7
+            patchOverlay: function (e) {
+                if (e.target.withBackdrop) {
+                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
+            },
+        });
+    </script>
+
+</dom-module>
