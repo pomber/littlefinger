@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 
 <dom-module id="lf-record">
 
@@ -15,16 +16,23 @@
 
         <firebase-document
             id="document"
-            path="/records/[[user.uid]]/{{recordId}}"
             data="{{record}}">
         </firebase-document>
 
-        <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
+        <paper-dialog id="modal" modal 
+            on-iron-overlay-opened="_patchOverlay"
+            on-iron-overlay-closed="close" 
+            on-keypress="_keyPressed">
             <h2>Record {{recordId}}</h2>
-            <p>Sarasa</p>
+
+            <paper-input label="Category" required value="{{category}}" autofocus></paper-input>
+            <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
+                <div prefix>$</div>
+            </paper-input>
+
             <div class="buttons">
                 <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button dialog-confirm autofocus>Accept</paper-button>
+                <paper-button dialog-confirm id="confirm">Save</paper-button>
             </div>
         </paper-dialog>
         
@@ -41,13 +49,32 @@
 
             show: function(recordId) {
                 this.recordId = recordId;
+                if (recordId) {
+                    var path = "/records/[[user.uid]]/{{recordId}}";
+                } 
                 this.$.modal.open();
             },
 
+            close: function(e) {
+                if (e.detail.confirmed) {
+                    this.record.amount = Number(this.amount);
+                    this.record.category = this.category;
+                    this.$.document.save("/records/" + this.user.uid +"/");
+                    this.amount = null;
+                    this.category = null;
+                }
+            },
+
             // https://github.com/PolymerElements/paper-dialog/issues/7
-            patchOverlay: function (e) {
+            _patchOverlay: function (e) {
                 if (e.target.withBackdrop) {
                     e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
+            },
+
+            _keyPressed: function(e) {
+                if (13 === e.charCode) {
+                    this.$.confirm.click();
                 }
             },
         });
