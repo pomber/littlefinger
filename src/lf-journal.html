@@ -1,8 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 
 <dom-module id="lf-journal">
 
     <template>
+        
 
         <style>
             :host {
@@ -11,6 +14,18 @@
             }
         </style>
 
+        <firebase-document
+            id="document"
+            path="/records/[[user.uid]]/"
+            data="{{record}}">
+        </firebase-document>
+
+        <firebase-query
+            id="query"
+            path="/records/[[user.uid]]"
+            data="{{records}}">
+        </firebase-query>
+
         <h1>Journal</h1>
         <table style="width:100%">
             <tr>
@@ -18,26 +33,13 @@
                 <th>Amount</th>
                 <th>Date</th>
             </tr>
-            <tr>
-                <td>Groceries</td>
-                <td>$230.35</td>
-                <td>7/29/16</td>
-            </tr>
-            <tr>
-                <td>Utilities</td>
-                <td>$440.00</td>
-                <td>7/28/16</td>
-            </tr>
-            <tr>
-                <td>Debt</td>
-                <td>$99.00</td>
-                <td>7/28/16</td>
-            </tr>
-            <tr>
-                <td>Bar</td>
-                <td>$51.00</td>
-                <td>7/28/16</td>
-            </tr>
+            <template is="dom-repeat" items="{{records}}">
+                <tr>
+                    <td>{{item.category}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>7/29/16</td>
+                </tr>
+            </template>
         </table>
         
     </template>
@@ -46,7 +48,8 @@
         Polymer({
             is: 'lf-journal',
             properties: {
-                route: Object
+                route: Object,
+                user: Object
             }
         });
     </script>
