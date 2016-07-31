@@ -2,23 +2,53 @@
 
 <dom-module id="lf-journal">
 
-  <template>
-    <style>
-      :host {
-        display: block;
-        padding: 16px;
-      }
-    </style>
-    <h1>Journal</h1>
-  </template>
+    <template>
 
-  <script>
-    Polymer({
-      is: 'lf-journal',
-      properties: {
-        route: Object
-      }
-    });
-  </script>
+        <style>
+            :host {
+                display: block;
+                padding: 16px;
+            }
+        </style>
+
+        <h1>Journal</h1>
+        <table style="width:100%">
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+            <tr>
+                <td>Groceries</td>
+                <td>$230.35</td>
+                <td>7/29/16</td>
+            </tr>
+            <tr>
+                <td>Utilities</td>
+                <td>$440.00</td>
+                <td>7/28/16</td>
+            </tr>
+            <tr>
+                <td>Debt</td>
+                <td>$99.00</td>
+                <td>7/28/16</td>
+            </tr>
+            <tr>
+                <td>Bar</td>
+                <td>$51.00</td>
+                <td>7/28/16</td>
+            </tr>
+        </table>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-journal',
+            properties: {
+                route: Object
+            }
+        });
+    </script>
 
 </dom-module>
