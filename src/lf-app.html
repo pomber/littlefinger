@@ -19,6 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="my-icons.html">
 
 <dom-module id="lf-app">
@@ -61,6 +63,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     </style>
+  
+    <firebase-app
+      api-key="AIzaSyAwWQCy-9X_dN7DU56yu4VFohvZPxKFOZs"
+      auth-domain="littlefinger-c16d8.firebaseapp.com"
+      database-url="https://littlefinger-c16d8.firebaseio.com">
+    </firebase-app>
+    
+    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
+    </firebase-auth>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -124,6 +135,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       observers: [
         '_routePageChanged(routeData.page)'
       ],
+
+      ready: function() {
+        var auth = this.$.auth;
+        if (!auth.signedIn) {
+          console.log("already signed in");
+        } else {
+          auth.signInWithEmailAndPassword("pomber@test.com", "changeme")
+            .then(function(response) { console.log("login success");})
+            .catch(function(error) { console.log(error); });
+        }       
+      },
 
       _routePageChanged: function(page) {
         this.page = page || 'journal';
