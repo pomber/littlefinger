@@ -25,8 +25,8 @@
             on-keypress="_keyPressed">
             <h2>Record {{recordId}}</h2>
 
-            <paper-input label="Category" required value="{{record.category}}" autofocus></paper-input>
-            <paper-input label="Amount" type="number" step="any" required value="{{record.amount}}">
+            <paper-input label="Category" required value="{{category}}" autofocus></paper-input>
+            <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
                 <div prefix>$</div>
             </paper-input>
 
@@ -44,7 +44,11 @@
             properties: {
                 route: Object,
                 user: Object,
-                recordId: String
+                recordId: String,
+                record: {
+                    type: Object,
+                    observer: "_recordChanged"
+                }
             },
 
             show: function(recordId) {
@@ -57,9 +61,16 @@
 
             close: function(e) {
                 if (e.detail.confirmed) {
-                    this.record.amount = Number(this.record.amount);
+                    this.record.amount = Number(this.amount);
+                    this.record.category = this.category;
                     this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
                 }
+                this.$.document.reset();
+            },
+
+            _recordChanged: function() {
+                this.amount = this.record.amount;
+                this.category = this.record.category;
             },
 
             // https://github.com/PolymerElements/paper-dialog/issues/7

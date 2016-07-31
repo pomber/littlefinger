@@ -31,10 +31,10 @@
                 <th>Date</th>
             </tr>
             <template is="dom-repeat" items="{{records}}">
-                <tr>
+                <tr on-tap="editRecord">
                     <td>{{item.category}}</td>
                     <td>{{item.amount}}</td>
-                    <td>7/29/16</td>
+                    <td></td>
                 </tr>
             </template>
         </table>
@@ -51,6 +51,11 @@
 
             newRecord: function() {
                 this.$.recordForm.show();
+            },
+
+            editRecord: function(e) {                
+                var item = e.model.item;                
+                this.$.recordForm.show(item.$key);
             }
         });
     </script>
