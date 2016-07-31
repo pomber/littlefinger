@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="lf-record.html">
 <link rel="import" href="material-table-styles.html">
 
@@ -9,7 +10,7 @@
 
     <template>        
 
-        <style include="material-table-styles"></style>
+        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
         <style>
             :host {
                 display: block;
@@ -23,8 +24,10 @@
             data="{{records}}">
         </firebase-query>
 
-        <h1>Journal</h1>
-        <paper-button raised on-tap="newRecord">New Record</paper-button>
+        <div class="horizontal layout justified">
+            <h3>Records</h3>
+            <paper-button on-tap="newRecord">New Record</paper-button>
+        </div>
         <lf-record id="recordForm" user="[[user]]"></lf-record>
         <table>
             <thead>
