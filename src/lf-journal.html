@@ -3,11 +3,13 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="lf-record.html">
+<link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-journal">
 
     <template>        
 
+        <style include="material-table-styles"></style>
         <style>
             :host {
                 display: block;
@@ -24,19 +26,23 @@
         <h1>Journal</h1>
         <paper-button raised on-tap="newRecord">New Record</paper-button>
         <lf-record id="recordForm" user="[[user]]"></lf-record>
-        <table style="width:100%">
-            <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Date</th>
-            </tr>
-            <template is="dom-repeat" items="{{records}}">
-                <tr on-tap="editRecord">
-                    <td>{{item.category}}</td>
-                    <td>{{item.amount}}</td>
-                    <td></td>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Date</th>
                 </tr>
-            </template>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{records}}">
+                    <tr on-tap="editRecord">
+                        <td>{{item.category}}</td>
+                        <td>{{item.amount}}</td>
+                        <td></td>
+                    </tr>
+                </template>
+            </tbody>
         </table>
         
     </template>

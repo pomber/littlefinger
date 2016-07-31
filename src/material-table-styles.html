@@ -1,0 +1,49 @@
+<dom-module id="material-table-styles">
+  <template>
+    <style>
+        table {
+            width: 100%;
+            background-color: white;
+            line-height: 1.5;
+            border-collapse: collapse;
+            border-spacing: 0
+        }
+
+        th, td {                
+            font-weight: normal;
+            padding: 15px 5px;
+            display: table-cell;
+            text-align: left;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+
+        th {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.54);
+        }
+
+        td {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        thead {
+            border-bottom: 1px solid #c0c0c0
+        }
+
+        tr {               
+            display: table-row; 
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        td:first-child, th:first-child {
+            padding-left: 24px;
+        }
+
+        tbody>tr:hover {
+            background-color: #EEEEEE;
+        }
+    </style>
+  </template>
+</dom-module>
