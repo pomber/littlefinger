@@ -25,8 +25,8 @@
             on-keypress="_keyPressed">
             <h2>Record {{recordId}}</h2>
 
-            <paper-input label="Category" required value="{{category}}" autofocus></paper-input>
-            <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
+            <paper-input label="Category" required value="{{record.category}}" autofocus></paper-input>
+            <paper-input label="Amount" type="number" step="any" required value="{{record.amount}}">
                 <div prefix>$</div>
             </paper-input>
 
@@ -50,18 +50,15 @@
             show: function(recordId) {
                 this.recordId = recordId;
                 if (recordId) {
-                    var path = "/records/[[user.uid]]/{{recordId}}";
+                    this.$.document.path = "/records/" + this.user.uid + "/" + recordId;
                 } 
                 this.$.modal.open();
             },
 
             close: function(e) {
                 if (e.detail.confirmed) {
-                    this.record.amount = Number(this.amount);
-                    this.record.category = this.category;
-                    this.$.document.save("/records/" + this.user.uid +"/");
-                    this.amount = null;
-                    this.category = null;
+                    this.record.amount = Number(this.record.amount);
+                    this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
                 }
             },
 
