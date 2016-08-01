@@ -32,6 +32,7 @@
             <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
                 <div prefix>$</div>
             </paper-input>
+            <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
 
             <div class="buttons">
                 <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
@@ -67,9 +68,7 @@
 
             close: function(e) {
                 if (e.detail.confirmed) {
-                    this.record.amount = Number(this.amount);
-                    this.record.category = this.category;
-                    this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
+                    this._persist();
                 }
                 this.$.document.reset();
             },
@@ -78,9 +77,18 @@
                 this.$.document.destroy();                
             },
 
+            _persist: function() {
+                this.record.amount = Number(this.amount);
+                this.record.category = this.category;
+                this.record.date = this.date;
+                this.record.timestamp = new Date(this.date).getTime();
+                this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
+            },
+
             _recordChanged: function() {
                 this.amount = this.record.amount;
                 this.category = this.record.category;
+                this.date = this.record.date;
             },
 
             // https://github.com/PolymerElements/paper-dialog/issues/7

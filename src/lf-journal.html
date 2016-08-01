@@ -28,7 +28,9 @@
             <h3>Records</h3>
             <paper-button on-tap="newRecord">New Record</paper-button>
         </div>
+
         <lf-record id="recordForm" user="[[user]]"></lf-record>
+
         <table>
             <thead>
                 <tr>
@@ -42,7 +44,7 @@
                     <tr on-tap="editRecord">
                         <td>{{item.category}}</td>
                         <td>{{item.amount}}</td>
-                        <td></td>
+                        <td>{{item.date}}</td>
                     </tr>
                 </template>
             </tbody>
