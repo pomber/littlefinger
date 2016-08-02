@@ -2,9 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/lf-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/lf-journal.html"
+    "src/lf-journal.html",
+    "src/lf-categories.html"
   ]
 }

@@ -1,0 +1,78 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="lf-category.html">
+<link rel="import" href="material-table-styles.html">
+
+<dom-module id="lf-categories">
+
+    <template>        
+
+        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style>
+            :host {
+                display: block;
+                padding: 16px;
+            }
+        </style>
+
+        <firebase-query
+            id="query"
+            order-by-child="[[order]]"
+            path="/categories/[[user.uid]]"
+            data="{{categories}}">
+        </firebase-query>
+
+        <div class="horizontal layout justified">
+            <h3>Categories</h3>
+            <paper-button on-tap="newCategory">New Category</paper-button>
+        </div>
+
+        <lf-category id="categoryForm" user="[[user]]"></lf-category>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                    <th>Parent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{categories}}">
+                    <tr on-tap="editCategory">
+                        <td>{{item.name}}</td>
+                        <td>{{item.frequency}}</td>
+                        <td>{{item.parent}}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-categories',
+            properties: {
+                route: Object,
+                user: Object,
+                order: {
+                    type: String,
+                    value: "order"
+                }
+            },
+
+            newCategory: function() {
+                this.$.categoryForm.show();
+            },
+
+            editCategory: function(e) {                
+                var item = e.model.item;                
+                this.$.categoryForm.show(item.$key);
+            }
+        });
+    </script>
+
+</dom-module>

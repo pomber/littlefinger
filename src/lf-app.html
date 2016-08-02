@@ -87,9 +87,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="journal" href="/journal">Journal</a>
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
+          <a name="categories" href="/categories">Categories</a>
+          <a name="accounts" href="/accounts">Accounts</a>
+          <a name="reports" href="/reports">Reports</a>
         </iron-selector>
       </app-drawer>
 
@@ -104,10 +104,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header>
 
         <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
           <lf-journal name="journal" user="[[user]]"></lf-journal>
+          <lf-categories name="categories" user="[[user]]"></lf-categories>
         </iron-pages>
 
       </app-header-layout>
@@ -152,10 +150,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _pageChanged: function(page) {
-        var prefix = "my-";
-        if (page == "journal") {
-          prefix = "lf-"
-        }
+        var prefix = "lf-";
         // load page import on demand.
         this.importHref(
           this.resolveUrl(prefix + page + '.html'), null, null, true);

@@ -1,0 +1,106 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="lf-category">
+
+    <template>        
+
+        <style>
+            :host {
+                display: block;
+            }
+            [hidden] {
+                display: none !important;
+            }
+        </style>
+
+        <firebase-document
+            id="document"
+            data="{{category}}">
+        </firebase-document>
+
+        <paper-dialog id="modal" modal 
+            on-iron-overlay-opened="_patchOverlay"
+            on-iron-overlay-closed="close" 
+            on-keypress="_keyPressed">
+            <h2>Category {{categoryId}}</h2>
+
+            <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
+            <paper-input label="Frequency" required value="{{frequency}}"></paper-input>
+            <paper-input label="Parent" required value="{{parent}}"></paper-input>
+
+            <div class="buttons">
+                <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
+                <paper-button dialog-dismiss>Cancel</paper-button>
+                <paper-button dialog-confirm id="confirm">Save</paper-button>
+            </div>
+        </paper-dialog>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-category',
+            properties: {
+                route: Object,
+                user: Object,
+                categoryId: String,
+                isNew: Boolean,
+                category: {
+                    type: Object,
+                    observer: "_categoryChanged"
+                }
+            },
+
+            show: function(categoryId) {
+                this.categoryId = categoryId;
+                this.isNew = !this.categoryId;                
+                if (categoryId) {                    
+                    this.$.document.path = "/categories/" + this.user.uid + "/" + categoryId;
+                } 
+                this.$.modal.open();
+            },
+
+            close: function(e) {
+                if (e.detail.confirmed) {
+                    this._persist();
+                }
+                this.$.document.reset();
+            },
+
+            _delete: function(e) {
+                this.$.document.destroy();                
+            },
+
+            _persist: function() {
+                this.category.name = this.name;
+                this.category.frequency = this.frequency;
+                this.category.parent = this.parent; 
+                this.$.document.save("/categories/" + this.user.uid +"/", this.categoryId);
+            },
+
+            _categoryChanged: function() {
+                this.name = this.category.name;
+                this.frequency = this.category.frequency;
+                this.parent = this.category.parent;
+            },
+
+            // https://github.com/PolymerElements/paper-dialog/issues/7
+            _patchOverlay: function (e) {
+                if (e.target.withBackdrop) {
+                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
+            },
+
+            _keyPressed: function(e) {
+                if (13 === e.charCode) {
+                    this.$.confirm.click();
+                }
+            },
+        });
+    </script>
+
+</dom-module>
