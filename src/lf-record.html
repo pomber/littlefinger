@@ -82,6 +82,7 @@
                 this.record.category = this.category;
                 this.record.date = this.date;
                 this.record.timestamp = new Date(this.date).getTime();
+                this.record.reverseTimestamp = -this.record.timestamp; 
                 this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
             },
 

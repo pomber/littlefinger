@@ -1,6 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="lf-record.html">
@@ -20,6 +19,7 @@
 
         <firebase-query
             id="query"
+            order-by-child="[[order]]"
             path="/records/[[user.uid]]"
             data="{{records}}">
         </firebase-query>
@@ -57,7 +57,11 @@
             is: 'lf-journal',
             properties: {
                 route: Object,
-                user: Object
+                user: Object,
+                order: {
+                    type: String,
+                    value: "reverseTimestamp"
+                }
             },
 
             newRecord: function() {
