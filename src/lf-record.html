@@ -69,6 +69,8 @@
             },
 
             close: function(e) {
+                if (event.target !== this.$.modal) return;
+                
                 if (e.detail.confirmed) {
                     this._persist();
                 }

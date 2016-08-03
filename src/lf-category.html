@@ -32,11 +32,11 @@
             <h2>Category {{categoryId}}</h2>
 
             <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
-            <paper-dropdown-menu label="Frequency" noink no-animations value="{{frequency}}">
-                <paper-listbox class="dropdown-content">
-                    <paper-item>Weekly</paper-item>
-                    <paper-item>Monthly</paper-item>
-                    <paper-item>Irregular</paper-item>
+            <paper-dropdown-menu label="Frequency" noink no-animations>
+                <paper-listbox class="dropdown-content" selected="{{frequency}}" attr-for-selected="value">
+                    <paper-item value="Weekly">Weekly</paper-item>
+                    <paper-item value="Monthly">Monthly</paper-item>
+                    <paper-item value="Irregular">Irregular</paper-item>
                 </paper-listbox>
             </paper-dropdown-menu>
             <paper-input label="Parent" required value="{{parent}}"></paper-input>
@@ -76,6 +76,8 @@
             },
 
             close: function(e) {
+                if (event.target !== this.$.modal) return;
+                 
                 if (e.detail.confirmed) {
                     this._persist();
                 }
