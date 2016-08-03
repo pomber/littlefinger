@@ -3,6 +3,9 @@
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 
 <dom-module id="lf-category">
 
@@ -29,7 +32,13 @@
             <h2>Category {{categoryId}}</h2>
 
             <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
-            <paper-input label="Frequency" required value="{{frequency}}"></paper-input>
+            <paper-dropdown-menu label="Frequency" noink no-animations value="{{frequency}}">
+                <paper-listbox class="dropdown-content">
+                    <paper-item>Weekly</paper-item>
+                    <paper-item>Monthly</paper-item>
+                    <paper-item>Irregular</paper-item>
+                </paper-listbox>
+            </paper-dropdown-menu>
             <paper-input label="Parent" required value="{{parent}}"></paper-input>
 
             <div class="buttons">
@@ -57,10 +66,12 @@
 
             show: function(categoryId) {
                 this.categoryId = categoryId;
-                this.isNew = !this.categoryId;                
-                if (categoryId) {                    
+                this.isNew = !this.categoryId;
+                if (this.isNew) {                    
+                    this._resetValues({});
+                } else {
                     this.$.document.path = "/categories/" + this.user.uid + "/" + categoryId;
-                } 
+                }
                 this.$.modal.open();
             },
 
@@ -82,10 +93,14 @@
                 this.$.document.save("/categories/" + this.user.uid +"/", this.categoryId);
             },
 
+            _resetValues: function(values) {
+                this.name = values.name;
+                this.frequency = values.frequency;
+                this.parent = values.parent;                
+            },
+
             _categoryChanged: function() {
-                this.name = this.category.name;
-                this.frequency = this.category.frequency;
-                this.parent = this.category.parent;
+                this._resetValues(this.category);
             },
 
             // https://github.com/PolymerElements/paper-dialog/issues/7

@@ -59,10 +59,12 @@
 
             show: function(recordId) {
                 this.recordId = recordId;
-                this.isNew = !this.recordId;                
-                if (recordId) {                    
+                this.isNew = !this.recordId;
+                if (this.isNew) {
+                    this._resetValues();
+                } else {
                     this.$.document.path = "/records/" + this.user.uid + "/" + recordId;
-                } 
+                }
                 this.$.modal.open();
             },
 
@@ -86,10 +88,21 @@
                 this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
             },
 
+            _resetValues: function(values) {
+                values = values || this._defaultData();
+                this.amount = values.amount;
+                this.category = values.category;
+                this.date = values.date;
+            },
+
             _recordChanged: function() {
-                this.amount = this.record.amount;
-                this.category = this.record.category;
-                this.date = this.record.date;
+                this._resetValues(this.record);
+            },
+
+            _defaultData: function() {
+                return {
+                    date: new Date().toISOString().split('T')[0]
+                };
             },
 
             // https://github.com/PolymerElements/paper-dialog/issues/7
