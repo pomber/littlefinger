@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/google-chart/google-chart.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-reports">
@@ -12,19 +13,31 @@
                 display: block;
                 padding: 16px;
             }
+            google-chart {
+                height: inherit;
+                width: inherit;
+            }
         </style>
+        
 
         <div class="horizontal layout justified">
             <h3>Reports</h3>
             <!--<paper-button on-tap="newCategory">New Category</paper-button>-->
         </div>
+
+        <google-chart
+            type='pie'
+            options='{"title": "Expenses"}'
+            cols='[{"label":"Category", "type":"string"}, {"label":"Amount", "type":"number"}]'
+            rows='[["Groceries", 1000],["Rent", 6000],["Utilities", 500]]'>
+        </google-chart>
         
     </template>
 
     <script>
         Polymer({
             is: 'lf-reports',
-            
+
             properties: {
             },
         });
