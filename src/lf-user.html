@@ -1,0 +1,67 @@
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<dom-module id="lf-user">
+
+  <template>
+
+    <firebase-auth 
+        id="auth" 
+        user="{{internalUser}}" 
+        provider="google" 
+        on-error="handleError">
+    </firebase-auth>
+
+    <firebase-document
+        id="document"
+        data="{{user}}"
+        path="{{path}}">
+    </firebase-document>
+
+  </template>
+    <script>
+    Polymer({
+        is: 'lf-user',
+
+        properties: {
+            user: {
+                notify: true,
+                type: Object,
+                observer: '_userChanged'
+            }
+        },
+
+        attached: function() {
+            var auth = this.$.auth;
+            if (auth.signedIn) {
+                this._afterLogin();
+            } else {
+                auth.signInWithEmailAndPassword("pombo@test.com", "changeme")
+                .then(this._afterLogin.bind(this))
+                .catch(function(error) { console.log(error); });
+            }
+        },
+
+        _afterLogin: function() {
+            var _user = this.internalUser;
+            var usersPath = "/users";
+            this.path = usersPath + "/" + _user.uid;
+        },
+
+        _userChanged: function() {
+            var path = this.path;
+            var user = this.user;
+            var _user = this.internalUser;
+            var firebase = this.$.document;
+            var usersPath = "/users";
+
+            if (path && _user && user && !user.uid) {
+                user.uid = _user.uid;
+                firebase.save(usersPath, _user.uid);
+            }
+        }
+    });
+    </script>
+
+</dom-module>

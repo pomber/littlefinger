@@ -21,7 +21,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="my-icons.html">
+<link rel="import" href="lf-user.html">
 
 <dom-module id="lf-app">
 
@@ -70,8 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       database-url="https://littlefinger-c16d8.firebaseio.com">
     </firebase-app>
     
-    <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
-    </firebase-auth>
+    <lf-user user="{{user}}"></lf-user>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -126,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged'
-        },
+        }
 
       },
 
@@ -134,15 +135,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_routePageChanged(routeData.page)'
       ],
 
-      ready: function() {
-        var auth = this.$.auth;
-        if (!auth.signedIn) {
-          // console.log("already signed in");
-        } else {
-          auth.signInWithEmailAndPassword("pomber@test.com", "changeme")
-            .then(function(response) { console.log("login success");})
-            .catch(function(error) { console.log(error); });
-        }       
+      ready: function() {       
       },
 
       _routePageChanged: function(page) {
@@ -154,7 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // load page import on demand.
         this.importHref(
           this.resolveUrl(prefix + page + '.html'), null, null, true);
-      }
+      },
 
     });
 
