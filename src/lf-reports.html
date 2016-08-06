@@ -1,0 +1,33 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="material-table-styles.html">
+
+<dom-module id="lf-reports">
+
+    <template>        
+
+        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style>
+            :host {
+                display: block;
+                padding: 16px;
+            }
+        </style>
+
+        <div class="horizontal layout justified">
+            <h3>Reports</h3>
+            <!--<paper-button on-tap="newCategory">New Category</paper-button>-->
+        </div>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-reports',
+            
+            properties: {
+            },
+        });
+    </script>
+
+</dom-module>

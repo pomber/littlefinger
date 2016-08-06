@@ -3,6 +3,7 @@
   "shell": "src/lf-app.html",
   "fragments": [
     "src/lf-journal.html",
-    "src/lf-categories.html"
+    "src/lf-categories.html",
+    "src/lf-reports.html",
   ]
 }
