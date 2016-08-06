@@ -32,10 +32,10 @@
             <h2>Record {{recordId}}</h2>
 
             <paper-dropdown-menu label="Category" noink no-animations autofocus>
-                <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">
-                    <paper-item value="Groceries">Groceries</paper-item>
-                    <paper-item value="Rent">Rent</paper-item>
-                    <paper-item value="Laundry">Laundry</paper-item>
+                <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
+                    <template is="dom-repeat" items="{{_toArray(user.categories)}}">
+                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                    </template>
                 </paper-listbox>
             </paper-dropdown-menu>
 
@@ -128,6 +128,14 @@
                 if (13 === e.charCode) {
                     this.$.confirm.click();
                 }
+            },
+            
+            _toArray: function(categories) {
+                if (!categories) return categories;
+                return Object.keys(categories).map(function(key) {
+                    categories[key].id = key;
+                    return categories[key];
+                });
             },
         });
     </script>

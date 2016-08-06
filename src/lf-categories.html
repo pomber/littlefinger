@@ -1,5 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="lf-category.html">
@@ -17,13 +16,6 @@
             }
         </style>
 
-        <firebase-query
-            id="query"
-            order-by-child="[[order]]"
-            path="users/[[user.uid]]/categories"
-            data="{{categories}}">
-        </firebase-query>
-
         <div class="horizontal layout justified">
             <h3>Categories</h3>
             <paper-button on-tap="newCategory">New Category</paper-button>
@@ -40,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items="{{categories}}">
+                <template is="dom-repeat" items="{{_toArray(user.categories)}}">
                     <tr on-tap="editCategory">
                         <td>{{item.name}}</td>
                         <td>{{item.frequency}}</td>
@@ -70,8 +62,16 @@
 
             editCategory: function(e) {                
                 var item = e.model.item;                
-                this.$.categoryForm.show(item.$key);
-            }
+                this.$.categoryForm.show(item.id);
+            },
+            
+            _toArray: function(categories) {
+                if (!categories) return categories;
+                return Object.keys(categories).map(function(key) {
+                    categories[key].id = key;
+                    return categories[key];
+                });
+            },
         });
     </script>
 
