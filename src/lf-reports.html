@@ -83,7 +83,10 @@
 
             _getValues: function(group) {                
                 return _.map(this.labels, function(month, index) {
-                    return _.sumBy(group, "amount");
+                    var monthRecords = _.filter(group, function(record) {
+                        return new Date(record.timestamp).getMonth() == index;
+                    });
+                    return _.sumBy(monthRecords, "amount");
                 });
             },
 
