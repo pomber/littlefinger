@@ -29,7 +29,7 @@
             data="{{records}}">
         </firebase-query>
 
-        <chart-bar data="[[data]]" options="[[options]]"></chart-bar>
+        <chart-bar data="[[data]]" options="[[options]]" id="chart"></chart-bar>
 
     </template>
 
@@ -51,6 +51,11 @@
             observers: [
                 '_recordsChange(records.splices)'
             ],
+
+            ready: function() {
+              this.$.chart.style.width = "100%";              
+              this.$.chart.resize();
+            },
 
             _recordsChange: function() {
                 if (!this.records || !this.records.length) return;
