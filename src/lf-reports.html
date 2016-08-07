@@ -45,6 +45,10 @@
                 },
                 data: {
                     type: Object,
+                },
+                labels: {
+                    type: Array,
+                    value: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 }
             },
             
@@ -67,14 +71,20 @@
                     return {
                         label: key,
                         backgroundColor: self._stringToColor(key),
-                        data: [_.sumBy(group, "amount")], 
+                        data: self._getValues(group), 
                     };
                 });     
                 this.data = {
-                    labels: ["January"],
+                    labels: this.labels,
                     datasets: datasets
-                }         
+                };
                 console.log(this.data);
+            },
+
+            _getValues: function(group) {                
+                return _.map(this.labels, function(month, index) {
+                    return _.sumBy(group, "amount");
+                });
             },
 
             _stringToColor: function(str) {
