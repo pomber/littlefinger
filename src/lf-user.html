@@ -35,7 +35,7 @@
         attached: function() {
             var auth = this.$.auth;
             if (auth.signedIn) {
-                this._afterLogin();
+                this._afterLogin(this.internalUser);
             } else {
                 auth.signInWithEmailAndPassword("pombo@test.com", "changeme")
                 .then(this._afterLogin.bind(this))
@@ -43,8 +43,7 @@
             }
         },
 
-        _afterLogin: function() {
-            var _user = this.internalUser;
+        _afterLogin: function(_user) {
             var usersPath = "/users";
             this.path = usersPath + "/" + _user.uid;
         },
