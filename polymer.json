@@ -4,6 +4,6 @@
   "fragments": [
     "src/lf-journal.html",
     "src/lf-categories.html",
-    "src/lf-reports.html",
+    "src/lf-reports.html"
   ]
 }
