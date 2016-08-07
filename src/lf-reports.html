@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../bower_components/google-chart/google-chart.html">
+
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-reports">
@@ -24,14 +24,30 @@
             <h3>Reports</h3>
             <!--<paper-button on-tap="newCategory">New Category</paper-button>-->
         </div>
-
+<!--
         <google-chart
-            type='pie'
-            options='{"title": "Expenses"}'
-            cols='[{"label":"Category", "type":"string"}, {"label":"Amount", "type":"number"}]'
-            rows='[["Groceries", 1000],["Rent", 6000],["Utilities", 500]]'>
+            type='column'
+            options='{"title": "Expenses by category"}'
+            data='[
+                ["Month", "Rent", "Utilities", "Groceries"],
+                ["16, Jul",  3500,       2800,        1100],
+                ["16, Aug",  3500,       2600,        1700],
+                ["16, Sep",  4200,       2200,        1500],
+                ["16, Oct",  4200,       2400,        1600]
+            ]'>
         </google-chart>
-        
+        <google-chart
+            type='column'
+            options='{"title": "Expenses per Month", "isStacked": true, "legend": { "position": "top" }}'
+            data='[
+                ["Month", "Weekly", "Monthly", "Irregular"],
+                ["Jul",       3500,      2800,        1100],
+                ["Aug",       3500,      2600,        1700],
+                ["Sep",       4200,      2200,        1500],
+                ["Oct",       4200,      2400,        1600]
+            ]'>
+        </google-chart>
+        -->
     </template>
 
     <script>
