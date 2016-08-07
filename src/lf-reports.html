@@ -1,7 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/chart-elements/chart-bar.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="material-table-styles.html">
+<link rel="import" href="lodash.html">
 
 <dom-module id="lf-reports">
 
@@ -21,7 +23,13 @@
             <!--<paper-button on-tap="newCategory">New Category</paper-button>-->
         </div>
 
-        <chart-bar data="[[data]]"></chart-bar>
+        <firebase-query
+            id="query"
+            path="/records/[[user.uid]]"
+            data="{{records}}">
+        </firebase-query>
+
+        <chart-bar data="[[data]]" options="[[options]]"></chart-bar>
 
     </template>
 
@@ -30,29 +38,58 @@
             is: 'lf-reports',
 
             properties: {
+                user: Object,
+                records: Array,
+                options: {
+
+                },
                 data: {
                     type: Object,
                     value: {
-                        labels: ["January", "February", "March", "April", "May", "June", "July"],
+                        labels: ["January"],
                         datasets: [
                             {
-                            label: "My First dataset",
-                            backgroundColor: "rgba(220,220,220,0.2)",
-                            borderColor: "rgba(220,220,220,1)",
-                            borderWidth: 1,
-                            data: [65, 59, 80, 81, 56, 55, 40]
+                                label: "Groceries",
+                                borderWidth: 1,
+                                data: [65, 59, 80, 81, 56, 55, 40]
                             },
                             {
-                            label: "My Second dataset",
-                            backgroundColor: "rgba(151,187,205,0.2)",
-                            borderColor: "rgba(151,187,205,1)",
-                            borderWidth: 1,
-                            data: [28, 48, 40, 19, 86, 27, 90]
+                                label: "Rent",
+                                borderWidth: 1,
+                                data: [28, 48, 40, 19, 86, 27, 90]
+                            },
+                            {
+                                label: "Lala",
+                                borderWidth: 1,
+                                data: [28, 48, 40, 19, 86, 27, 90]
                             }
                         ]
                     }
                 }
             },
+            
+            observers: [
+                '_recordsChange(records.splices)'
+            ],
+
+            _recordsChange: function() {
+                if (!this.records) return;
+                var records = this.records;
+                var total = _.sumBy(records, "amount");
+                var groups = _.groupBy(records, "category");
+                datasets = _.map(groups, function(group, key) {                    
+                    return {
+                        label: key,
+                        data: [_.sumBy(group, "amount")], 
+                    };
+                });     
+                this.data = {
+                    labels: ["January"],
+                    datasets: datasets
+                }         
+                console.log(this.data);
+            }
+
         });
     </script>
 
