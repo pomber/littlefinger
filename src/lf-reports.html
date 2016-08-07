@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-
+<link rel="import" href="../bower_components/chart-elements/chart-bar.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-reports">
@@ -13,10 +13,6 @@
                 display: block;
                 padding: 16px;
             }
-            google-chart {
-                height: inherit;
-                width: inherit;
-            }
         </style>
         
 
@@ -24,30 +20,9 @@
             <h3>Reports</h3>
             <!--<paper-button on-tap="newCategory">New Category</paper-button>-->
         </div>
-<!--
-        <google-chart
-            type='column'
-            options='{"title": "Expenses by category"}'
-            data='[
-                ["Month", "Rent", "Utilities", "Groceries"],
-                ["16, Jul",  3500,       2800,        1100],
-                ["16, Aug",  3500,       2600,        1700],
-                ["16, Sep",  4200,       2200,        1500],
-                ["16, Oct",  4200,       2400,        1600]
-            ]'>
-        </google-chart>
-        <google-chart
-            type='column'
-            options='{"title": "Expenses per Month", "isStacked": true, "legend": { "position": "top" }}'
-            data='[
-                ["Month", "Weekly", "Monthly", "Irregular"],
-                ["Jul",       3500,      2800,        1100],
-                ["Aug",       3500,      2600,        1700],
-                ["Sep",       4200,      2200,        1500],
-                ["Oct",       4200,      2400,        1600]
-            ]'>
-        </google-chart>
-        -->
+
+        <chart-bar data="[[data]]"></chart-bar>
+
     </template>
 
     <script>
@@ -55,6 +30,28 @@
             is: 'lf-reports',
 
             properties: {
+                data: {
+                    type: Object,
+                    value: {
+                        labels: ["January", "February", "March", "April", "May", "June", "July"],
+                        datasets: [
+                            {
+                            label: "My First dataset",
+                            backgroundColor: "rgba(220,220,220,0.2)",
+                            borderColor: "rgba(220,220,220,1)",
+                            borderWidth: 1,
+                            data: [65, 59, 80, 81, 56, 55, 40]
+                            },
+                            {
+                            label: "My Second dataset",
+                            backgroundColor: "rgba(151,187,205,0.2)",
+                            borderColor: "rgba(151,187,205,1)",
+                            borderWidth: 1,
+                            data: [28, 48, 40, 19, 86, 27, 90]
+                            }
+                        ]
+                    }
+                }
             },
         });
     </script>
