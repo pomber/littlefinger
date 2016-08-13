@@ -1,0 +1,85 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="lf-category.html">
+<link rel="import" href="material-table-styles.html">
+
+<dom-module id="lf-accounts">
+
+    <template>        
+
+        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style>
+            :host {
+                display: block;
+                padding: 16px;
+            }
+        </style>
+
+        <div class="horizontal layout justified">
+            <h3>{{masterName}}</h3>
+            <paper-button on-tap="create">New {{detailName}}</paper-button>
+        </div>
+
+        <lf-category id="detailForm" user="[[user]]"></lf-category>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Frequency</th>
+                    <th>Parent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{_toArray(user.accounts)}}">
+                    <tr on-tap="edit">
+                        <td>{{item.name}}</td>
+                        <td>{{item.frequency}}</td>
+                        <td>{{item.parent}}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-accounts',
+            properties: {
+                user: Object,
+                masterName: {
+                    type: String,
+                    value: "Accounts",
+                },
+                detailName: {
+                    type: String,
+                    value: "Account",
+                },           
+                order: {
+                    type: String,
+                    value: "order"
+                }
+            },
+
+            create: function() {
+                this.$.detailForm.show();
+            },
+
+            edit: function(e) {                
+                var item = e.model.item;                
+                this.$.detailForm.show(item.id);
+            },
+            
+            _toArray: function(details) {
+                if (!details) return details;
+                return Object.keys(details).map(function(key) {
+                    details[key].id = key;
+                    return details[key];
+                });
+            },
+        });
+    </script>
+
+</dom-module>
