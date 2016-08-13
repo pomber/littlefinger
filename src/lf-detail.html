@@ -1,0 +1,75 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="lf-detail">
+
+    <template>        
+
+        <style>
+            :host {
+                display: block;
+            }
+            [hidden] {
+                display: none !important;
+            }
+        </style>
+
+        <paper-dialog id="modal" modal 
+            on-iron-overlay-opened="_patchOverlay"
+            on-iron-overlay-closed="close" 
+            on-keypress="_keyPressed">
+            <h2>{{detailName}}</h2>
+
+            <content select=".content"></content>
+
+            <div class="buttons">
+                <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
+                <paper-button dialog-dismiss>Cancel</paper-button>
+                <paper-button dialog-confirm id="confirm">Save</paper-button>
+            </div>
+        </paper-dialog>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-detail',
+            properties: {
+                isNew: Boolean
+            },
+
+            show: function(categoryId) {
+                this.$.modal.open();
+            },
+
+            close: function(e) {
+                if (event.target !== this.$.modal) return;
+                 
+                if (e.detail.confirmed) {
+                    this.fire("save");
+                } else {
+                    this.fire("cancel");
+                }
+            },
+
+            _delete: function(e) {
+                this.fire("delete");                
+            },
+
+            // https://github.com/PolymerElements/paper-dialog/issues/7
+            _patchOverlay: function (e) {
+                if (e.target.withBackdrop) {
+                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
+            },
+
+            _keyPressed: function(e) {
+                if (13 === e.charCode) {
+                    this.$.confirm.click();
+                }
+            },
+        });
+    </script>
+
+</dom-module>

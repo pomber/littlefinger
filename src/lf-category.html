@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="lf-detail">
 
 <dom-module id="lf-category">
 
@@ -15,9 +16,6 @@
             :host {
                 display: block;
             }
-            [hidden] {
-                display: none !important;
-            }
         </style>
 
         <firebase-document
@@ -25,12 +23,13 @@
             data="{{category}}">
         </firebase-document>
 
-        <paper-dialog id="modal" modal 
-            on-iron-overlay-opened="_patchOverlay"
-            on-iron-overlay-closed="close" 
-            on-keypress="_keyPressed">
-            <h2>Category {{categoryId}}</h2>
-
+        <lf-detail 
+            id="detail"
+            detail-name="Category"
+            is-new="{{isNew}}"
+            on-cancel="_cancel"
+            on-save="_persist"
+            on-delete="_delete">
             <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
             <paper-dropdown-menu label="Frequency" noink no-animations>
                 <paper-listbox class="dropdown-content" selected="{{frequency}}" attr-for-selected="value">
@@ -40,21 +39,13 @@
                 </paper-listbox>
             </paper-dropdown-menu>
             <paper-input label="Parent" required value="{{parent}}"></paper-input>
-
-            <div class="buttons">
-                <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
-                <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button dialog-confirm id="confirm">Save</paper-button>
-            </div>
-        </paper-dialog>
-        
+        </lf-detail>
     </template>
 
     <script>
         Polymer({
             is: 'lf-category',
             properties: {
-                route: Object,
                 user: Object,
                 categoryId: String,
                 isNew: Boolean,
@@ -72,27 +63,23 @@
                 } else {
                     this.$.document.path = "/users/" + this.user.uid + "/categories/" + categoryId;
                 }
-                this.$.modal.open();
-            },
-
-            close: function(e) {
-                if (event.target !== this.$.modal) return;
-                 
-                if (e.detail.confirmed) {
-                    this._persist();
-                }
-                this.$.document.reset();
+                this.$.detail.show();
             },
 
             _delete: function(e) {
                 this.$.document.destroy();                
             },
 
+            _cancel: function(e) {
+                this.$.document.reset();
+            },
+
             _persist: function() {
                 this.category.name = this.name;
                 this.category.frequency = this.frequency;
                 this.category.parent = this.parent || null; 
-                this.$.document.save("/users/" + this.user.uid + "/categories/", this.categoryId);
+                this.$.document.save("/users/" + this.user.uid + "/categories/", this.categoryId);                
+                this.$.document.reset();
             },
 
             _resetValues: function(values) {
@@ -103,19 +90,6 @@
 
             _categoryChanged: function() {
                 this._resetValues(this.category);
-            },
-
-            // https://github.com/PolymerElements/paper-dialog/issues/7
-            _patchOverlay: function (e) {
-                if (e.target.withBackdrop) {
-                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
-                }
-            },
-
-            _keyPressed: function(e) {
-                if (13 === e.charCode) {
-                    this.$.confirm.click();
-                }
             },
         });
     </script>
