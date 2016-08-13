@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+
+<dom-module id="lf-detail-source">
+
+    <template>        
+
+        <firebase-document
+            id="document"
+            data="{{detail}}">
+        </firebase-document>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-detail-source',
+            properties: {
+                detailId: String,
+                detail: {
+                    type: Object,
+                    notify: true,
+                },
+                parentPath: {
+                    type: String,
+                    notify: true,
+                }
+            },
+
+            load: function() {
+                if (this.detailId) {
+                    this.$.document.path = this.parentPath + this.detailId;
+                } else {
+                    this.$.document.reset();
+                }
+            },
+
+            destroy: function() {
+                this.$.document.destroy();
+            },
+
+            save: function() {
+                this.$.document.save(this.parentPath, this.detailId);
+            }
+
+        });
+    </script>
+
+</dom-module>

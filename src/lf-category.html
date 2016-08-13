@@ -1,12 +1,12 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="lf-detail">
+<link rel="import" href="lf-detail.html">
+<link rel="import" href="lf-detail-source.html">
 
 <dom-module id="lf-category">
 
@@ -18,18 +18,20 @@
             }
         </style>
 
-        <firebase-document
-            id="document"
-            data="{{category}}">
-        </firebase-document>
+        <lf-detail-source
+            id="source"
+            detail-id="{{categoryId}}"
+            parent-path="/users/{{user.uid}}/categories/"
+            detail="{{category}}">
+        </lf-detail-source>
 
         <lf-detail 
             id="detail"
             detail-name="Category"
             is-new="{{isNew}}"
-            on-cancel="_cancel"
             on-save="_persist"
             on-delete="_delete">
+
             <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
             <paper-dropdown-menu label="Frequency" noink no-animations>
                 <paper-listbox class="dropdown-content" selected="{{frequency}}" attr-for-selected="value">
@@ -39,6 +41,7 @@
                 </paper-listbox>
             </paper-dropdown-menu>
             <paper-input label="Parent" required value="{{parent}}"></paper-input>
+
         </lf-detail>
     </template>
 
@@ -58,28 +61,19 @@
             show: function(categoryId) {
                 this.categoryId = categoryId;
                 this.isNew = !this.categoryId;
-                if (this.isNew) {                    
-                    this._resetValues({});
-                } else {
-                    this.$.document.path = "/users/" + this.user.uid + "/categories/" + categoryId;
-                }
+                this.$.source.load();
                 this.$.detail.show();
             },
 
             _delete: function(e) {
-                this.$.document.destroy();                
-            },
-
-            _cancel: function(e) {
-                this.$.document.reset();
+                this.$.source.destroy();                
             },
 
             _persist: function() {
                 this.category.name = this.name;
                 this.category.frequency = this.frequency;
                 this.category.parent = this.parent || null; 
-                this.$.document.save("/users/" + this.user.uid + "/categories/", this.categoryId);                
-                this.$.document.reset();
+                this.$.source.save();
             },
 
             _resetValues: function(values) {
