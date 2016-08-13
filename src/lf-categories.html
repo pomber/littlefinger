@@ -17,11 +17,11 @@
         </style>
 
         <div class="horizontal layout justified">
-            <h3>Categories</h3>
-            <paper-button on-tap="newCategory">New Category</paper-button>
+            <h3>{{masterName}}</h3>
+            <paper-button on-tap="create">New {{detailName}}</paper-button>
         </div>
 
-        <lf-category id="categoryForm" user="[[user]]"></lf-category>
+        <lf-category id="detailForm" user="[[user]]"></lf-category>
 
         <table>
             <thead>
@@ -33,7 +33,7 @@
             </thead>
             <tbody>
                 <template is="dom-repeat" items="{{_toArray(user.categories)}}">
-                    <tr on-tap="editCategory">
+                    <tr on-tap="edit">
                         <td>{{item.name}}</td>
                         <td>{{item.frequency}}</td>
                         <td>{{item.parent}}</td>
@@ -48,28 +48,35 @@
         Polymer({
             is: 'lf-categories',
             properties: {
-                route: Object,
                 user: Object,
+                masterName: {
+                    type: String,
+                    value: "Categories",
+                },
+                detailName: {
+                    type: String,
+                    value: "Category",
+                },           
                 order: {
                     type: String,
                     value: "order"
                 }
             },
 
-            newCategory: function() {
-                this.$.categoryForm.show();
+            create: function() {
+                this.$.detailForm.show();
             },
 
-            editCategory: function(e) {                
+            edit: function(e) {                
                 var item = e.model.item;                
-                this.$.categoryForm.show(item.id);
+                this.$.detailForm.show(item.id);
             },
             
-            _toArray: function(categories) {
-                if (!categories) return categories;
-                return Object.keys(categories).map(function(key) {
-                    categories[key].id = key;
-                    return categories[key];
+            _toArray: function(details) {
+                if (!details) return details;
+                return Object.keys(details).map(function(key) {
+                    details[key].id = key;
+                    return details[key];
                 });
             },
         });
