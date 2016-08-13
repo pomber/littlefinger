@@ -29,11 +29,19 @@
             on-iron-overlay-opened="_patchOverlay"
             on-iron-overlay-closed="close" 
             on-keypress="_keyPressed">
-            <h2>Record {{recordId}}</h2>
+            <h2>Record</h2>
 
             <paper-dropdown-menu label="Category" noink no-animations autofocus>
                 <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
                     <template is="dom-repeat" items="{{_toArray(user.categories)}}">
+                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            
+            <paper-dropdown-menu label="Account" noink no-animations>
+                <paper-listbox class="dropdown-content" selected="{{account}}" attr-for-selected="value">                        
+                    <template is="dom-repeat" items="{{_toArray(user.accounts)}}">
                             <paper-item value="{{item.name}}">{{item.name}}</paper-item>
                     </template>
                 </paper-listbox>
@@ -94,6 +102,7 @@
             _persist: function() {
                 this.record.amount = Number(this.amount);
                 this.record.category = this.category;
+                this.record.account = this.account;
                 this.record.date = this.date;
                 this.record.timestamp = new Date(this.date).getTime();
                 this.record.reverseTimestamp = -this.record.timestamp; 
@@ -104,6 +113,7 @@
                 values = values || this._defaultData();
                 this.amount = values.amount;
                 this.category = values.category;
+                this.account = values.account;
                 this.date = values.date;
             },
 
