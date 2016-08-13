@@ -1,11 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="lf-detail.html">
 
 <dom-module id="lf-record">
 
@@ -25,11 +25,12 @@
             data="{{record}}">
         </firebase-document>
 
-        <paper-dialog id="modal" modal 
-            on-iron-overlay-opened="_patchOverlay"
-            on-iron-overlay-closed="close" 
-            on-keypress="_keyPressed">
-            <h2>Record</h2>
+        <lf-detail 
+            id="detail"
+            detail-name="Record"
+            is-new="{{isNew}}"
+            on-save="_persist"
+            on-delete="_delete">
 
             <paper-dropdown-menu label="Category" noink no-animations autofocus>
                 <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
@@ -52,12 +53,7 @@
             </paper-input>
             <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
 
-            <div class="buttons">
-                <paper-button dialog-dismiss on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
-                <paper-button dialog-dismiss>Cancel</paper-button>
-                <paper-button dialog-confirm id="confirm">Save</paper-button>
-            </div>
-        </paper-dialog>
+        </lf-detail>
         
     </template>
 
@@ -65,7 +61,6 @@
         Polymer({
             is: 'lf-record',
             properties: {
-                route: Object,
                 user: Object,
                 recordId: String,
                 isNew: Boolean,
@@ -83,16 +78,7 @@
                 } else {
                     this.$.document.path = "/records/" + this.user.uid + "/" + recordId;
                 }
-                this.$.modal.open();
-            },
-
-            close: function(e) {
-                if (event.target !== this.$.modal) return;
-                
-                if (e.detail.confirmed) {
-                    this._persist();
-                }
-                this.$.document.reset();
+                this.$.detail.show();
             },
 
             _delete: function(e) {
@@ -126,25 +112,12 @@
                     date: new Date().toISOString().split('T')[0]
                 };
             },
-
-            // https://github.com/PolymerElements/paper-dialog/issues/7
-            _patchOverlay: function (e) {
-                if (e.target.withBackdrop) {
-                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
-                }
-            },
-
-            _keyPressed: function(e) {
-                if (13 === e.charCode) {
-                    this.$.confirm.click();
-                }
-            },
             
-            _toArray: function(categories) {
-                if (!categories) return categories;
-                return Object.keys(categories).map(function(key) {
-                    categories[key].id = key;
-                    return categories[key];
+            _toArray: function(items) {
+                if (!items) return items;
+                return Object.keys(items).map(function(key) {
+                    items[key].id = key;
+                    return items[key];
                 });
             },
         });
