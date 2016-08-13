@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="lf-category.html">
+<link rel="import" href="lf-account.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-accounts">
@@ -21,22 +21,20 @@
             <paper-button on-tap="create">New {{detailName}}</paper-button>
         </div>
 
-        <lf-category id="detailForm" user="[[user]]"></lf-category>
+        <lf-account id="detailForm" user="[[user]]"></lf-account>
 
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Frequency</th>
-                    <th>Parent</th>
+                    <th>Currency</th>
                 </tr>
             </thead>
             <tbody>
                 <template is="dom-repeat" items="{{_toArray(user.accounts)}}">
                     <tr on-tap="edit">
                         <td>{{item.name}}</td>
-                        <td>{{item.frequency}}</td>
-                        <td>{{item.parent}}</td>
+                        <td>{{item.currency}}</td>
                     </tr>
                 </template>
             </tbody>

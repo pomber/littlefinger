@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="lf-detail.html">
+<link rel="import" href="lf-detail-source.html">
+
+<dom-module id="lf-account">
+
+    <template>        
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <lf-detail-source
+            id="source"
+            detail-id="{{itemId}}"
+            parent-path="/users/{{user.uid}}/accounts/"
+            detail="{{item}}">
+        </lf-detail-source>
+
+        <lf-detail 
+            id="detail"
+            detail-name="Account"
+            is-new="{{isNew}}"
+            on-save="_persist"
+            on-delete="_delete">
+
+            <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
+            <paper-input label="Currency" required value="{{currency}}" ></paper-input>
+
+        </lf-detail>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-account',
+            properties: {
+                user: Object,
+                itemId: String,
+                isNew: Boolean,
+                item: {
+                    type: Object,
+                    observer: "_itemChanged"
+                }
+            },
+
+            show: function(itemId) {
+                this.itemId = itemId;
+                this.isNew = !this.itemId;
+                this.$.source.load();
+                this.$.detail.show();
+            },
+
+            _delete: function(e) {
+                this.$.source.destroy();                
+            },
+
+            _persist: function() {
+                this.item.name = this.name; 
+                this.item.currency = this.currency;
+                this.$.source.save();
+            },
+
+            _resetValues: function(values) {
+                this.name = values.name;   
+                this.currency = values.currency;             
+            },
+
+            _itemChanged: function() {
+                this._resetValues(this.item);
+            },
+        });
+    </script>
+
+</dom-module>
