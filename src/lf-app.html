@@ -84,10 +84,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
+    <!--<app-drawer-layout fullbleed>-->
 
       <!-- Drawer content -->
-      <!--<app-drawer>
+      <!--<app-drawer opened="false">
         <app-toolbar>
           Littlefinger          
         </app-toolbar>
@@ -101,11 +101,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-drawer>-->
 
       <!-- Main content -->
-      <app-header-layout has-scrolling-region>
+      <app-header-layout fullbleed>
 
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <!--<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>-->
             <div title>Littlefinger</div>
             <paper-tabs noink selected="{{page}}" attr-for-selected="name">
               <paper-tab name="cycle">Overview</paper-tab>
@@ -127,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       </app-header-layout>
 
-    </app-drawer-layout>
+    <!--</app-drawer-layout>-->
 
   </template>
 
