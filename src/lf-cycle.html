@@ -2,6 +2,9 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-cycle">
@@ -13,14 +16,22 @@
             :host {
                 display: block;
             }
-            paper-tabs {                
+
+            nav {                
                 background-color: var(--paper-cyan-400);
+            }
+
+            paper-tabs {                
                 --paper-tabs-selection-bar-color: var(--paper-blue-grey-600);
+            }
+
+            .filter-button {
+                @apply(--layout-self-center);
             }
         </style>
 
-        <nav>
-            <paper-tabs noink selected="12" attr-for-selected="name" scrollable>
+        <nav class="horizontal layout justified">
+            <paper-tabs noink selected="12" attr-for-selected="name" scrollable class="flex">
               <paper-tab name="1">MAY 22 - JUN 3</paper-tab>
               <paper-tab name="2">JUN 4 - JUN 11</paper-tab>
               <paper-tab name="3">JUN 12 - JUN 18</paper-tab>
@@ -34,6 +45,7 @@
               <paper-tab name="11">AUG 8 - AUG 14</paper-tab>
               <paper-tab name="12">AUG 15 - AUG 21</paper-tab>
             </paper-tabs>
+            <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
         </nav>
 
         <div class="horizontal layout justified">
