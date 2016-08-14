@@ -16,16 +16,26 @@
         
         <lf-user user="{{app.user}}"></lf-user>
 
+        <firebase-query
+            id="query"
+            order-by-child="[[app.recordsOrder]]"
+            path="/records/[[app.user.uid]]"
+            data="{{app.records}}">
+        </firebase-query>
+
     </template>
 
     <script>
         Polymer({
             is: 'lf-app-loader',
+            
             properties: {
                 app: {
                     type: Object,
                     notify: true,
-                    value: {}
+                    value: {
+                        recordsOrder: "reverseTimestamp"
+                    }
                 },
             },
 
