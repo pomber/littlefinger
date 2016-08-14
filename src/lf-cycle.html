@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-cycle">
@@ -12,7 +14,26 @@
                 display: block;
                 padding: 16px;
             }
+            paper-tabs {                
+                background-color: var(--paper-cyan-400);
+                --paper-tabs-selection-bar-color: var(--paper-blue-grey-600);
+            }
         </style>
+
+            <paper-tabs noink selected="12" attr-for-selected="name" scrollable>
+              <paper-tab name="1">MAY 22 - JUN 3</paper-tab>
+              <paper-tab name="2">JUN 4 - JUN 11</paper-tab>
+              <paper-tab name="3">JUN 12 - JUN 18</paper-tab>
+              <paper-tab name="4">JUN 19 - JUN 25</paper-tab>
+              <paper-tab name="5">JUN 26 - JUL 2</paper-tab>
+              <paper-tab name="6">JUL 3 - JUL 9</paper-tab>
+              <paper-tab name="7">JUL 10 - JUL 15</paper-tab>
+              <paper-tab name="8">JUL 16 - JUL 23</paper-tab>
+              <paper-tab name="9">JUL 24 - AUG 1</paper-tab>
+              <paper-tab name="10">AUG 1 - AUG 7</paper-tab>
+              <paper-tab name="11">AUG 8 - AUG 14</paper-tab>
+              <paper-tab name="12">AUG 15 - AUG 21</paper-tab>
+            </paper-tabs>
 
         <div class="horizontal layout justified">
             <h3>Aug 7 - Aug 13</h3>
