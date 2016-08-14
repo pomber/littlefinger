@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="material-table-styles.html">
+
+<dom-module id="lf-cycle">
+
+    <template>        
+
+        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style>
+            :host {
+                display: block;
+                padding: 16px;
+            }
+        </style>
+
+        <div class="horizontal layout justified">
+            <h3>Aug 7 - Aug 13</h3>
+        </div>
+
+        <table>
+            <tbody>
+                <template is="dom-repeat" items="{{groups}}">
+                    <tr on-tap="edit">
+                        <td>{{item.category}}</td>
+                        <td>{{item.amount}}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-cycle',
+            properties: {
+                app: Object,
+                groups:{
+                    type: Array,
+                    value: [
+                        { category: "Salary", amount: 23000, type: "income"},
+                        { category: "Food", amount: 1000, type: "expense"},
+                        { category: "Friends", amount: 820, type: "expense"},
+                        { category: "Take Away", amount: 315, type: "expense"},
+                        { category: "Laundry", amount: 40, type: "expense"},
+                    ],
+                }
+            },
+
+        });
+    </script>
+
+</dom-module>
