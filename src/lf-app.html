@@ -37,11 +37,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        background-color: var(--app-primary-color);
-        color: #fff;
+        text-transform: uppercase;
+        background-color: white;
+        color: var(--paper-blue-grey-600);
       }
+
       app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
+        --paper-icon-button-ink-color: black;
+      }
+
+      paper-tabs {        
+        --paper-tabs-selection-bar-color: var(--paper-blue-grey-200);
+      }
+
+      paper-tab:hover {
+        color: var(--paper-blue-grey-900);
       }
 
       .drawer-list {
