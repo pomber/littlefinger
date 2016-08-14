@@ -21,7 +21,7 @@
         <lf-detail-source
             id="source"
             detail-id="{{itemId}}"
-            parent-path="/users/{{user.uid}}/accounts/"
+            parent-path="/users/{{app.user.uid}}/accounts/"
             detail="{{item}}">
         </lf-detail-source>
 
@@ -45,7 +45,7 @@
         Polymer({
             is: 'lf-account',
             properties: {
-                user: Object,
+                app: Object,
                 itemId: String,
                 isNew: Boolean,
                 item: {
@@ -62,7 +62,8 @@
             },
 
             _delete: function(e) {
-                this.$.source.destroy();                
+                this.$.source.destroy();   
+                this.app.refreshBalances();             
             },
 
             _persist: function() {
@@ -70,6 +71,7 @@
                 this.item.currency = this.currency;
                 this.item.start = this.start;
                 this.$.source.save();
+                this.app.refreshBalances();
             },
 
             _resetValues: function(values) {

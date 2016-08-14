@@ -34,14 +34,19 @@
                 app: {
                     type: Object,
                     notify: true,
-                    value: {
-                        recordsOrder: "reverseTimestamp"
+                    value: function() {
+                        return this._createApp();
                     }
                 },
             },
 
-            refreshBalances: function() {
-
+            _createApp: function() {
+                return {
+                    recordsOrder: "reverseTimestamp",
+                    refreshBalances: function() {
+                        console.log("Refreshing balances");
+                    }
+                };
             }
 
         });

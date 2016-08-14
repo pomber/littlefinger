@@ -21,7 +21,7 @@
             <paper-button on-tap="create">New {{detailName}}</paper-button>
         </div>
 
-        <lf-account id="detailForm" user="[[user]]"></lf-account>
+        <lf-account id="detailForm" app="[[app]]"></lf-account>
 
         <table>
             <thead>
@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items="{{_toArray(user.accounts)}}">
+                <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
                     <tr on-tap="edit">
                         <td>{{item.name}}</td>
                         <td>{{item.currency}}</td>
@@ -46,7 +46,7 @@
         Polymer({
             is: 'lf-accounts',
             properties: {
-                user: Object,
+                app: Object,
                 masterName: {
                     type: String,
                     value: "Accounts",

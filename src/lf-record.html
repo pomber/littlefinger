@@ -34,7 +34,7 @@
 
             <paper-dropdown-menu label="Category" noink no-animations autofocus>
                 <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
-                    <template is="dom-repeat" items="{{_toArray(user.categories)}}">
+                    <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
                             <paper-item value="{{item.name}}">{{item.name}}</paper-item>
                     </template>
                 </paper-listbox>
@@ -42,7 +42,7 @@
             
             <paper-dropdown-menu label="Account" noink no-animations>
                 <paper-listbox class="dropdown-content" selected="{{account}}" attr-for-selected="value">                        
-                    <template is="dom-repeat" items="{{_toArray(user.accounts)}}">
+                    <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
                             <paper-item value="{{item.name}}">{{item.name}}</paper-item>
                     </template>
                 </paper-listbox>
@@ -61,7 +61,7 @@
         Polymer({
             is: 'lf-record',
             properties: {
-                user: Object,
+                app: Object,
                 recordId: String,
                 isNew: Boolean,
                 record: {
@@ -76,13 +76,14 @@
                 if (this.isNew) {
                     this._resetValues();
                 } else {
-                    this.$.document.path = "/records/" + this.user.uid + "/" + recordId;
+                    this.$.document.path = "/records/" + this.app.user.uid + "/" + recordId;
                 }
                 this.$.detail.show();
             },
 
             _delete: function(e) {
-                this.$.document.destroy();                
+                this.$.document.destroy();
+                this.app.refreshBalances();                
             },
 
             _persist: function() {
@@ -92,7 +93,8 @@
                 this.record.date = this.date;
                 this.record.timestamp = new Date(this.date).getTime();
                 this.record.reverseTimestamp = -this.record.timestamp; 
-                this.$.document.save("/records/" + this.user.uid +"/", this.recordId);
+                this.$.document.save("/records/" + this.app.user.uid +"/", this.recordId);
+                this.app.refreshBalances();
             },
 
             _resetValues: function(values) {
