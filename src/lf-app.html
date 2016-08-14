@@ -19,11 +19,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="my-icons.html">
-<link rel="import" href="lf-user.html">
+<link rel="import" href="lf-app-loader.html">
 
 <dom-module id="lf-app">
 
@@ -65,14 +62,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     </style>
-  
-    <firebase-app
-      api-key="AIzaSyAwWQCy-9X_dN7DU56yu4VFohvZPxKFOZs"
-      auth-domain="littlefinger-c16d8.firebaseapp.com"
-      database-url="https://littlefinger-c16d8.firebaseio.com">
-    </firebase-app>
     
-    <lf-user user="{{user}}"></lf-user>
+    <lf-app-loader app="{{app}}"></lf-app-loader>
 
     <app-location route="{{route}}"></app-location>
     <app-route
@@ -105,10 +96,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </app-header>
 
         <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-          <lf-journal name="journal" user="[[user]]"></lf-journal>
-          <lf-categories name="categories" user="[[user]]"></lf-categories>
-          <lf-accounts name="accounts" user="[[user]]"></lf-accounts>
-          <lf-reports name="reports" user="[[user]]"></lf-reports>
+          <lf-journal name="journal" user="[[app.user]]"></lf-journal>
+          <lf-categories name="categories" user="[[app.user]]"></lf-categories>
+          <lf-accounts name="accounts" user="[[app.user]]"></lf-accounts>
+          <lf-reports name="reports" user="[[app.user]]"></lf-reports>
         </iron-pages>
 
       </app-header-layout>

@@ -1,0 +1,38 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="lf-user.html">
+
+<dom-module id="lf-app-loader">
+
+    <template>
+  
+        <firebase-app
+        api-key="AIzaSyAwWQCy-9X_dN7DU56yu4VFohvZPxKFOZs"
+        auth-domain="littlefinger-c16d8.firebaseapp.com"
+        database-url="https://littlefinger-c16d8.firebaseio.com">
+        </firebase-app>
+        
+        <lf-user user="{{app.user}}"></lf-user>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-app-loader',
+            properties: {
+                app: {
+                    type: Object,
+                    notify: true,
+                    value: {}
+                },
+            },
+
+            ready: function() {
+
+            }
+        });
+    </script>
+
+</dom-module>
