@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="my-icons.html">
@@ -75,8 +77,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed>
 
       <!-- Drawer content -->
-      <app-drawer>
-        <app-toolbar>Littlefinger</app-toolbar>
+      <!--<app-drawer>
+        <app-toolbar>
+          Littlefinger          
+        </app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="cycle" href="/cycle">Overview</a>
           <a name="journal" href="/journal">Journal</a>
@@ -84,7 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="accounts" href="/accounts">Accounts</a>
           <a name="reports" href="/reports">Reports</a>
         </iron-selector>
-      </app-drawer>
+      </app-drawer>-->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -92,7 +96,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <!--<div title>[[page]]</div>-->
+            <div title>Littlefinger</div>
+            <paper-tabs noink selected="{{page}}" attr-for-selected="name">
+              <paper-tab name="cycle">Overview</paper-tab>
+              <paper-tab name="journal">Journal</paper-tab>
+              <paper-tab name="categories">Categories</paper-tab>
+              <paper-tab name="accounts">Accounts</paper-tab>
+              <paper-tab name="reports">Reports</paper-tab>
+            </paper-tabs>
           </app-toolbar>
         </app-header>
 

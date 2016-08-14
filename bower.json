@@ -26,7 +26,8 @@
     "lodash": "^4.14.1",
     "chart-elements": "^3.1.1",
     "paper-radio-button": "PolymerElements/paper-radio-button#^1.2.1",
-    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.0"
+    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.0",
+    "paper-tabs": "PolymerElements/paper-tabs#^1.6.2"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
