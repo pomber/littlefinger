@@ -47,6 +47,9 @@
                     recordsOrder: "reverseTimestamp",
                     refreshBalances: function() {
                         self._refreshBalances();
+                    },
+                    getCategory: function(name) {
+                        return self._getCategory(name);
                     }
                 };
             },
@@ -59,7 +62,12 @@
                     var sum = _.sumBy(records, "amount");
                     account.balance = account.start + sum; 
                 });
-            }
+            },
+
+            _getCategory: function(name) {
+                var categories = this.app.user.categories;
+                return _.find(categories, ["name", name]);
+            },
 
         });
     </script>

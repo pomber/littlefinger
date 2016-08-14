@@ -5,6 +5,8 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="lf-detail.html">
 
 <dom-module id="lf-record">
@@ -51,6 +53,12 @@
             <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
                 <div prefix>$</div>
             </paper-input>
+            
+            <paper-radio-group selected="{{type}}">
+                <paper-radio-button name="expense">Expense</paper-radio-button>
+                <paper-radio-button name="income">Income</paper-radio-button>
+            </paper-radio-group>
+
             <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
 
         </lf-detail>
@@ -66,7 +74,11 @@
                 isNew: Boolean,
                 record: {
                     type: Object,
-                    observer: "_recordChanged"
+                    observer: "_recordChanged",
+                },
+                category: {
+                    type: String,
+                    observer: "_categoryChanged",
                 }
             },
 
@@ -90,6 +102,7 @@
                 this.record.amount = Number(this.amount);
                 this.record.category = this.category;
                 this.record.account = this.account;
+                this.record.type = this.type;
                 this.record.date = this.date;
                 this.record.timestamp = new Date(this.date).getTime();
                 this.record.reverseTimestamp = -this.record.timestamp; 
@@ -103,10 +116,17 @@
                 this.category = values.category;
                 this.account = values.account;
                 this.date = values.date;
+                this.type = values.type || "expense";
             },
 
             _recordChanged: function() {
                 this._resetValues(this.record);
+            },
+
+            _categoryChanged: function() {
+                var category = this.app.getCategory(this.category);
+                if (!category) return;
+                this.type = category.type; 
             },
 
             _defaultData: function() {
