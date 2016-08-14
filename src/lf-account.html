@@ -34,6 +34,9 @@
 
             <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
             <paper-input label="Currency" required value="{{currency}}" ></paper-input>
+            <paper-input label="Starting Balance" type="number" step="any" required value="{{start}}">
+                <div prefix>$</div>
+            </paper-input>
 
         </lf-detail>
     </template>
@@ -65,12 +68,14 @@
             _persist: function() {
                 this.item.name = this.name; 
                 this.item.currency = this.currency;
+                this.item.start = this.start;
                 this.$.source.save();
             },
 
             _resetValues: function(values) {
                 this.name = values.name;   
-                this.currency = values.currency;             
+                this.currency = values.currency;
+                this.start = values.start;             
             },
 
             _itemChanged: function() {
