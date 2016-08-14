@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
 <link rel="import" href="lf-user.html">
+<link rel="import" href="lodash.html">
 
 <dom-module id="lf-app-loader">
 
@@ -41,12 +42,23 @@
             },
 
             _createApp: function() {
+                var self = this;
                 return {
                     recordsOrder: "reverseTimestamp",
                     refreshBalances: function() {
-                        console.log("Refreshing balances");
+                        self._refreshBalances();
                     }
                 };
+            },
+
+            _refreshBalances: function() {
+                var self = this;
+                var accounts = self.app.user.accounts;
+                _.forIn(accounts, function(account, key) {
+                    var records = _.filter(self.app.records, ["account", account.name]);
+                    var sum = _.sumBy(records, "amount");
+                    account.balance = account.start + sum; 
+                });
             }
 
         });
