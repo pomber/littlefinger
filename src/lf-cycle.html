@@ -38,7 +38,7 @@
                 @apply(--layout-self-center);
             }
 
-            section {
+            .main {
                 padding: 16px;
             }
 
@@ -48,7 +48,7 @@
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
-                background: var(--paper-cyan-500);
+                background: var(--paper-cyan-200);
             }
 
             .percentage {           
@@ -77,18 +77,45 @@
                 border-bottom-color: var(--paper-grey-300);
                 border-bottom-style: solid; 
             }
+
+            paper-material {
+                margin-bottom: 10px;
+            }
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="12" attr-for-selected="name" scrollable class="flex">
+            <paper-tabs noink selected="{{weekId}}" scrollable class="flex">
                 <template is="dom-repeat" items="{{weeks}}">
-                    <paper-tab name="{{item.index}}">{{item.start}} - {{item.end}}</paper-tab>
+                    <paper-tab>{{item.start}} - {{item.end}}</paper-tab>
                 </template>
             </paper-tabs>
             <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
         </nav>
 
-        <section>
+        <div class="main">
+            <paper-material elevation="1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ACCOUNT</th>
+                            <th>{{week.start}}</th>
+                            <th>DIFF</th>
+                            <th>{{week.end}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template is="dom-repeat" items="{{accounts}}">
+                            <tr>
+                                <td>{{item.name}}</td>
+                                <td>{{item.before}}</td>
+                                <td>{{item.diff}}</td>
+                                <td>{{item.after}}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </paper-material>
+
             <paper-material elevation="1">
                 <paper-listbox>
                     <paper-icon-item class="header">
@@ -121,7 +148,7 @@
                     </template>
                 </paper-listbox>
             </paper-material>
-        </section>
+        </div>
         
     </template>
 
@@ -133,13 +160,25 @@
             },
 
             observers: [
-                "_load(app.records.splices)"
+                "_load(app.records.splices)",
+                "_weekChange(weekId)",
             ],
 
             _load: function() {
-                if (!this.app.records) return;
                 this.weeks = this._getWeeks();
+                this.weekId = 11;
+                this._reload();
+            },
+
+            _weekChange: function() {
+                this.week = this.weeks[this.weekId];
+                this._reload();
+            },
+
+            _reload: function() {
+                if (!this.app.records) return;
                 this.groups = this._getGroups();
+                this.accounts = this._getAccounts();
             },
 
             _getWeeks: function() {
@@ -155,7 +194,9 @@
                     return {
                         index: i,
                         start: start.format("MMM D"),
-                        end: end.format("MMM D")
+                        startTs: startTs,
+                        end: end.format("MMM D"),
+                        endTs: endTs
                     };                    
                 });
             },
@@ -189,7 +230,23 @@
                 });
 
                 return groups;
-            }
+            },
+
+            _getAccounts: function() {
+                var self = this;
+                var accounts = self.app.user.accounts;
+                var week = self.week;
+                return _.map(accounts, function(account){
+                    var before = self.app.getBalanceBefore(account, week.startTs);
+                    var after = self.app.getBalanceBefore(account, week.endTs);
+                    return {
+                        name: account.name,
+                        before: before,
+                        after: after,
+                        diff: after - before
+                    };
+                });
+            },
 
         });
     </script>

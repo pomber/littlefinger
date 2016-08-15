@@ -48,9 +48,12 @@
                     refreshBalances: function() {
                         self._refreshBalances();
                     },
+                    getBalanceBefore: function(account, ts) {
+                        return self._getBalanceBefore(account, ts);
+                    },
                     getCategory: function(name) {
                         return self._getCategory(name);
-                    }
+                    },
                 };
             },
 
@@ -62,6 +65,30 @@
                     var sum = _.sumBy(records, "amount");
                     account.balance = account.start + sum; 
                 });
+            },
+
+            _getBalanceBefore: function(account, ts) {
+                var self = this;
+                var records = _.filter(self.app.records, function(record) {
+                    var aname = account.name;
+                    if (record.account != aname 
+                        && record.source != aname 
+                        && record.dest != aname) {
+                            return false;
+                    }
+                    if (record.timestamp >= ts) {
+                        return false
+                    }
+                    return true;
+                });
+                var sum = _.sumBy(records, function(record) {
+                    if (record.type == "expense" || record.source == account.name) {
+                        return -record.amount;
+                    } else {
+                        return record.amount;
+                    }
+                });
+                return account.start + sum;
             },
 
             _getCategory: function(name) {
