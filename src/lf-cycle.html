@@ -50,6 +50,7 @@
                 border-radius: 50%;
                 background: var(--paper-cyan-200);
             }
+
             paper-progress {
                 width: 100%;
             }
@@ -77,6 +78,18 @@
         <section>
             <paper-material elevation="1">
                 <paper-listbox>
+                    <paper-icon-item>
+                        <div class="avatar" item-icon></div>
+                        <paper-item-body two-line>
+                        <div class="horizontal layout justified">
+                            <span>{{total.category}}</span>
+                            <span>${{total.amount}}</span>
+                        </div>
+                        <div secondary>
+                            <paper-progress value="{{total.amount}}" class="expense" min="0" max="{{total.amount}}"></paper-progress>
+                        </div>
+                        </paper-item-body>
+                    </paper-icon-item>
                     <template is="dom-repeat" items="{{groups}}">
                         <paper-icon-item>
                             <div class="avatar" item-icon></div>
@@ -86,11 +99,9 @@
                                 <span>${{item.amount}}</span>
                             </div>
                             <div secondary>
-                                <paper-progress value="{{item.amount}}" class$="{{item.type}}" min="0" max="{{total}}" class="red"></paper-progress>
+                                <paper-progress value="{{item.amount}}" class$="{{item.type}}" min="0" max="{{total.amount}}"></paper-progress>
                             </div>
                             </paper-item-body>
-                            <!--<paper-icon-button icon="star" alt="favourite this!">
-                            </paper-icon-button>-->
                         </paper-icon-item>
                     </template>
                 </paper-listbox>
@@ -136,21 +147,26 @@
 
             _getGroups: function() {
                 var self = this;
-                var records = this.app.records;
-                var categories = this.app.user.categories;
-                var groups = _.map(categories, function(category, key){
-                    var sub = _.filter(records, ["category", category.name]);
-                    var sum = _.sumBy(sub, "amount");
+                var records = this.app.records;            
+
+                var expenses = _.filter(records, ["type", "expense"]);
+                var grouped = _.groupBy(expenses, "category");
+                var groups = _.map(grouped, function(records, category){
+                    var sum = _.sumBy(records, "amount");
                     return {
-                        category: category.name,
+                        category: category,
                         amount: sum,
-                        type: category.type,
-                    };
+                        type: "expense"
+                    };                    
                 });
 
-                groups = _.filter(groups, "amount");
                 groups = _.orderBy(groups, "amount", "desc");
-                this.total = _.sumBy(groups, "amount");
+
+                self.total = {
+                    category: "Expenses Total",
+                    amount: _.sumBy(groups, "amount"),
+                    type: "expense"
+                };
 
                 return groups;
             }
