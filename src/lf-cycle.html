@@ -4,7 +4,13 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/chart-elements/chart-doughnut.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-cycle">
@@ -28,6 +34,27 @@
             .filter-button {
                 @apply(--layout-self-center);
             }
+
+            section {
+                padding: 16px;
+            }
+
+            .avatar {
+                display: inline-block;
+                box-sizing: border-box;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: #ffc107;
+            }
+            paper-progress {
+                width: 100%;
+            }
+
+            paper-progress.red {
+                --paper-progress-active-color: var(--paper-red-500);
+                --paper-progress-secondary-color: var(--paper-red-100);
+            }
         </style>
 
         <nav class="horizontal layout justified">
@@ -48,20 +75,28 @@
             <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
         </nav>
 
-        <div class="horizontal layout justified">
-            <h3>Aug 7 - Aug 13</h3>
-        </div>
-
-        <table>
-            <tbody>
-                <template is="dom-repeat" items="{{groups}}">
-                    <tr on-tap="edit">
-                        <td>{{item.category}}</td>
-                        <td>{{item.amount}}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
+        <section>
+            <paper-material elevation="1">
+                <paper-listbox>
+                    <template is="dom-repeat" items="{{groups}}">
+                        <paper-icon-item>
+                            <div class="avatar" item-icon></div>
+                            <paper-item-body two-line>
+                            <div class="horizontal layout justified">
+                                <span>{{item.category}}</span>
+                                <span>${{item.amount}}</span>
+                            </div>
+                            <div secondary>
+                                <paper-progress value="{{item.amount}}" min="0" max="2000" class="red"></paper-progress>
+                            </div>
+                            </paper-item-body>
+                            <!--<paper-icon-button icon="star" alt="favourite this!">
+                            </paper-icon-button>-->
+                        </paper-icon-item>
+                    </template>
+                </paper-listbox>
+            </paper-material>
+        </section>
         
     </template>
 
@@ -70,6 +105,12 @@
             is: 'lf-cycle',
             properties: {
                 app: Object,
+                options: {
+
+                },
+                data: {
+                    type: Object,
+                },
                 groups:{
                     type: Array,
                     value: [
@@ -81,6 +122,35 @@
                     ],
                 }
             },
+
+            ready: function() {
+                this.options = {
+                    legend: {
+                        display: false
+                    }
+                };
+                this.data = {
+                    labels: [
+                        "Red",
+                        "Green",
+                        "Yellow"
+                    ],
+                    datasets: [
+                    {
+                        data: [300, 50, 100],
+                        backgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ],
+                        hoverBackgroundColor: [
+                            "#FF6384",
+                            "#36A2EB",
+                            "#FFCE56"
+                        ]
+                    }]
+                };
+            }
 
         });
     </script>
