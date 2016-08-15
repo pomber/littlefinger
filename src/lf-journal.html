@@ -64,8 +64,12 @@
             },
 
             editRecord: function(e) {                
-                var item = e.model.item;                
-                this.$.recordForm.show(item.$key);
+                var item = e.model.item;
+                if (item.type == "transfer") {
+                    this.$.transferForm.show(item.$key);
+                } else {
+                    this.$.recordForm.show(item.$key);
+                }        
             }
         });
     </script>
