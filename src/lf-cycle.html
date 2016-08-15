@@ -51,6 +51,13 @@
                 background: var(--paper-cyan-200);
             }
 
+            .percentage {           
+                width: 70px;
+                padding-top: 0px;
+                text-align: right;
+                font-size: 20px;
+            }
+
             paper-progress {
                 width: 100%;
             }
@@ -63,6 +70,12 @@
             paper-progress.income {
                 --paper-progress-active-color: var(--paper-light-green-400);
                 --paper-progress-secondary-color: var(--paper-light-green-100);
+            }
+
+            .header {               
+                border-bottom-width: 3px;
+                border-bottom-color: var(--paper-grey-300);
+                border-bottom-style: solid; 
             }
         </style>
 
@@ -78,7 +91,7 @@
         <section>
             <paper-material elevation="1">
                 <paper-listbox>
-                    <paper-icon-item>
+                    <paper-icon-item class="header">
                         <div class="avatar" item-icon></div>
                         <paper-item-body two-line>
                         <div class="horizontal layout justified">
@@ -89,6 +102,7 @@
                             <paper-progress value="{{total.amount}}" class="expense" min="0" max="{{total.amount}}"></paper-progress>
                         </div>
                         </paper-item-body>
+                        <div class="percentage">{{total.percentage}}%</div>
                     </paper-icon-item>
                     <template is="dom-repeat" items="{{groups}}">
                         <paper-icon-item>
@@ -102,6 +116,7 @@
                                 <paper-progress value="{{item.amount}}" class$="{{item.type}}" min="0" max="{{total.amount}}"></paper-progress>
                             </div>
                             </paper-item-body>
+                            <div class="percentage">{{item.percentage}}%</div>
                         </paper-icon-item>
                     </template>
                 </paper-listbox>
@@ -163,10 +178,15 @@
                 groups = _.orderBy(groups, "amount", "desc");
 
                 self.total = {
-                    category: "Expenses Total",
+                    category: "Total",
                     amount: _.sumBy(groups, "amount"),
-                    type: "expense"
+                    type: "expense",
+                    percentage: 100
                 };
+
+                _.forEach(groups, function(g) {
+                    g.percentage = Math.round(100 * g.amount / self.total.amount); 
+                });
 
                 return groups;
             }
