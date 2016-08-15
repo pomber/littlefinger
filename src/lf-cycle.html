@@ -11,6 +11,8 @@
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="moment.html">
+<link rel="import" href="lodash.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-cycle">
@@ -25,6 +27,7 @@
 
             nav {                
                 background-color: var(--paper-cyan-400);
+                text-transform: uppercase;
             }
 
             paper-tabs {                
@@ -64,18 +67,9 @@
 
         <nav class="horizontal layout justified">
             <paper-tabs noink selected="12" attr-for-selected="name" scrollable class="flex">
-              <paper-tab name="1">MAY 22 - JUN 3</paper-tab>
-              <paper-tab name="2">JUN 4 - JUN 11</paper-tab>
-              <paper-tab name="3">JUN 12 - JUN 18</paper-tab>
-              <paper-tab name="4">JUN 19 - JUN 25</paper-tab>
-              <paper-tab name="5">JUN 26 - JUL 2</paper-tab>
-              <paper-tab name="6">JUL 3 - JUL 9</paper-tab>
-              <paper-tab name="7">JUL 10 - JUL 15</paper-tab>
-              <paper-tab name="8">JUL 16 - JUL 23</paper-tab>
-              <paper-tab name="9">JUL 24 - AUG 1</paper-tab>
-              <paper-tab name="10">AUG 1 - AUG 7</paper-tab>
-              <paper-tab name="11">AUG 8 - AUG 14</paper-tab>
-              <paper-tab name="12">AUG 15 - AUG 21</paper-tab>
+                <template is="dom-repeat" items="{{weeks}}">
+                    <paper-tab name="{{item.index}}">{{item.start}} - {{item.end}}</paper-tab>
+                </template>
             </paper-tabs>
             <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
         </nav>
@@ -129,33 +123,27 @@
             },
 
             ready: function() {
-                this.options = {
-                    legend: {
-                        display: false
-                    }
-                };
-                this.data = {
-                    labels: [
-                        "Red",
-                        "Green",
-                        "Yellow"
-                    ],
-                    datasets: [
-                    {
-                        data: [300, 50, 100],
-                        backgroundColor: [
-                            "#FF6384",
-                            "#36A2EB",
-                            "#FFCE56"
-                        ],
-                        hoverBackgroundColor: [
-                            "#FF6384",
-                            "#36A2EB",
-                            "#FFCE56"
-                        ]
-                    }]
-                };
-            }
+                this.weeks = this._getWeeks();
+            },
+
+            _getWeeks: function() {
+                var t = 12;
+                var startingDay = 6; //Saturday
+                var range = _.reverse(_.range(t));
+
+                return _.map(range, function(i) {
+                    var start = moment().day(startingDay - (7 * (i+1))) 
+                    var end = start.clone().add(7, 'd');
+                    var startTs = start.toDate().getTime();
+                    var endTs = end.toDate().getTime();
+                    return {
+                        index: i,
+                        start: start.format("MMM D"),
+                        end: end.format("MMM D")
+                    };                    
+                });              
+
+            },
 
         });
     </script>
