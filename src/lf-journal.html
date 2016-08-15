@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="lf-record.html">
+<link rel="import" href="lf-transfer.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-journal">
@@ -17,11 +18,13 @@
         </style>
 
         <div class="horizontal layout justified">
-            <h3>Records</h3>
+            <h3 class="flex">Records</h3>
             <paper-button on-tap="newRecord">New Record</paper-button>
+            <paper-button on-tap="newTransfer">New Transfer</paper-button>
         </div>
 
         <lf-record id="recordForm" app="[[app]]"></lf-record>
+        <lf-transfer id="transferForm" app="[[app]]"></lf-transfer>
 
         <table>
             <thead>
@@ -50,6 +53,10 @@
 
             properties: {
                 app: Object
+            },
+
+            newTransfer: function() {
+                this.$.transferForm.show();
             },
 
             newRecord: function() {

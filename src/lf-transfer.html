@@ -1,0 +1,127 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="lf-detail.html">
+<link rel="import" href="lf-detail-source.html">
+
+<dom-module id="lf-transfer">
+
+    <template>        
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <lf-detail-source
+            id="source"
+            detail-id="{{itemId}}"
+            parent-path="/records/{{app.user.uid}}/"
+            detail="{{detail}}">
+        </lf-detail-source>
+
+        <lf-detail 
+            id="detail"
+            detail-name="Transfer"
+            is-new="{{isNew}}"
+            on-save="_persist"
+            on-delete="_delete">
+
+            <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
+                <div prefix>$</div>
+            </paper-input>
+            
+            <paper-dropdown-menu label="From" noink no-animations>
+                <paper-listbox class="dropdown-content" selected="{{source}}" attr-for-selected="value">                        
+                    <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
+                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            
+            <paper-dropdown-menu label="To" noink no-animations>
+                <paper-listbox class="dropdown-content" selected="{{dest}}" attr-for-selected="value">                        
+                    <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
+                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                    </template>
+                </paper-listbox>
+            </paper-dropdown-menu>
+
+            <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
+
+        </lf-detail>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-transfer',
+            properties: {
+                app: Object,
+                itemId: String,
+                isNew: Boolean,
+                detail: {
+                    type: Object,
+                    observer: "_itemChanged",
+                }
+            },
+
+            show: function(itemId) {
+                this.itemId = itemId;
+                this.isNew = !this.itemId;
+                if (this.isNew) this._resetValues();
+                this.$.source.load();
+                this.$.detail.show();
+            },
+
+            _delete: function(e) {
+                this.$.source.destroy();
+                this.app.refreshBalances();                
+            },
+
+            _persist: function() {
+                this.detail.amount = Number(this.amount);
+                this.detail.source = this.source;
+                this.detail.dest = this.dest;
+                this.detail.category = "Transfer";
+                this.detail.type = "transfer";
+                this.detail.date = this.date;
+                this.detail.timestamp = new Date(this.date).getTime();
+                this.detail.reverseTimestamp = -this.detail.timestamp; 
+                this.$.source.save();
+                this.app.refreshBalances();
+            },
+
+            _resetValues: function(values) {
+                values = values || this._defaultData();
+                this.amount = values.amount;
+                this.source = values.source;
+                this.dest = values.dest;
+                this.date = values.date;
+            },
+
+            _itemChanged: function() {
+                this._resetValues(this.detail);
+            },
+
+            _defaultData: function() {
+                return {
+                    date: new Date().toISOString().split('T')[0]
+                };
+            },
+            
+            _toArray: function(items) {
+                if (!items) return items;
+                return Object.keys(items).map(function(key) {
+                    items[key].id = key;
+                    return items[key];
+                });
+            },
+        });
+    </script>
+
+</dom-module>
