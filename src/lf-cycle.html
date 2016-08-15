@@ -51,9 +51,14 @@
                 width: 100%;
             }
 
-            paper-progress.red {
+            paper-progress.expense {
                 --paper-progress-active-color: var(--paper-red-400);
                 --paper-progress-secondary-color: var(--paper-red-100);
+            }
+
+            paper-progress.income {
+                --paper-progress-active-color: var(--paper-light-green-400);
+                --paper-progress-secondary-color: var(--paper-light-green-100);
             }
         </style>
 
@@ -87,7 +92,7 @@
                                 <span>${{item.amount}}</span>
                             </div>
                             <div secondary>
-                                <paper-progress value="{{item.amount}}" min="0" max="2000" class="red"></paper-progress>
+                                <paper-progress value="{{item.amount}}" class$="{{item.type}}" min="0" max="2000" class="red"></paper-progress>
                             </div>
                             </paper-item-body>
                             <!--<paper-icon-button icon="star" alt="favourite this!">
