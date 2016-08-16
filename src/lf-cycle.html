@@ -204,9 +204,16 @@
 
             _getGroups: function() {
                 var self = this;
-                var records = this.app.records;            
+                var records = this.app.records;    
+                var week = self.week;        
 
-                var expenses = _.filter(records, ["type", "expense"]);
+                var expenses = _.filter(records, function(record) {
+                    if (record.type != "expense") return false;
+                    if (record.timestamp < week.startTs) return false;
+                    if (record.timestamp >= week.endTs) return false;
+                    return true;
+                });
+                
                 var grouped = _.groupBy(expenses, "category");
                 var groups = _.map(grouped, function(records, category){
                     var sum = _.sumBy(records, "amount");
