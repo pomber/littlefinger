@@ -80,7 +80,8 @@
             }
 
             paper-material {
-                margin-bottom: 10px;
+                @apply(--layout-self-start);
+                margin: 0px 5px;
             }
         </style>
 
@@ -93,31 +94,8 @@
             <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
         </nav>
 
-        <div class="main">
-            <paper-material elevation="1">
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th class="right">{{week.start}}</th>
-                            <th class="right">Transactions</th>
-                            <th class="right">{{week.end}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template is="dom-repeat" items="{{accounts}}">
-                            <tr>
-                                <td>{{item.name}}</td>
-                                <td class="right"><lf-money amount="{{item.before}}"></lf-money></td>
-                                <td class="right"><lf-money amount="{{item.diff}}"></lf-money></td>
-                                <td class="right"><lf-money amount="{{item.after}}"></lf-money></td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </paper-material>
-
-            <paper-material elevation="1">
+        <div class="main horizontal layout">
+            <paper-material elevation="1" class="flex">
                 <paper-listbox>
                     <paper-icon-item class="header">
                         <div class="avatar" item-icon></div>
@@ -148,6 +126,28 @@
                         </paper-icon-item>
                     </template>
                 </paper-listbox>
+            </paper-material>
+            <paper-material elevation="1" class="flex">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="right">{{week.start}}</th>
+                            <th class="right">Transactions</th>
+                            <th class="right">{{week.end}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template is="dom-repeat" items="{{accounts}}">
+                            <tr>
+                                <td>{{item.name}}</td>
+                                <td class="right"><lf-money amount="{{item.before}}"></lf-money></td>
+                                <td class="right"><lf-money amount="{{item.diff}}"></lf-money></td>
+                                <td class="right"><lf-money amount="{{item.after}}"></lf-money></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
             </paper-material>
         </div>
         
