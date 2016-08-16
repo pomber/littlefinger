@@ -98,10 +98,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ACCOUNT</th>
-                            <th>{{week.start}}</th>
-                            <th>DIFF</th>
-                            <th>{{week.end}}</th>
+                            <th></th>
+                            <th class="right">{{week.start}}</th>
+                            <th class="right">Transactions</th>
+                            <th class="right">{{week.end}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,7 +124,7 @@
                         <paper-item-body two-line>
                         <div class="horizontal layout justified">
                             <span>{{total.category}}</span>
-                            <span>${{total.amount}}</span>
+                            <lf-money amount="{{total.amount}}"></lf-money>
                         </div>
                         <div secondary>
                             <paper-progress value="{{total.amount}}" class="expense" min="0" max="{{total.amount}}"></paper-progress>
@@ -138,7 +138,7 @@
                             <paper-item-body two-line>
                             <div class="horizontal layout justified">
                                 <span>{{item.category}}</span>
-                                <span>${{item.amount}}</span>
+                                <lf-money amount="{{item.amount}}"></lf-money>
                             </div>
                             <div secondary>
                                 <paper-progress value="{{item.amount}}" class$="{{item.type}}" min="0" max="{{total.amount}}"></paper-progress>
