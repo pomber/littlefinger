@@ -1,0 +1,74 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="lf-money">
+    <template>
+        <style>      
+            :host .red {
+                color: var(--paper-red-500);
+            }
+            small {
+                font-size: 80%;
+            }      
+            em {
+                font-style: inherit;
+                font-size: 120%;
+            }
+        </style>
+        <span class$="{{color}}">
+            <small>$</small><em>{{main}}</em><small>.{{cents}}</small>
+        </span>
+    </template>
+    <script>
+        Polymer({
+            is: 'lf-money',
+            properties: {
+                amount: Number,
+                main: {
+                    type: String,
+                    computed: "_computeMain(amount)",
+                },
+                cents: {
+                    type: String,
+                    computed: "_computeCents(amount)",
+                },
+                color: {
+                    type: String,
+                    computed: "_computeColor(amount)",
+                },
+            },
+
+            _computeColor: function() {
+                if (this.amount < 0) {
+                    return "red";
+                }
+                return "";
+            },
+
+            _computeMain: function() {
+                var amount = Math.abs(this.amount);
+                amount = Math.floor(amount);                
+                return this._addCommas(amount);
+            },
+
+            _computeCents: function() {
+                var amount = Math.abs(this.amount);
+                var cents = amount % 1;
+                var n = Math.round(cents * 100);
+                return n >= 10 ? n : "0" + n;
+            },
+
+            _addCommas: function(nStr) {
+                nStr += '';
+                var x = nStr.split('.');
+                var x1 = x[0];
+                var x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+
+        });
+    </script>
+</dom-module>

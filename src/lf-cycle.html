@@ -13,6 +13,7 @@
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="moment.html">
 <link rel="import" href="lodash.html">
+<link rel="import" href="lf-money.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-cycle">
@@ -107,9 +108,9 @@
                         <template is="dom-repeat" items="{{accounts}}">
                             <tr>
                                 <td>{{item.name}}</td>
-                                <td>{{item.before}}</td>
-                                <td>{{item.diff}}</td>
-                                <td>{{item.after}}</td>
+                                <td class="right"><lf-money amount="{{item.before}}"></lf-money></td>
+                                <td class="right"><lf-money amount="{{item.diff}}"></lf-money></td>
+                                <td class="right"><lf-money amount="{{item.after}}"></lf-money></td>
                             </tr>
                         </template>
                     </tbody>
