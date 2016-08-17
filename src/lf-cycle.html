@@ -147,6 +147,14 @@
                             </tr>
                         </template>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>Total</td>
+                            <td class="right"><lf-money amount="{{accountsTotal.before}}"></lf-money></td>
+                            <td class="right"><lf-money amount="{{accountsTotal.diff}}"></lf-money></td>
+                            <td class="right"><lf-money amount="{{accountsTotal.after}}"></lf-money></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </paper-material>
         </div>
@@ -237,7 +245,7 @@
                 var self = this;
                 var accounts = self.app.user.accounts;
                 var week = self.week;
-                return _.map(accounts, function(account){
+                var sums = _.map(accounts, function(account){
                     var before = self.app.getBalanceBefore(account, week.startTs);
                     var after = self.app.getBalanceBefore(account, week.endTs);
                     return {
@@ -247,6 +255,14 @@
                         diff: after - before
                     };
                 });
+                
+                self.accountsTotal = {
+                    before: _.sumBy(sums, "before"),
+                    after: _.sumBy(sums, "after"),
+                    diff: _.sumBy(sums, "diff")
+                };
+
+                return sums;
             },
 
         });
