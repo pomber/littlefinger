@@ -93,6 +93,7 @@
                 this.detail.amount = Number(this.amount);
                 this.detail.source = this.source;
                 this.detail.dest = this.dest;
+                this.detail.rate = this._getRate();
                 this.detail.category = "Transfer";
                 this.detail.type = "transfer";
                 this.detail.date = this.date;
@@ -108,6 +109,7 @@
                 this.source = values.source;
                 this.dest = values.dest;
                 this.date = values.date;
+                this.rate = values.rate;
             },
 
             _itemChanged: function() {
@@ -131,6 +133,11 @@
                 var destAccount = this.app.getAccount(this.dest);
                 
                 return sourceAccount.currency == destAccount.currency;
+            },
+
+            _getRate: function() {
+                if (this.hideRate) return null;
+                return Number(this.rate);
             },
             
             _toArray: function(items) {
