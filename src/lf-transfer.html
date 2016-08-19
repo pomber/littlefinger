@@ -51,6 +51,8 @@
                 </paper-listbox>
             </paper-dropdown-menu>
 
+            <paper-input label="Rate" required type="number" value="{{rate}}" hidden$="{{hideRate}}"></paper-input>
+
             <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
 
         </lf-detail>
@@ -64,6 +66,10 @@
                 app: Object,
                 itemId: String,
                 isNew: Boolean,
+                hideRate: {
+                    type: Boolean,
+                    computed: "_computeHideRate(source, dest)"
+                },
                 detail: {
                     type: Object,
                     observer: "_itemChanged",
@@ -110,8 +116,14 @@
 
             _defaultData: function() {
                 return {
+                    source: null,
+                    dest: null,
                     date: new Date().toISOString().split('T')[0]
                 };
+            },
+
+            _computeHideRate: function() {
+                return true;
             },
             
             _toArray: function(items) {
