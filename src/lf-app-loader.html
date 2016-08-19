@@ -54,6 +54,9 @@
                     getCategory: function(name) {
                         return self._getCategory(name);
                     },
+                    getAccount: function(name) {
+                        return self._getAccount(name);
+                    },
                 };
             },
 
@@ -94,6 +97,11 @@
             _getCategory: function(name) {
                 var categories = this.app.user.categories;
                 return _.find(categories, ["name", name]);
+            },
+
+            _getAccount: function(name) {
+                var accounts = this.app.user.accounts;
+                return _.find(accounts, ["name", name]);
             },
 
         });

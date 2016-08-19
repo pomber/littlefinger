@@ -123,7 +123,14 @@
             },
 
             _computeHideRate: function() {
-                return true;
+                if (!this.source || ! this.dest) {
+                     return true;
+                }
+
+                var sourceAccount = this.app.getAccount(this.source);
+                var destAccount = this.app.getAccount(this.dest);
+                
+                return sourceAccount.currency == destAccount.currency;
             },
             
             _toArray: function(items) {
