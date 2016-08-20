@@ -109,9 +109,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-tabs noink selected="{{page}}" attr-for-selected="name">
               <paper-tab name="cycle">Overview</paper-tab>
               <paper-tab name="journal">Journal</paper-tab>
-              <paper-tab name="categories">Categories</paper-tab>
-              <paper-tab name="accounts">Accounts</paper-tab>
               <paper-tab name="reports">Reports</paper-tab>
+              <paper-tab name="settings">Settings</paper-tab>
             </paper-tabs>
           </app-toolbar>
         </app-header>
@@ -119,9 +118,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
           <lf-cycle name="cycle" app="[[app]]"></lf-cycle>
           <lf-journal name="journal" app="[[app]]"></lf-journal>
-          <lf-categories name="categories" user="[[app.user]]"></lf-categories>
-          <lf-accounts name="accounts" app="[[app]]"></lf-accounts>
           <lf-reports name="reports" user="[[app.user]]"></lf-reports>
+          <lf-settings name="settings" app="[[app]]"></lf-settings>
         </iron-pages>
 
       </app-header-layout>
