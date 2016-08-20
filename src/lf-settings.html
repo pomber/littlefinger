@@ -2,7 +2,9 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
-<link rel="import" href="lf-account.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="lf-categories.html">
+<link rel="import" href="lf-accounts.html">
 <link rel="import" href="sub-header-styles.html">
 
 <dom-module id="lf-settings">
@@ -13,14 +15,17 @@
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="1" scrollable class="flex">
+            <paper-tabs noink selected="{{page}}" scrollable class="flex">
                 <paper-tab>Categories</paper-tab>
                 <paper-tab>Accounts</paper-tab>
                 <paper-tab>Currencies</paper-tab>
             </paper-tabs>
         </nav>
 
-        <lf-accounts app="[[app]]"></lf-accounts>
+        <iron-pages selected="[[page]]">
+            <lf-categories user="[[app.user]]"></lf-categories>
+            <lf-accounts app="[[app]]"></lf-accounts>
+        </iron-pages>
         
     </template>
 
