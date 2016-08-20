@@ -51,6 +51,8 @@
                 </paper-listbox>
             </paper-dropdown-menu>
 
+            <paper-input label="Rate" required type="number" value="{{rate}}" hidden$="{{hideRate}}"></paper-input>
+
             <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
 
         </lf-detail>
@@ -64,6 +66,10 @@
                 app: Object,
                 itemId: String,
                 isNew: Boolean,
+                hideRate: {
+                    type: Boolean,
+                    computed: "_computeHideRate(source, dest)"
+                },
                 detail: {
                     type: Object,
                     observer: "_itemChanged",
@@ -87,6 +93,7 @@
                 this.detail.amount = Number(this.amount);
                 this.detail.source = this.source;
                 this.detail.dest = this.dest;
+                this.detail.rate = this._getRate();
                 this.detail.category = "Transfer";
                 this.detail.type = "transfer";
                 this.detail.date = this.date;
@@ -102,6 +109,7 @@
                 this.source = values.source;
                 this.dest = values.dest;
                 this.date = values.date;
+                this.rate = values.rate;
             },
 
             _itemChanged: function() {
@@ -110,8 +118,26 @@
 
             _defaultData: function() {
                 return {
+                    source: null,
+                    dest: null,
                     date: new Date().toISOString().split('T')[0]
                 };
+            },
+
+            _computeHideRate: function() {
+                if (!this.source || ! this.dest) {
+                     return true;
+                }
+
+                var sourceAccount = this.app.getAccount(this.source);
+                var destAccount = this.app.getAccount(this.dest);
+                
+                return sourceAccount.currency == destAccount.currency;
+            },
+
+            _getRate: function() {
+                if (this.hideRate) return null;
+                return Number(this.rate);
             },
             
             _toArray: function(items) {
