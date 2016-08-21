@@ -7,17 +7,24 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-detail.html">
 <link rel="import" href="lf-detail-source.html">
 <link rel="import" href="lf-icon-picker.html">
+<link rel="import" href="lf-icon.html">
 
 <dom-module id="lf-category">
 
     <template>        
 
-        <style>
+        <style include="iron-flex iron-flex-alignment">
             :host {
                 display: block;
+            }
+
+            lf-icon {
+                margin-right: 10px;
             }
         </style>
 
@@ -35,7 +42,20 @@
             on-save="_persist"
             on-delete="_delete">
 
-            <paper-input label="Name" required value="{{name}}" autofocus></paper-input>
+            <div class="layout horizontal center">
+                <lf-icon icon="[[icon]]" button label="[[name]]" on-tap="toggle"></lf-icon>
+                <paper-input label="Name" required value="{{name}}" autofocus no-label-float class="flex"></paper-input>
+            </div>
+            
+            <iron-collapse id="collapse"> 
+                <lf-icon-picker
+                    icon="{{icon}}"
+                    type="categories"
+                    name="{{name}}"
+                    on-icon-selected="toggle">
+                </lf-icon-picker>
+            </iron-collapse>
+
             <paper-dropdown-menu label="Frequency" noink no-animations>
                 <paper-listbox class="dropdown-content" selected="{{frequency}}" attr-for-selected="value">
                     <paper-item value="Weekly">Weekly</paper-item>
@@ -48,12 +68,6 @@
                 <paper-radio-button name="expense">Expense</paper-radio-button>
                 <paper-radio-button name="income">Income</paper-radio-button>
             </paper-radio-group>
-
-            <lf-icon-picker
-                icon="{{icon}}"
-                type="categories"
-                name="{{name}}">
-            </lf-icon-picker>
 
             <paper-input label="Parent" required value="{{parent}}"></paper-input>
 
@@ -101,6 +115,10 @@
 
             _categoryChanged: function() {
                 this._resetValues(this.category);
+            },
+      
+            toggle: function() {
+                this.$.collapse.toggle();
             },
         });
     </script>

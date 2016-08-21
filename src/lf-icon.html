@@ -70,7 +70,7 @@
     </style>
 
     <iron-icon id="icon" hidden$="{{!_computeIsIcon(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
-    <span hidden$="{{_computeIsIcon(icon, src)}}">{{label}}</span>
+    <span hidden$="{{_computeIsIcon(icon, src)}}">{{_getLabel(label)}}</span>
   </template>
 
   <script>
@@ -125,7 +125,11 @@
 
       _computeIsIcon: function(icon, src) {
         return (icon && icon.length > 0) || (src.length > 0);
-      }
+      },
+
+      _getLabel: function() {
+          return this.label && this.label[0];
+      },
     });
   </script>
 </dom-module>

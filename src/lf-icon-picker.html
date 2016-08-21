@@ -1,7 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
-<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-icon.html">
 
 <dom-module id="lf-icon-picker">
@@ -16,28 +15,21 @@
                 margin: 2px;
             }
         </style>
-
-        <lf-icon 
-            icon="[[icon]]"
-            on-tap="toggle" 
-            button ></lf-icon>
-
-        <iron-collapse id="collapse">        
-            <div class="layout horizontal wrap">
+       
+        <div class="layout horizontal wrap">
+            <lf-icon 
+                label="[[name]]"
+                on-tap="select" 
+                button 
+                active$="[[_isSelected(icon)]]"></lf-icon>
+            <template is="dom-repeat" items="[[_computeList(type)]]">
                 <lf-icon 
-                    label="[[_getLabel(name)]]"
+                    icon="[[item]]"
                     on-tap="select" 
                     button 
-                    active$="[[_isSelected(icon)]]"></lf-icon>
-                <template is="dom-repeat" items="[[_computeList(type)]]">
-                    <lf-icon 
-                        icon="[[item]]"
-                        on-tap="select" 
-                        button 
-                        active$="[[_isSelected(icon, item)]]"></lf-icon>
-                </template>
-            </div>
-        </iron-collapse>
+                    active$="[[_isSelected(icon, item)]]"></lf-icon>
+            </template>
+        </div>
 
     </template>
 
@@ -166,19 +158,11 @@
                 } else {
                     this.icon = null;
                 }    
-                this.toggle();
-            },
-      
-            toggle: function() {
-                this.$.collapse.toggle();
+                this.fire("icon-selected");
             },
 
             _isSelected: function(icon, item) {
                 return icon == item;
-            },
-
-            _getLabel: function() {
-                return this.name && this.name[0];
             },
 
             _computeList: function() {
