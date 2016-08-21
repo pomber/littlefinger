@@ -16,7 +16,7 @@
         </style>
 
         <div class="layout horizontal wrap">
-            <template is="dom-repeat" items="[[categories]]">
+            <template is="dom-repeat" items="[[_computeList(type)]]">
                 <lf-icon icon="[[item]]"></lf-icon>
             </template>
         </div>
@@ -27,6 +27,7 @@
         Polymer({
             is: 'lf-icon-picker',
             properties: {
+                type: String,
                 categories: {
                     type: Array,
                     value: [
@@ -104,9 +105,43 @@
                         "vaadin-icons:warning",
                         "vaadin-icons:wrench"
                     ],
+                },
+                accounts: {
+                    type: Array,
+                    value: [
+                        "vaadin-icons:dollar",
+                        "vaadin-icons:institution",
+                        "vaadin-icons:safe",
+                        "vaadin-icons:credit-card",
+                        "vaadin-icons:question",
+                        "vaadin-icons:invoice",
+                        "vaadin-icons:home",
+                        "vaadin-icons:key",
+                        "vaadin-icons:building",
+                        "vaadin-icons:lock",
+                        "vaadin-icons:mobile",
+                        "vaadin-icons:asterisk",
+                        "vaadin-icons:group",
+                        "vaadin-icons:desktop",
+                        "vaadin-icons:disc",
+                        "vaadin-icons:gavel",
+                        "vaadin-icons:globe",
+                        "vaadin-icons:out",
+                        "vaadin-icons:package",
+                        "vaadin-icons:trash",
+                        "vaadin-icons:trophy",
+                        "vaadin-icons:umbrella",
+                    ],
+                },
+            },
+
+            _computeList: function() {
+                if (this.type == "categories") {
+                    return this.categories;
+                } else {
+                    return this.accounts;
                 }
             },
         });
     </script>
-
 </dom-module>
