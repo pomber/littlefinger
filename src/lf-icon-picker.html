@@ -17,7 +17,7 @@
 
         <div class="layout horizontal wrap">
             <template is="dom-repeat" items="[[_computeList(type)]]">
-                <lf-icon icon="[[item]]"></lf-icon>
+                <lf-icon icon="[[item]]" button></lf-icon>
             </template>
         </div>
 
@@ -28,6 +28,10 @@
             is: 'lf-icon-picker',
             properties: {
                 type: String,
+                icon: {
+                    type: String,
+                    notify: true,
+                },
                 categories: {
                     type: Array,
                     value: [

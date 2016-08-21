@@ -32,6 +32,14 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      :host([button]) {
+        cursor: pointer;
+      }
+
+      :host([button]:hover) {
+        @apply(--shadow-elevation-4dp);
+      }
+
       [hidden] {
         display: none !important;
       }
@@ -86,6 +94,12 @@
          * Set this to true to style this is a "mini" icon.
          */
         mini: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        },
+
+        button: {
           type: Boolean,
           value: false,
           reflectToAttribute: true
