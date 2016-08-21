@@ -1,7 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="lf-category.html">
+<link rel="import" href="lf-icon.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-categories">
@@ -14,33 +20,47 @@
                 display: block;
                 padding: 16px;
             }
+
+            paper-material {
+                @apply(--layout-self-start);
+                margin: 0px 5px;
+            }
         </style>
 
-        <div class="horizontal layout justified">
-            <h3>{{masterName}}</h3>
-            <paper-button on-tap="create">New {{detailName}}</paper-button>
+        <div class="horizontal layout center-justified">
+            <paper-material elevation="1" style="max-width: 768px" class="flex">
+                <div class="horizontal layout justified">
+                    <h3></h3>
+                    <paper-button on-tap="create">New {{detailName}}</paper-button>
+                </div>
+
+                <lf-category id="detailForm" user="[[user]]"></lf-category>
+
+
+                <paper-listbox>                    
+                    <template is="dom-repeat" items="{{_toArray(user.categories)}}">
+                        <paper-icon-item on-tap="edit">
+                            <lf-icon 
+                                icon="[[item.icon]]"
+                                label="[[item.name]]"
+                                color= "[[item.color]]" 
+                                item-icon></lf-icon>
+                            <paper-item-body two-line>
+                                <div class="horizontal layout justified">
+                                    <span>{{item.name}}</span>
+                                    <span>{{item.frequency}}</span>
+                                </div>
+                                <div secondary>
+                                    <span>{{item.parent}}
+                                </div>
+                            </paper-item-body>
+                        </paper-icon-item>
+                    </template>
+                </paper-listbox>
+            </paper-material>
+            <!--<paper-material elevation="1" style="max-width: 768px" class="flex">
+            </paper-material>-->
         </div>
-
-        <lf-category id="detailForm" user="[[user]]"></lf-category>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Frequency</th>
-                    <th>Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template is="dom-repeat" items="{{_toArray(user.categories)}}">
-                    <tr on-tap="edit">
-                        <td>{{item.name}}</td>
-                        <td>{{item.frequency}}</td>
-                        <td>{{item.type}}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
         
     </template>
 
