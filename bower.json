@@ -34,7 +34,8 @@
     "paper-material": "PolymerElements/paper-material#^1.0.6",
     "moment": "^2.14.1",
     "paper-card": "PolymerElements/paper-card#^1.1.2",
-    "vaadin-icons": "^1.0.2"
+    "vaadin-icons": "^1.0.2",
+    "iron-collapse": "PolymerElements/iron-collapse#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

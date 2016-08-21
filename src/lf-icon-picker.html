@@ -1,8 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/vaadin-icons/vaadin-icons.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-icon.html">
 
 <dom-module id="lf-icon-picker">
@@ -10,25 +9,35 @@
     <template>        
 
         <style include="iron-flex iron-flex-alignment">
+            :host {
+                display: block;
+            }
             lf-icon {
                 margin: 2px;
             }
         </style>
 
-        <div class="layout horizontal wrap">
-            <lf-icon 
-                label="[[_getLabel(name)]]"
-                on-tap="select" 
-                button 
-                active$="[[_isSelected(icon)]]"></lf-icon>
-            <template is="dom-repeat" items="[[_computeList(type)]]">
+        <lf-icon 
+            icon="[[icon]]"
+            on-tap="toggle" 
+            button ></lf-icon>
+
+        <iron-collapse id="collapse">        
+            <div class="layout horizontal wrap">
                 <lf-icon 
-                    icon="[[item]]"
+                    label="[[_getLabel(name)]]"
                     on-tap="select" 
                     button 
-                    active$="[[_isSelected(icon, item)]]"></lf-icon>
-            </template>
-        </div>
+                    active$="[[_isSelected(icon)]]"></lf-icon>
+                <template is="dom-repeat" items="[[_computeList(type)]]">
+                    <lf-icon 
+                        icon="[[item]]"
+                        on-tap="select" 
+                        button 
+                        active$="[[_isSelected(icon, item)]]"></lf-icon>
+                </template>
+            </div>
+        </iron-collapse>
 
     </template>
 
@@ -157,6 +166,11 @@
                 } else {
                     this.icon = null;
                 }    
+                this.toggle();
+            },
+      
+            toggle: function() {
+                this.$.collapse.toggle();
             },
 
             _isSelected: function(icon, item) {
