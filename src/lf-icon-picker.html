@@ -16,10 +16,9 @@
         </style>
 
         <div class="layout horizontal wrap">
-
-            <lf-icon icon="vaadin-icons:airplane"></lf-icon>
-            <lf-icon icon="vaadin-icons:airplane"></lf-icon>
-
+            <template is="dom-repeat" items="[[categories]]">
+                <lf-icon icon="[[item]]"></lf-icon>
+            </template>
         </div>
 
     </template>
@@ -28,6 +27,84 @@
         Polymer({
             is: 'lf-icon-picker',
             properties: {
+                categories: {
+                    type: Array,
+                    value: [
+                        "vaadin-icons:question",
+                        "vaadin-icons:dollar",
+                        "vaadin-icons:cart",
+                        "vaadin-icons:cutlery",
+                        "vaadin-icons:coffee",
+                        "vaadin-icons:glass",
+                        "vaadin-icons:invoice",
+                        "vaadin-icons:home",
+                        "vaadin-icons:drop",
+                        "vaadin-icons:bolt",
+                        "vaadin-icons:lightbulb",
+                        "vaadin-icons:fire",
+                        "vaadin-icons:key",
+                        "vaadin-icons:building",
+                        "vaadin-icons:institution",
+                        "vaadin-icons:car",
+                        "vaadin-icons:taxi",
+                        "vaadin-icons:golf",
+                        "vaadin-icons:gamepad",
+                        "vaadin-icons:book",
+                        "vaadin-icons:airplane",
+                        "vaadin-icons:laptop",
+                        "vaadin-icons:lock",
+                        "vaadin-icons:mobile",
+                        "vaadin-icons:asterisk",
+                        "vaadin-icons:credit-card",
+                        "vaadin-icons:factory",
+                        "vaadin-icons:camera",
+                        "vaadin-icons:group",
+                        "vaadin-icons:heart",
+                        "vaadin-icons:boat",
+                        "vaadin-icons:bomb",
+                        "vaadin-icons:moon",
+                        "vaadin-icons:calc-book",
+                        "vaadin-icons:calendar-o",
+                        "vaadin-icons:cart-o",
+                        "vaadin-icons:chat",
+                        "vaadin-icons:child",
+                        "vaadin-icons:cogs",
+                        "vaadin-icons:comment",
+                        "vaadin-icons:cross-cutlery",
+                        "vaadin-icons:desktop",
+                        "vaadin-icons:disc",
+                        "vaadin-icons:doctor",
+                        "vaadin-icons:doctor-briefcase",
+                        "vaadin-icons:gavel",
+                        "vaadin-icons:globe",
+                        "vaadin-icons:at",
+                        "vaadin-icons:music",
+                        "vaadin-icons:out",
+                        "vaadin-icons:package",
+                        "vaadin-icons:pill",
+                        "vaadin-icons:question-circle-o",
+                        "vaadin-icons:recycle",
+                        "vaadin-icons:road",
+                        "vaadin-icons:safe",
+                        "vaadin-icons:scissors",
+                        "vaadin-icons:shield",
+                        "vaadin-icons:smiley-o",
+                        "vaadin-icons:star",
+                        "vaadin-icons:sun-o",
+                        "vaadin-icons:sword",
+                        "vaadin-icons:tooth",
+                        "vaadin-icons:ticket",
+                        "vaadin-icons:toolbox",
+                        "vaadin-icons:trash",
+                        "vaadin-icons:train",
+                        "vaadin-icons:trophy",
+                        "vaadin-icons:truck",
+                        "vaadin-icons:umbrella",
+                        "vaadin-icons:user-card",
+                        "vaadin-icons:warning",
+                        "vaadin-icons:wrench"
+                    ],
+                }
             },
         });
     </script>
