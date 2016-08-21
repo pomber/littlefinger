@@ -15,17 +15,30 @@
                 margin: 2px;
             }
         </style>
+
+        <div class="layout horizontal wrap">
+            <template is="dom-repeat" items="[[colors]]">
+                <lf-icon 
+                    class$="[[item]]"
+                    icon="[[icon]]"
+                    on-tap="selectColor" 
+                    button 
+                    active$="[[_isColorSelected(color, item)]]"></lf-icon>
+            </template>
+        </div>
        
         <div class="layout horizontal wrap">
             <lf-icon 
                 label="[[name]]"
                 on-tap="select" 
+                class$="[[color]]"
                 button 
                 active$="[[_isSelected(icon)]]"></lf-icon>
             <template is="dom-repeat" items="[[_computeList(type)]]">
                 <lf-icon 
                     icon="[[item]]"
                     on-tap="select" 
+                    class$="[[color]]"
                     button 
                     active$="[[_isSelected(icon, item)]]"></lf-icon>
             </template>
@@ -149,6 +162,18 @@
                         "vaadin-icons:umbrella",
                     ],
                 },
+                colors: {
+                    type: Array,
+                    value: [
+                        "red", "pink", "purple", 
+                        "deep-purple", "indigo", 
+                        "blue", "light-blue", "cyan",
+                        "teal", "green", "light-green",
+                        "lime", "yellow", "amber",
+                        "orange", "deep-orange", "brown",
+                        "grey", "blue-grey"
+                    ],
+                }
             },
 
             select: function(e) {         
@@ -161,8 +186,18 @@
                 this.fire("icon-selected");
             },
 
+            selectColor: function(e) {
+                var item = e.model.item;                
+                this.color = item;
+                this.fire("color-selected");
+            },
+
             _isSelected: function(icon, item) {
                 return icon == item;
+            },
+
+            _isColorSelected: function(color, item) {
+                return color == item;
             },
 
             _computeList: function() {

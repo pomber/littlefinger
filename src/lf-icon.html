@@ -11,7 +11,7 @@
         @apply(--layout-vertical);
         @apply(--layout-center-center);
 
-        background: var(--paper-fab-background, --accent-color);
+        background: var(--accent-color);
         border-radius: 50%;
         box-sizing: border-box;
         color: var(--text-primary-color);
@@ -67,6 +67,83 @@
         text-align: center;
         font-size: 26px;
       }
+      
+      :host(.red) {
+          background: var(--paper-red-500);
+      }
+
+      :host(.pink) {
+          background: var(--paper-pink-500);
+      }
+
+      :host(.purple) {
+          background: var(--paper-purple-500);
+      }
+
+      :host(.deep-purple) {
+          background: var(--paper-deep-purple-500);
+      }
+
+      :host(.indigo) {
+          background: var(--paper-indigo-500);
+      }
+
+      :host(.blue) {
+          background: var(--paper-blue-500);
+      }
+
+      :host(.light-blue) {
+          background: var(--paper-light-blue-500);
+      }
+
+      :host(.cyan) {
+          background: var(--paper-cyan-500);
+      }
+
+      :host(.teal) {
+          background: var(--paper-teal-500);
+      }
+
+      :host(.green) {
+          background: var(--paper-green-500);
+      }
+
+      :host(.light-green) {
+          background: var(--paper-light-green-500);
+      }
+
+      :host(.lime) {
+          background: var(--paper-lime-500);
+      }
+
+      :host(.yellow) {
+          background: var(--paper-yellow-500);
+      }
+
+      :host(.amber) {
+          background: var(--paper-amber-500);
+      }
+
+      :host(.orange) {
+          background: var(--paper-orange-500);
+      }
+
+      :host(.deep-orange) {
+          background: var(--paper-deep-orange-500);
+      }
+
+      :host(.brown) {
+          background: var(--paper-brown-500);
+      }
+
+      :host(.grey) {
+          background: var(--paper-grey-500);
+      }
+
+      :host(.blue-grey) {
+          background: var(--paper-blue-grey-500);
+      }
+
     </style>
 
     <iron-icon id="icon" hidden$="{{!_computeIsIcon(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
