@@ -16,6 +16,11 @@
         </style>
 
         <div class="layout horizontal wrap">
+            <lf-icon 
+                label="[[_getLabel(name)]]"
+                on-tap="select" 
+                button 
+                active$="[[_isSelected(icon)]]"></lf-icon>
             <template is="dom-repeat" items="[[_computeList(type)]]">
                 <lf-icon 
                     icon="[[item]]"
@@ -32,9 +37,11 @@
             is: 'lf-icon-picker',
             properties: {
                 type: String,
+                name: String,
                 icon: {
                     type: String,
                     notify: true,
+                    value: null
                 },
                 categories: {
                     type: Array,
@@ -143,13 +150,21 @@
                 },
             },
 
-            select: function(e) {                
-                var item = e.model.item;                
-                this.icon = item;
+            select: function(e) {         
+                if (e.model) {
+                    var item = e.model.item;                
+                    this.icon = item;                    
+                } else {
+                    this.icon = null;
+                }    
             },
 
             _isSelected: function(icon, item) {
                 return icon == item;
+            },
+
+            _getLabel: function() {
+                return this.name && this.name[0];
             },
 
             _computeList: function() {
