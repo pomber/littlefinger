@@ -43,7 +43,13 @@
             on-delete="_delete">
 
             <div class="layout horizontal center">
-                <lf-icon icon="[[icon]]" button label="[[name]]" on-tap="toggle"></lf-icon>
+                <lf-icon 
+                    icon="[[icon]]"
+                    label="[[name]]"
+                    color="[[color]]" 
+                    button  
+                    on-tap="toggle">
+                </lf-icon>
                 <paper-input label="Name" required value="{{name}}" autofocus no-label-float class="flex"></paper-input>
             </div>
             
@@ -52,6 +58,7 @@
                     icon="{{icon}}"
                     type="categories"
                     name="{{name}}"
+                    color="{{color}}"
                     on-icon-selected="toggle">
                 </lf-icon-picker>
             </iron-collapse>
@@ -101,6 +108,7 @@
             _persist: function() {
                 this.category.name = this.name;
                 this.category.icon = this.icon;
+                this.category.color = this.color;
                 this.category.frequency = this.frequency;
                 this.category.parent = this.parent || null; 
                 this.category.type = this.type;
@@ -110,6 +118,7 @@
             _resetValues: function(values) {
                 this.name = values.name;
                 this.icon = values.icon || null;
+                this.color = values.color || null;
                 this.frequency = values.frequency;
                 this.parent = values.parent;      
                 this.type = values.type || "expense";          

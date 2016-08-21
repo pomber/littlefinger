@@ -1,153 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../bower_components/paper-material/paper-material-shared-styles.html">
-<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="lf-icon-content.html">
 
 <dom-module id="lf-icon">
-  <template strip-whitespace>
-    <style include="paper-material-shared-styles">
-      :host {
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
-
-        background: var(--accent-color);
-        border-radius: 50%;
-        box-sizing: border-box;
-        color: var(--text-primary-color);
-        /*padding: 16px;
-        height: 56px;
-        width: 56px;*/
-        min-width: 0;
-        outline: none;
-        position: relative;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -webkit-user-select: none;
-        user-select: none;
-        z-index: 0;
-
-        /* NOTE: Both values are needed, since some phones require the value `transparent`. */
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      :host([button]) {
-        cursor: pointer;
-      }
-
-      :host([active]) {
-        @apply(--shadow-elevation-8dp);
-      }
-
-      :host([button]:hover) {
-        @apply(--shadow-elevation-4dp);
-      }
-
-      [hidden] {
-        display: none !important;
-      }
-
-      :host {
-        width: 40px;
-        height: 40px;
-        padding: 8px;
-      }
-
-      :host([disabled]) {
-        color: var(--paper-fab-disabled-text, --paper-grey-500);
-        background: var(--paper-fab-disabled-background, --paper-grey-300);
-      }
-
-      span {
-        width: 100%;
-        white-space: nowrap;
-        /*overflow: hidden;*/
-        text-overflow: ellipsis;
-        text-align: center;
-        font-size: 26px;
-      }
-      
-      :host(.red) {
-          background: var(--paper-red-500);
-      }
-
-      :host(.pink) {
-          background: var(--paper-pink-500);
-      }
-
-      :host(.purple) {
-          background: var(--paper-purple-500);
-      }
-
-      :host(.deep-purple) {
-          background: var(--paper-deep-purple-500);
-      }
-
-      :host(.indigo) {
-          background: var(--paper-indigo-500);
-      }
-
-      :host(.blue) {
-          background: var(--paper-blue-500);
-      }
-
-      :host(.light-blue) {
-          background: var(--paper-light-blue-500);
-      }
-
-      :host(.cyan) {
-          background: var(--paper-cyan-500);
-      }
-
-      :host(.teal) {
-          background: var(--paper-teal-500);
-      }
-
-      :host(.green) {
-          background: var(--paper-green-500);
-      }
-
-      :host(.light-green) {
-          background: var(--paper-light-green-500);
-      }
-
-      :host(.lime) {
-          background: var(--paper-lime-500);
-      }
-
-      :host(.yellow) {
-          background: var(--paper-yellow-500);
-      }
-
-      :host(.amber) {
-          background: var(--paper-amber-500);
-      }
-
-      :host(.orange) {
-          background: var(--paper-orange-500);
-      }
-
-      :host(.deep-orange) {
-          background: var(--paper-deep-orange-500);
-      }
-
-      :host(.brown) {
-          background: var(--paper-brown-500);
-      }
-
-      :host(.grey) {
-          background: var(--paper-grey-500);
-      }
-
-      :host(.blue-grey) {
-          background: var(--paper-blue-grey-500);
-      }
-
-    </style>
-
-    <iron-icon id="icon" hidden$="{{!_computeIsIcon(icon, src)}}" src="[[src]]" icon="[[icon]]"></iron-icon>
-    <span hidden$="{{_computeIsIcon(icon, src)}}">{{_getLabel(label)}}</span>
+  <template>
+    <lf-icon-content
+      icon="[[_getIcon(def, icon)]]"
+      label="[[_getLabel(def, label)]]"
+      class$="[[_getColor(def, color)]]">
+    </lf-icon-content>
   </template>
 
   <script>
@@ -155,30 +15,6 @@
       is: 'lf-icon',
 
       properties: {
-          
-        src: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Specifies the icon name or index in the set of icons available in
-         * the icon's icon set. If the icon property is specified,
-         * the src property should not be.
-         */
-        icon: {
-          type: String,
-          value: ''
-        },
-
-        /**
-         * Set this to true to style this is a "mini" icon.
-         */
-        mini: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true
-        },
 
         button: {
           type: Boolean,
@@ -186,27 +22,40 @@
           reflectToAttribute: true
         },
 
-        /**
-         * The label displayed in the badge. The label is centered, and ideally
-         * should have very few characters.
-         */
-        label: {
-          type: String,
-          observer: '_labelChanged'
+        label: String,
+        color: String,
+        icon: String,
+
+        def: {
+          type: Object,
+          value: null
+        },
+      },
+
+      _getLabel: function(def, label) {        
+        if (def) {
+          return def.label;
+        } else {
+          return label;
         }
       },
 
-      _labelChanged: function() {
-        this.setAttribute('aria-label', this.label);
+      _getIcon: function(def, icon) {        
+        if (def) {
+          return def.icon;
+        } else {
+          return icon;
+        }
       },
 
-      _computeIsIcon: function(icon, src) {
-        return (icon && icon.length > 0) || (src.length > 0);
+      _getColor: function(def, color) {        
+        if (def) {
+          return def.color;
+        } else {
+          return color;
+        }
       },
 
-      _getLabel: function() {
-          return this.label && this.label[0];
-      },
     });
   </script>
 </dom-module>

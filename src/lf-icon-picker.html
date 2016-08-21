@@ -19,7 +19,7 @@
         <div class="layout horizontal wrap">
             <template is="dom-repeat" items="[[colors]]">
                 <lf-icon 
-                    class$="[[item]]"
+                    color="[[item]]"
                     icon="[[icon]]"
                     on-tap="selectColor" 
                     button 
@@ -31,14 +31,14 @@
             <lf-icon 
                 label="[[name]]"
                 on-tap="select" 
-                class$="[[color]]"
+                color="[[color]]"
                 button 
                 active$="[[_isSelected(icon)]]"></lf-icon>
             <template is="dom-repeat" items="[[_computeList(type)]]">
                 <lf-icon 
                     icon="[[item]]"
                     on-tap="select" 
-                    class$="[[color]]"
+                    color="[[color]]"
                     button 
                     active$="[[_isSelected(icon, item)]]"></lf-icon>
             </template>
@@ -56,6 +56,10 @@
                     type: String,
                     notify: true,
                     value: null
+                },
+                color: {
+                    type: String,
+                    notify: true,
                 },
                 categories: {
                     type: Array,
@@ -173,7 +177,7 @@
                         "orange", "deep-orange", "brown",
                         "grey", "blue-grey"
                     ],
-                }
+                }               
             },
 
             select: function(e) {         
