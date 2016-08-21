@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/polymer-sortablejs/polymer-sortablejs.html">
 <link rel="import" href="lf-category.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="material-table-styles.html">
@@ -25,6 +26,10 @@
                 @apply(--layout-self-start);
                 margin: 0px 5px;
             }
+            
+            .sortable-ghost {
+                opacity: 0.3;
+            }
         </style>
 
         <div class="horizontal layout center-justified">
@@ -37,7 +42,8 @@
                 <lf-category id="detailForm" user="[[user]]"></lf-category>
 
 
-                <paper-listbox>                    
+                <paper-listbox>               
+                    <sortable-js>     
                     <template is="dom-repeat" items="{{_toArray(user.categories)}}">
                         <paper-icon-item on-tap="edit">
                             <lf-icon 
@@ -48,14 +54,15 @@
                             <paper-item-body two-line>
                                 <div class="horizontal layout justified">
                                     <span>{{item.name}}</span>
-                                    <span>{{item.frequency}}</span>
+                                    <!--<span>{{item.frequency}}</span>-->
                                 </div>
                                 <div secondary>
-                                    <span>{{item.parent}}
+                                    <span>{{item.frequency}}</span>
                                 </div>
                             </paper-item-body>
                         </paper-icon-item>
                     </template>
+                    </sortable-js>
                 </paper-listbox>
             </paper-material>
             <!--<paper-material elevation="1" style="max-width: 768px" class="flex">
