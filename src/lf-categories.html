@@ -26,7 +26,7 @@
                 @apply(--layout-self-start);
                 margin: 0px 5px;
             }
-            
+
             .sortable-ghost {
                 opacity: 0.3;
             }
@@ -39,12 +39,12 @@
                     <paper-button on-tap="create">New {{detailName}}</paper-button>
                 </div>
 
-                <lf-category id="detailForm" user="[[user]]"></lf-category>
+                <lf-category id="detailForm" app="[[app]]"></lf-category>
 
 
                 <paper-listbox>               
                     <sortable-js>     
-                    <template is="dom-repeat" items="{{_toArray(user.categories)}}">
+                    <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
                         <paper-icon-item on-tap="edit">
                             <lf-icon 
                                 icon="[[item.icon]]"
@@ -75,7 +75,7 @@
         Polymer({
             is: 'lf-categories',
             properties: {
-                user: Object,
+                app: Object,
                 masterName: {
                     type: String,
                     value: "Categories",

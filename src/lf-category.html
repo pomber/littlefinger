@@ -31,7 +31,7 @@
         <lf-detail-source
             id="source"
             detail-id="{{categoryId}}"
-            parent-path="/users/{{user.uid}}/categories/"
+            parent-path="/users/{{app.user.uid}}/categories/"
             detail="{{category}}">
         </lf-detail-source>
 
@@ -85,7 +85,7 @@
         Polymer({
             is: 'lf-category',
             properties: {
-                user: Object,
+                app: Object,
                 categoryId: String,
                 isNew: Boolean,
                 category: {
@@ -112,6 +112,9 @@
                 this.category.frequency = this.frequency;
                 this.category.parent = this.parent || null; 
                 this.category.type = this.type;
+                if (!this.category.order) {
+                    this.category.order = 0;
+                }
                 this.$.source.save();
             },
 
