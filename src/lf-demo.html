@@ -6,11 +6,11 @@
 
   <template>
         <div>
-            {{icon}}
             <lf-icon-picker 
                 type="accounts" 
                 icon="{{icon}}"
                 name="Groceries"></lf-icon-picker>
+            {{icon}}
         </div>
 
   </template>
@@ -22,6 +22,7 @@
       is: 'lf-demo',
 
       properties: {
+          app: Object,
       },
 
     });
