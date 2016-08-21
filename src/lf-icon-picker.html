@@ -17,7 +17,11 @@
 
         <div class="layout horizontal wrap">
             <template is="dom-repeat" items="[[_computeList(type)]]">
-                <lf-icon icon="[[item]]" button></lf-icon>
+                <lf-icon 
+                    icon="[[item]]"
+                    on-tap="select" 
+                    button 
+                    active$="[[_isSelected(icon, item)]]"></lf-icon>
             </template>
         </div>
 
@@ -137,6 +141,15 @@
                         "vaadin-icons:umbrella",
                     ],
                 },
+            },
+
+            select: function(e) {                
+                var item = e.model.item;                
+                this.icon = item;
+            },
+
+            _isSelected: function(icon, item) {
+                return icon == item;
             },
 
             _computeList: function() {

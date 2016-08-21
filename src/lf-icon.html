@@ -36,6 +36,10 @@
         cursor: pointer;
       }
 
+      :host([active]) {
+        @apply(--shadow-elevation-8dp);
+      }
+
       :host([button]:hover) {
         @apply(--shadow-elevation-4dp);
       }
