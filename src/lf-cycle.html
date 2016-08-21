@@ -14,6 +14,7 @@
 <link rel="import" href="moment.html">
 <link rel="import" href="lodash.html">
 <link rel="import" href="lf-money.html">
+<link rel="import" href="lf-icon.html">
 <link rel="import" href="material-table-styles.html">
 <link rel="import" href="sub-header-styles.html">
 
@@ -104,7 +105,12 @@
                     </paper-icon-item>
                     <template is="dom-repeat" items="{{groups}}">
                         <paper-icon-item>
-                            <div class="avatar" item-icon></div>
+                            <lf-icon 
+                                icon="[[item.info.icon]]"
+                                label="[[item.category]]"
+                                color= "[[item.info.color]]" 
+                                item-icon></lf-icon>
+                            <!--<div class="avatar" item-icon></div>-->
                             <paper-item-body two-line>
                             <div class="horizontal layout justified">
                                 <span>{{item.category}}</span>
@@ -215,12 +221,14 @@
                 });
                 
                 var grouped = _.groupBy(expenses, "category");
-                var groups = _.map(grouped, function(records, category){
+                var groups = _.map(grouped, function(records, category) {
+                    var info = self.app.getCategory(category);
                     var sum = _.sumBy(records, "amount");
                     return {
                         category: category,
                         amount: sum,
-                        type: "expense"
+                        type: "expense",
+                        info: info,
                     };                    
                 });
 
