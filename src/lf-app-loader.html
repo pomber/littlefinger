@@ -11,9 +11,9 @@
     <template>
   
         <firebase-app
-        api-key="AIzaSyAwWQCy-9X_dN7DU56yu4VFohvZPxKFOZs"
-        auth-domain="littlefinger-c16d8.firebaseapp.com"
-        database-url="https://littlefinger-c16d8.firebaseio.com">
+            api-key="AIzaSyAwWQCy-9X_dN7DU56yu4VFohvZPxKFOZs"
+            auth-domain="littlefinger-c16d8.firebaseapp.com"
+            database-url="https://littlefinger-c16d8.firebaseio.com">
         </firebase-app>
         
         <lf-user user="{{app.user}}"></lf-user>
@@ -25,14 +25,12 @@
             data="{{app.records}}">
         </firebase-query>
 
-        <firebase-query
-            log
-            disabled$="[[!app.user.uid]]"
+        <firebase-query log
             order-by-child="order"
-            path="/users/[[app.user.uid]]/categories"
+            path="[[_getCategoriesPath(app, app.user)]]"
             data="{{app.categories}}">
         </firebase-query>
-
+        
     </template>
 
     <script>
@@ -111,6 +109,10 @@
             _getAccount: function(name) {
                 var accounts = this.app.user.accounts;
                 return _.find(accounts, ["name", name]);
+            },
+
+            _getCategoriesPath: function(app, user) {
+                return "/users/" + user.uid + "/categories";           
             },
 
         });

@@ -44,7 +44,7 @@
 
                 <paper-listbox>               
                     <sortable-js>     
-                    <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
+                    <template is="dom-repeat" items="[[app.categories]]">
                         <paper-icon-item on-tap="edit">
                             <lf-icon 
                                 icon="[[item.icon]]"
@@ -96,15 +96,7 @@
 
             edit: function(e) {                
                 var item = e.model.item;                
-                this.$.detailForm.show(item.id);
-            },
-            
-            _toArray: function(details) {
-                if (!details) return details;
-                return Object.keys(details).map(function(key) {
-                    details[key].id = key;
-                    return details[key];
-                });
+                this.$.detailForm.show(item.$key);
             },
         });
     </script>
