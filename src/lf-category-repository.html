@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="lodash.html">
+
+<dom-module id="lf-category-repository">
+
+    <template>
+        <firebase-document id="document" log>
+        </firebase-document>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-category-repository',
+
+            properties: {
+                app: {
+                    type: Object
+                },
+            },
+
+            save: function(data) {
+                var storage = this.$.document;
+                var path = 
+                    "/users/" + this.app.user.uid + 
+                    "/categories//" + data.$key;
+                var clone = _.cloneDeep(data);
+                delete clone.$key;
+                storage.setStoredValue(path, clone);
+            }
+        });
+    </script>
+
+</dom-module>

@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/polymer-sortablejs/polymer-sortablejs.html">
 <link rel="import" href="lf-category.html">
 <link rel="import" href="lf-icon.html">
+<link rel="import" href="lf-category-repository.html">
 <link rel="import" href="material-table-styles.html">
 
 <dom-module id="lf-categories">
@@ -31,6 +32,9 @@
                 opacity: 0.3;
             }
         </style>
+
+        <lf-category-repository id="repository" app="[[app]]">
+        </lf-category-repository>
 
         <div class="horizontal layout center-justified">
             <paper-material elevation="1" style="max-width: 768px" class="flex">
@@ -116,6 +120,7 @@
                     category.order =  (prev + next) / 2; 
                 }
                 console.log(category.name, category.order);
+                this.$.repository.save(category);
             },
         });
     </script>
