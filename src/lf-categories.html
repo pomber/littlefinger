@@ -33,7 +33,9 @@
             }
         </style>
 
-        <lf-category-repository id="repository" app="[[app]]">
+        <lf-category-repository 
+            id="repository" app="[[app]]"
+            categories="{{categories}}">
         </lf-category-repository>
 
         <div class="horizontal layout center-justified">
@@ -48,7 +50,7 @@
 
                 <paper-listbox>               
                     <sortable-js on-update="orderChanged">     
-                    <template is="dom-repeat" items="[[app.categories]]">
+                    <template is="dom-repeat" items="[[categories]]">
                         <paper-icon-item on-tap="edit">
                             <lf-icon 
                                 icon="[[item.icon]]"
@@ -105,7 +107,7 @@
 
             orderChanged: function(e) {
                 if (!e.detail) return;
-                var categories = this.app.categories;
+                var categories = this.categories;
                 var index = e.detail.newIndex;
                 var category = categories[index];
                 if (categories.length == 1) {

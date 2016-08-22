@@ -17,6 +17,11 @@
                 app: {
                     type: Object
                 },
+                categories: {
+                    type: Array,
+                    computed: "_sortCategories(app.categories.splices)",
+                    notify: true,
+                }
             },
 
             save: function(data) {
@@ -27,6 +32,10 @@
                 var clone = _.cloneDeep(data);
                 delete clone.$key;
                 storage.setStoredValue(path, clone);
+            },
+
+            _sortCategories: function() {
+                return _.orderBy(this.app.categories, "order");
             }
         });
     </script>
