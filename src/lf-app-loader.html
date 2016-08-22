@@ -25,6 +25,14 @@
             data="{{app.records}}">
         </firebase-query>
 
+        <firebase-query
+            log
+            disabled$="[[!app.user.uid]]"
+            order-by-child="order"
+            path="/users/[[app.user.uid]]/categories"
+            data="{{app.categories}}">
+        </firebase-query>
+
     </template>
 
     <script>
@@ -44,6 +52,7 @@
             _createApp: function() {
                 var self = this;
                 return {
+                    categories: [],
                     recordsOrder: "reverseTimestamp",
                     refreshBalances: function() {
                         self._refreshBalances();
