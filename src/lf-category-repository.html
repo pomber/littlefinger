@@ -26,9 +26,7 @@
 
             save: function(data) {
                 var storage = this.$.document;
-                var path = 
-                    "/users/" + this.app.user.uid + 
-                    "/categories//" + data.$key;
+                var path = this._getPath(data.$key);
                 var clone = _.cloneDeep(data);
                 delete clone.$key;
                 storage.setStoredValue(path, clone);
@@ -43,6 +41,17 @@
                     type: "expense",
                     parent: null
                 };
+            },
+
+            destroy: function(item) {
+                var storage = this.$.document;
+                var path = this._getPath(item.$key);
+                storage.setStoredValue(path, null);
+            },
+
+            _getPath: function(key) {
+                return "/users/" + this.app.user.uid + 
+                    "/categories//" + key;
             },
 
             _sortCategories: function() {
