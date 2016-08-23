@@ -34,6 +34,17 @@
                 storage.setStoredValue(path, clone);
             },
 
+            get: function(key) {
+                var item = _.find(this.app.categories, ["$key", key]);
+                if (item) return _.cloneDeep(item);
+                return {
+                    icon: null,
+                    color: null,
+                    type: "expense",
+                    parent: null
+                };
+            },
+
             _sortCategories: function() {
                 return _.orderBy(this.app.categories, "order");
             }

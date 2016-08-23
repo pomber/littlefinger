@@ -10,9 +10,9 @@
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-detail.html">
-<link rel="import" href="lf-detail-source.html">
 <link rel="import" href="lf-icon-picker.html">
 <link rel="import" href="lf-icon.html">
+<link rel="import" href="lf-category-repository.html">
 
 <dom-module id="lf-category">
 
@@ -28,12 +28,9 @@
             }
         </style>
 
-        <lf-detail-source
-            id="source"
-            detail-id="{{categoryId}}"
-            parent-path="/users/{{app.user.uid}}/categories/"
-            detail="{{category}}">
-        </lf-detail-source>
+        <lf-category-repository 
+            id="repository" app="[[app]]">
+        </lf-category-repository>
 
         <lf-detail 
             id="detail"
@@ -44,39 +41,43 @@
 
             <div class="layout horizontal center">
                 <lf-icon 
-                    icon="[[icon]]"
-                    label="[[name]]"
-                    color="[[color]]" 
+                    icon="[[item.icon]]"
+                    label="[[item.name]]"
+                    color="[[item.color]]" 
                     button  
                     on-tap="toggle">
                 </lf-icon>
-                <paper-input label="Name" required value="{{name}}" autofocus no-label-float class="flex"></paper-input>
+                <paper-input label="Name" 
+                    required value="{{item.name}}" 
+                    autofocus no-label-float 
+                    class="flex"></paper-input>
             </div>
             
             <iron-collapse id="collapse"> 
                 <lf-icon-picker
-                    icon="{{icon}}"
+                    icon="{{item.icon}}"
                     type="categories"
-                    name="{{name}}"
-                    color="{{color}}"
+                    name="{{item.name}}"
+                    color="{{item.color}}"
                     on-icon-selected="toggle">
                 </lf-icon-picker>
             </iron-collapse>
 
             <paper-dropdown-menu label="Frequency" noink no-animations>
-                <paper-listbox class="dropdown-content" selected="{{frequency}}" attr-for-selected="value">
+                <paper-listbox class="dropdown-content" 
+                    selected="{{item.frequency}}" attr-for-selected="value">
                     <paper-item value="Weekly">Weekly</paper-item>
                     <paper-item value="Monthly">Monthly</paper-item>
                     <paper-item value="Irregular">Irregular</paper-item>
                 </paper-listbox>
             </paper-dropdown-menu>
 
-            <paper-radio-group selected="{{type}}" attr-for-selected="name">
+            <paper-radio-group selected="{{item.type}}" attr-for-selected="name">
                 <paper-radio-button name="expense">Expense</paper-radio-button>
                 <paper-radio-button name="income">Income</paper-radio-button>
             </paper-radio-group>
 
-            <paper-input label="Parent" required value="{{parent}}"></paper-input>
+            <paper-input label="Parent" required value="{{item.parent}}"></paper-input>
 
         </lf-detail>
     </template>
@@ -86,49 +87,23 @@
             is: 'lf-category',
             properties: {
                 app: Object,
-                categoryId: String,
                 isNew: Boolean,
-                category: {
-                    type: Object,
-                    observer: "_categoryChanged"
-                }
+                item: Object,
             },
 
-            show: function(categoryId) {
-                this.categoryId = categoryId;
-                this.isNew = !this.categoryId;
-                this.$.source.load();
+            show: function(id) {
+                this.item = this.$.repository.get(id);
+                this.isNew = !id;
                 this.$.detail.show();
             },
 
             _delete: function(e) {
-                this.$.source.destroy();                
+                //TODO implement
+                alert("Not implemented");               
             },
 
             _persist: function() {
-                this.category.name = this.name;
-                this.category.icon = this.icon;
-                this.category.color = this.color;
-                this.category.frequency = this.frequency;
-                this.category.parent = this.parent || null; 
-                this.category.type = this.type;
-                if (!this.category.order) {
-                    this.category.order = 0;
-                }
-                this.$.source.save();
-            },
-
-            _resetValues: function(values) {
-                this.name = values.name;
-                this.icon = values.icon || null;
-                this.color = values.color || null;
-                this.frequency = values.frequency;
-                this.parent = values.parent;      
-                this.type = values.type || "expense";          
-            },
-
-            _categoryChanged: function() {
-                this._resetValues(this.category);
+                this.$.repository.save(this.item);
             },
       
             toggle: function() {
