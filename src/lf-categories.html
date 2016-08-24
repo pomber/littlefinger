@@ -7,6 +7,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/polymer-sortablejs/polymer-sortablejs.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-category.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-category-repository.html">
@@ -26,6 +27,7 @@
             paper-material {
                 @apply(--layout-self-start);
                 margin: 0px 5px;
+                min-width: 100px;
             }
 
             .sortable-ghost {
@@ -45,7 +47,6 @@
                     <paper-button on-tap="create">New {{detailName}}</paper-button>
                 </div>
 
-                <lf-category id="detailForm" app="[[app]]"></lf-category>
 
 
                 <paper-listbox>               
@@ -71,8 +72,13 @@
                     </sortable-js>
                 </paper-listbox>
             </paper-material>
-            <!--<paper-material elevation="1" style="max-width: 768px" class="flex">
-            </paper-material>-->
+
+            <iron-collapse id="details" horizontal class="flex">
+                <paper-material elevation="1" style="max-width: 768px">
+                    <lf-category id="detailForm" app="[[app]]"></lf-category>
+                </paper-material>
+            </iron-collapse>
+            
         </div>
         
     </template>
@@ -98,11 +104,13 @@
 
             create: function() {
                 this.$.detailForm.show();
+                this.$.details.show();
             },
 
             edit: function(e) {                
                 var item = e.model.item;                
                 this.$.detailForm.show(item.$key);
+                this.$.details.show();
             },
 
             orderChanged: function(e) {

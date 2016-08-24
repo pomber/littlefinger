@@ -9,6 +9,7 @@
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="lf-detail.html">
 <link rel="import" href="lf-icon-picker.html">
 <link rel="import" href="lf-icon.html">
@@ -20,7 +21,21 @@
 
         <style include="iron-flex iron-flex-alignment">
             :host {
-                display: block;
+                display: block;                
+            }
+
+            paper-material {
+                max-width: 768px;
+            }
+
+            .form {
+                background: #ffffff;
+                padding: 8px 0;
+            }
+
+            .form > * {
+                padding: 0 24px;
+                margin-top: 20px;
             }
 
             lf-icon {
@@ -31,55 +46,67 @@
         <lf-category-repository 
             id="repository" app="[[app]]">
         </lf-category-repository>
-
+<!--
         <lf-detail 
             id="detail"
             detail-name="Category"
             is-new="{{isNew}}"
             on-save="_persist"
             on-delete="_delete">
+        </lf-detail>-->
 
-            <div class="layout horizontal center">
-                <lf-icon 
-                    icon="[[item.icon]]"
-                    label="[[item.name]]"
-                    color="[[item.color]]" 
-                    button  
-                    on-tap="toggle">
-                </lf-icon>
-                <paper-input label="Name" 
-                    required value="{{item.name}}" 
-                    autofocus no-label-float 
-                    class="flex"></paper-input>
+        <paper-material elevation="1">
+            <div class="form">
+                <div class="layout horizontal center">
+                    <lf-icon 
+                        icon="[[item.icon]]"
+                        label="[[item.name]]"
+                        color="[[item.color]]" 
+                        button  
+                        on-tap="toggle">
+                    </lf-icon>
+                    <paper-input label="Name" 
+                        required value="{{item.name}}" 
+                        autofocus no-label-float 
+                        class="flex"></paper-input>
+                </div>
+                
+                <iron-collapse id="collapse"> 
+                    <lf-icon-picker
+                        icon="{{item.icon}}"
+                        type="categories"
+                        name="{{item.name}}"
+                        color="{{item.color}}"
+                        on-icon-selected="toggle">
+                    </lf-icon-picker>
+                </iron-collapse>
+
+                <paper-dropdown-menu label="Frequency" noink 
+                    no-animations no-label-float>
+                    <paper-listbox class="dropdown-content" 
+                        selected="{{item.frequency}}" attr-for-selected="value">
+                        <paper-item value="Weekly">Weekly</paper-item>
+                        <paper-item value="Monthly">Monthly</paper-item>
+                        <paper-item value="Irregular">Irregular</paper-item>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+
+                <paper-radio-group selected="{{item.type}}" attr-for-selected="name">
+                    <paper-radio-button name="expense">Expense</paper-radio-button>
+                    <paper-radio-button name="income">Income</paper-radio-button>
+                </paper-radio-group>
+
+                <paper-input label="Parent" required no-label-float
+                    value="{{item.parent}}"></paper-input>
             </div>
-            
-            <iron-collapse id="collapse"> 
-                <lf-icon-picker
-                    icon="{{item.icon}}"
-                    type="categories"
-                    name="{{item.name}}"
-                    color="{{item.color}}"
-                    on-icon-selected="toggle">
-                </lf-icon-picker>
-            </iron-collapse>
 
-            <paper-dropdown-menu label="Frequency" noink no-animations>
-                <paper-listbox class="dropdown-content" 
-                    selected="{{item.frequency}}" attr-for-selected="value">
-                    <paper-item value="Weekly">Weekly</paper-item>
-                    <paper-item value="Monthly">Monthly</paper-item>
-                    <paper-item value="Irregular">Irregular</paper-item>
-                </paper-listbox>
-            </paper-dropdown-menu>
 
-            <paper-radio-group selected="{{item.type}}" attr-for-selected="name">
-                <paper-radio-button name="expense">Expense</paper-radio-button>
-                <paper-radio-button name="income">Income</paper-radio-button>
-            </paper-radio-group>
-
-            <paper-input label="Parent" required value="{{item.parent}}"></paper-input>
-
-        </lf-detail>
+            <div class="layout horizontal end-justified">
+                <paper-button on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
+                <paper-button>Cancel</paper-button>
+                <paper-button id="confirm">Save</paper-button>
+            </div>
+        </paper-material>
     </template>
 
     <script>
@@ -94,7 +121,6 @@
             show: function(id) {
                 this.item = this.$.repository.get(id);
                 this.isNew = !id;
-                this.$.detail.show();
             },
 
             _delete: function(e) {
