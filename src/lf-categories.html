@@ -75,7 +75,8 @@
 
             <iron-collapse id="details" horizontal class="flex">
                 <paper-material elevation="1" style="max-width: 768px">
-                    <lf-category id="detailForm" app="[[app]]"></lf-category>
+                    <lf-category id="detailForm" app="[[app]]"
+                        on-detail-close="hideDetails"></lf-category>
                 </paper-material>
             </iron-collapse>
             
@@ -111,6 +112,10 @@
                 var item = e.model.item;                
                 this.$.detailForm.show(item.$key);
                 this.$.details.show();
+            },
+
+            hideDetails: function(e) {
+                this.$.details.hide();
             },
 
             orderChanged: function(e) {
