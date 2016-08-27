@@ -25,9 +25,14 @@
             data="{{app.records}}">
         </firebase-query>
 
-        <firebase-query log
+        <firebase-query
             path="[[_getCategoriesPath(app, app.user)]]"
             data="{{app.categories}}">
+        </firebase-query>
+
+        <firebase-query
+            path="[[_getAccountsPath(app, app.user)]]"
+            data="{{app.accounts}}">
         </firebase-query>
         
     </template>
@@ -50,6 +55,7 @@
                 var self = this;
                 return {
                     categories: [],
+                    accounts: [],
                     recordsOrder: "reverseTimestamp",
                     refreshBalances: function() {
                         self._refreshBalances();
@@ -112,6 +118,10 @@
 
             _getCategoriesPath: function(app, user) {
                 return "/users/" + user.uid + "/categories";           
+            },
+
+            _getAccountsPath: function(app, user) {
+                return "/users/" + user.uid + "/accounts";           
             },
 
         });

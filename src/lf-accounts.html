@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="lf-account-repository.html">
 <link rel="import" href="lf-account.html">
 <link rel="import" href="material-table-styles.html">
 
@@ -15,6 +16,11 @@
                 padding: 16px;
             }
         </style>
+
+        <lf-account-repository 
+            id="repository" app="[[app]]"
+            list="{{accounts}}">
+        </lf-account-repository>
 
         <div class="horizontal layout justified">
             <h3>{{masterName}}</h3>
@@ -31,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
+                <template is="dom-repeat" items="[[accounts]]">
                     <tr on-tap="edit">
                         <td>{{item.name}}</td>
                         <td>{{item.currency}}</td>
@@ -68,14 +74,6 @@
             edit: function(e) {                
                 var item = e.model.item;                
                 this.$.detailForm.show(item.id);
-            },
-            
-            _toArray: function(details) {
-                if (!details) return details;
-                return Object.keys(details).map(function(key) {
-                    details[key].id = key;
-                    return details[key];
-                });
             },
         });
     </script>
