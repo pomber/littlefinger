@@ -1,0 +1,73 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="lodash.html">
+
+<dom-module id="lf-account-repository">
+
+    <template>
+        <firebase-document id="document">
+        </firebase-document>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-account-repository',
+
+            properties: {
+                app: {
+                    type: Object
+                },
+                list: {
+                    type: Array,
+                    computed: "_sortAccounts(app.accounts.splices)",
+                    notify: true,
+                }
+            },
+
+            save: function(data) {
+                if (!data.order) this._setOrder(data);
+                var storage = this.$.document;              
+                var key = this._getKey(data);
+                var path = this._getPath(key);
+                var clone = _.cloneDeep(data);
+                delete clone.$key;
+                storage.setStoredValue(path, clone);
+            },
+
+            get: function(key) {
+                var item = _.find(this.app.accounts, ["$key", key]);
+                if (item) return _.cloneDeep(item);
+                return {};
+            },
+
+            destroy: function(item) {
+                var storage = this.$.document;
+                var path = this._getPath(item.$key);
+                storage.setStoredValue(path, null);
+            },
+
+            _getPath: function(key) {
+                var parent = "/users/" 
+                    + this.app.user.uid 
+                    + "/accounts/"; 
+                return parent + key;
+            },
+
+            _getKey: function(data) {
+                return data.$key || data.name;
+            },
+
+            _sortAccounts: function() {
+                return _.orderBy(this.app.accounts, "order");
+            },
+
+            _setOrder: function(data) {
+                if (data.order) return;
+                var max = _.maxBy(this.app.accounts, "order");
+                var order = max ? max.order + 1 : 1;
+                data.order = order;
+            },
+        });
+    </script>
+
+</dom-module>
