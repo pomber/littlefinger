@@ -60,9 +60,9 @@
                     <template is="dom-repeat" items="[[records]]">
                         <paper-icon-item on-tap="editRecord">
                             <lf-icon 
-                                icon="[[item.icon]]"
-                                label="[[item.name]]"
-                                color= "[[item.color]]" 
+                                icon="[[_getCategoryIcon(item)]]"
+                                label="[[item.category]]"
+                                color= "[[_getCategoryColor(item)]]" 
                                 item-icon></lf-icon>
                             <paper-item-body two-line>
                                 <div class="horizontal layout justified">
@@ -107,7 +107,17 @@
                 } else {
                     this.$.recordForm.show(item.$key);
                 }        
-            }
+            },
+
+            _getCategoryIcon: function(record) {
+                var cat = this.app.getCategory(record.category); 
+                return cat && cat.icon;
+            },
+
+            _getCategoryColor: function(record) {
+                var cat = this.app.getCategory(record.category);
+                return cat && cat.color;
+            },
         });
     </script>
 
