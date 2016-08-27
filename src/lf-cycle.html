@@ -78,9 +78,9 @@
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="{{weekId}}" scrollable class="flex">
+            <paper-tabs id="tabs" noink selected="{{weekId}}" scrollable class="flex">
                 <template is="dom-repeat" items="{{weeks}}">
-                    <paper-tab>{{item.start}} - {{item.end}}</paper-tab>
+                    <paper-tab>{{item.start}}</paper-tab>
                 </template>
             </paper-tabs>
             <paper-icon-button icon="filter-list" class="filter-button"></paper-icon-button>
@@ -172,7 +172,9 @@
 
             _load: function() {
                 this.weeks = this._getWeeks();
-                this.weekId = 11;
+                // this.weekId = 11;
+                this.$.tabs.selectIndex(11);
+                this.$.tabs._scroll();
                 this._reload();
             },
 
