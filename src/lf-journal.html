@@ -1,49 +1,81 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-record.html">
 <link rel="import" href="lf-transfer.html">
 <link rel="import" href="material-table-styles.html">
+<link rel="import" href="sub-header-styles.html">
 
 <dom-module id="lf-journal">
 
     <template>        
 
-        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style include="material-table-styles iron-flex iron-flex-alignment sub-header-styles"></style>
         <style>
             :host {
                 display: block;
+            }
+
+            paper-material {
+                @apply(--layout-self-start);
+                margin: 0px 5px;
+                min-width: 100px;
+                max-width: 768px;
+            }
+
+            .main {
                 padding: 16px;
             }
         </style>
 
-        <div class="horizontal layout justified">
-            <h3 class="flex">Records</h3>
-            <paper-button on-tap="newRecord">New Record</paper-button>
-            <paper-button on-tap="newTransfer">New Transfer</paper-button>
+        <nav class="horizontal layout justified">
+            <paper-tabs noink selected="{{page}}" scrollable class="flex">
+                <paper-tab>All</paper-tab>
+                <paper-tab>Bank Account</paper-tab>
+                <paper-tab>Credit Card</paper-tab>
+                <paper-tab>Cash</paper-tab>
+            </paper-tabs>
+        </nav>
+
+        <div class="main horizontal layout center-justified">            
+            <paper-material elevation="1" class="flex">
+                <div class="horizontal layout justified">
+                    <h3 class="flex"></h3>
+                    <paper-button on-tap="newRecord">New Record</paper-button>
+                    <paper-button on-tap="newTransfer">New Transfer</paper-button>
+                </div>
+
+                <paper-listbox>                  
+                    <template is="dom-repeat" items="[[app.records]]">
+                        <paper-icon-item on-tap="editRecord">
+                            <lf-icon 
+                                icon="[[item.icon]]"
+                                label="[[item.name]]"
+                                color= "[[item.color]]" 
+                                item-icon></lf-icon>
+                            <paper-item-body two-line>
+                                <div class="horizontal layout justified">
+                                    <span>{{item.category}}</span>
+                                    <span>{{item.amount}}</span>
+                                </div>
+                                <div secondary>
+                                    <span>{{item.date}}</span>
+                                </div>
+                            </paper-item-body>
+                        </paper-icon-item>
+                    </template>
+                </paper-listbox>
+            </paper-material>
         </div>
 
         <lf-record id="recordForm" app="[[app]]"></lf-record>
         <lf-transfer id="transferForm" app="[[app]]"></lf-transfer>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template is="dom-repeat" items="{{app.records}}">
-                    <tr on-tap="editRecord">
-                        <td>{{item.category}}</td>
-                        <td>{{item.amount}}</td>
-                        <td>{{item.date}}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
         
     </template>
 
