@@ -1,0 +1,85 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/firebase.html">
+<link rel="import" href="lodash.html">
+
+<dom-module id="lf-record-repository">
+
+    <template>
+        <firebase-document id="document">
+        </firebase-document>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-record-repository',
+
+            properties: {
+                app: {
+                    type: Object
+                },
+                list: {
+                    type: Array,
+                    computed: "_mapRecords(app.records.splices)",
+                    notify: true,
+                }
+            },
+
+            save: function(data) {
+                // if (!data.order) this._setOrder(data);
+                var storage = this.$.document;                
+                var key = this._getKey(data);
+                
+                if (!key) {
+                    this.create(data);
+                    return;
+                }
+
+                var path = this._getPath(key);
+                var clone = _.cloneDeep(data);
+                delete clone.$key;
+                storage.setStoredValue(path, clone);
+            },
+
+            create: function(data) {
+                var storage = this.$.document;
+                firebase
+                    .database(storage.app)
+                    .ref(this._getParentPath())
+                    .push(data);
+            },
+
+            get: function(key) {
+                var item = _.find(this.list, ["$key", key]);
+                if (item) return _.cloneDeep(item);
+                return {
+                };
+            },
+
+            destroy: function(item) {
+                var storage = this.$.document;
+                var path = this._getPath(item.$key);
+                storage.setStoredValue(path, null);
+            },
+
+            _getParentPath: function() {
+                return "/records/" 
+                    + this.app.user.uid 
+                    + "/";
+            },
+
+            _getPath: function(key) { 
+                return this._getParentPath() + key;
+            },
+
+            _getKey: function(data) {
+                return data.$key;
+            },
+
+            _mapRecords: function() {
+                return _.clone(this.app.records);
+            },
+        });
+    </script>
+
+</dom-module>

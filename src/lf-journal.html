@@ -9,6 +9,7 @@
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
 <link rel="import" href="lf-record.html">
+<link rel="import" href="lf-record-repository.html">
 <link rel="import" href="lf-transfer.html">
 <link rel="import" href="material-table-styles.html">
 <link rel="import" href="sub-header-styles.html">
@@ -35,6 +36,9 @@
             }
         </style>
 
+        <lf-record-repository app="[[app]]" list="{{records}}">
+        </lf-record-repository>
+
         <nav class="horizontal layout justified">
             <paper-tabs noink selected="{{page}}" scrollable class="flex">
                 <paper-tab>All</paper-tab>
@@ -53,7 +57,7 @@
                 </div>
 
                 <paper-listbox>                  
-                    <template is="dom-repeat" items="[[app.records]]">
+                    <template is="dom-repeat" items="[[records]]">
                         <paper-icon-item on-tap="editRecord">
                             <lf-icon 
                                 icon="[[item.icon]]"
