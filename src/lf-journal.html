@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
 <link rel="import" href="lf-record.html">
@@ -77,9 +78,15 @@
                     </template>
                 </paper-listbox>
             </paper-material>
+
+            <iron-collapse id="details" horizontal class="flex">
+                <paper-material elevation="1">
+                    <lf-record id="recordForm" app="[[app]]" on-detail-close="hideDetails"></lf-record>
+                </paper-material>
+            </iron-collapse>
+
         </div>
 
-        <lf-record id="recordForm" app="[[app]]"></lf-record>
         <lf-transfer id="transferForm" app="[[app]]"></lf-transfer>
         
     </template>
@@ -98,6 +105,7 @@
 
             newRecord: function() {
                 this.$.recordForm.show();
+                this.$.details.show();
             },
 
             editRecord: function(e) {                
@@ -107,6 +115,11 @@
                 } else {
                     this.$.recordForm.show(item.$key);
                 }        
+                this.$.details.show();
+            },
+
+            hideDetails: function(e) {
+                this.$.details.hide();
             },
 
             _getCategoryIcon: function(record) {

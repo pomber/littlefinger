@@ -7,7 +7,6 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
-<link rel="import" href="lf-detail.html">
 
 <dom-module id="lf-record">
 
@@ -20,6 +19,16 @@
             [hidden] {
                 display: none !important;
             }
+
+            .form {
+                background: #ffffff;
+                padding: 8px 0;
+            }
+
+            .form > * {
+                padding: 0 24px;
+                margin-top: 20px;
+            }
         </style>
 
         <firebase-document
@@ -27,41 +36,42 @@
             data="{{record}}">
         </firebase-document>
 
-        <lf-detail 
-            id="detail"
-            detail-name="Record"
-            is-new="{{isNew}}"
-            on-save="_persist"
-            on-delete="_delete">
+        <div>
+            <div class="form">
+                <paper-dropdown-menu label="Category" noink no-animations autofocus>
+                    <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
+                        <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
+                                <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
+                
+                <paper-dropdown-menu label="Account" noink no-animations>
+                    <paper-listbox class="dropdown-content" selected="{{account}}" attr-for-selected="value">                        
+                        <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
+                                <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
 
-            <paper-dropdown-menu label="Category" noink no-animations autofocus>
-                <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
-                    <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
-                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
-                    </template>
-                </paper-listbox>
-            </paper-dropdown-menu>
+                <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
+                    <div prefix>$</div>
+                </paper-input>
+                
+                <paper-radio-group selected="{{type}}">
+                    <paper-radio-button name="expense">Expense</paper-radio-button>
+                    <paper-radio-button name="income">Income</paper-radio-button>
+                </paper-radio-group>
+
+                <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
+            </div>
             
-            <paper-dropdown-menu label="Account" noink no-animations>
-                <paper-listbox class="dropdown-content" selected="{{account}}" attr-for-selected="value">                        
-                    <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
-                            <paper-item value="{{item.name}}">{{item.name}}</paper-item>
-                    </template>
-                </paper-listbox>
-            </paper-dropdown-menu>
-
-            <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
-                <div prefix>$</div>
-            </paper-input>
-            
-            <paper-radio-group selected="{{type}}">
-                <paper-radio-button name="expense">Expense</paper-radio-button>
-                <paper-radio-button name="income">Income</paper-radio-button>
-            </paper-radio-group>
-
-            <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
-
-        </lf-detail>
+            <div class="layout horizontal end-justified">
+                <paper-button on-tap="_delete" hidden$="{{isNew}}">Delete</paper-button>
+                <paper-button on-tap="_cancel">Cancel</paper-button>
+                <paper-button on-tap="_persist">Save</paper-button>
+            </div>
+        </div>
         
     </template>
 
@@ -90,7 +100,6 @@
                 } else {
                     this.$.document.path = "/records/" + this.app.user.uid + "/" + recordId;
                 }
-                this.$.detail.show();
             },
 
             _delete: function(e) {
