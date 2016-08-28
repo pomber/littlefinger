@@ -7,6 +7,7 @@
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
 <link rel="import" href="lf-record-repository.html">
+<link rel="import" href="moment.html">
 
 <dom-module id="lf-record-list">
 
@@ -33,7 +34,7 @@
                             </lf-money>
                         </div>
                         <div secondary class="horizontal layout justified">
-                            <span>{{item.date}}</span>
+                            <span>{{_getDate(item)}}</span>
                             <span>{{item.account}}</span>
                         </div>
                     </paper-item-body>
@@ -64,6 +65,10 @@
             _getCategoryColor: function(record) {
                 var cat = this.app.getCategory(record.category);
                 return cat && cat.color;
+            },
+
+            _getDate: function(record) {
+                return moment(record.timestamp).format("dddd, MMM D");
             },
         });
     </script>
