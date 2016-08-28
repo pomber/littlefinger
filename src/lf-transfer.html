@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/app-datepicker/app-datepicker-dialog.html">
 <link rel="import" href="lf-detail-source.html">
 
 <dom-module id="lf-transfer">
@@ -63,7 +64,14 @@
 
             <paper-input label="Rate" required type="number" value="{{rate}}" hidden$="{{hideRate}}"></paper-input>
 
-            <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
+                <paper-input label="Date" required value="{{date}}"></paper-input>
+                
+                <app-datepicker-dialog with-backdrop id="datepicker"
+                    disable-days="[]"
+                    date="{{date}}"
+                    on-iron-overlay-opened="_patchOverlay">                    
+                </app-datepicker-dialog>
+                <paper-button on-tap="_changeDate">Change Date</paper-button>
         </div>
             
             <div class="layout horizontal end-justified">
@@ -101,6 +109,10 @@
 
             _cancel: function(e) {
                 this.fire("detail-close");
+            },
+
+            _changeDate: function(e) {                
+                this.$.datepicker.open();
             },
 
             _delete: function(e) {
@@ -167,6 +179,13 @@
                     items[key].id = key;
                     return items[key];
                 });
+            },
+
+            // https://github.com/PolymerElements/paper-dialog/issues/7
+            _patchOverlay: function (e) {
+                if (e.target.withBackdrop) {
+                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
             },
         });
     </script>
