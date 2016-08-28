@@ -100,7 +100,7 @@
             <paper-tabs noink selected="{{page}}" attr-for-selected="name">
               <paper-tab name="cycle">Overview</paper-tab>
               <paper-tab name="journal">History</paper-tab>
-              <paper-tab name="reports">Reports</paper-tab>
+              <paper-tab name="import">Import</paper-tab>
               <paper-tab name="settings">Settings</paper-tab>
             </paper-tabs>
           </app-toolbar>
@@ -111,6 +111,7 @@
           <lf-journal name="journal" app="[[app]]"></lf-journal>
           <lf-reports name="reports" user="[[app.user]]"></lf-reports>
           <lf-settings name="settings" app="[[app]]"></lf-settings>
+          <lf-import name="import" app="[[app]]"></lf-import>
           <lf-demo name="demo" app="[[app]]"></lf-demo>
         </iron-pages>
 

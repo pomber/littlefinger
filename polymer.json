@@ -5,6 +5,7 @@
     "src/lf-cycle.html",
     "src/lf-journal.html",
     "src/lf-settings.html",
+    "src/lf-import.html",
     "src/lf-reports.html"
   ]
 }

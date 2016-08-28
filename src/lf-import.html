@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="lf-accounts.html">
+<link rel="import" href="sub-header-styles.html">
+
+<dom-module id="lf-import">
+
+    <template>        
+
+        <style include="iron-flex iron-flex-alignment sub-header-styles">
+        </style>
+
+        <nav class="horizontal layout justified">
+            <paper-tabs noink selected="{{account}}" scrollable class="flex">
+                <template is="dom-repeat" items="[[app.accounts]]">
+                    <paper-tab>[[item.name]]</paper-tab>
+                </template>
+            </paper-tabs>
+        </nav>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-import',
+            properties: {
+                app: Object,
+                page: {
+                    type: String,
+                    value: "0"
+                }
+            },
+        });
+    </script>
+
+</dom-module>
