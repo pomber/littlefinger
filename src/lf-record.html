@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
@@ -16,6 +17,7 @@
             :host {
                 display: block;
             }
+
             [hidden] {
                 display: none !important;
             }
@@ -38,25 +40,29 @@
 
         <div>
             <div class="form">
-                <paper-dropdown-menu label="Category" noink no-animations autofocus>
-                    <paper-listbox class="dropdown-content" selected="{{category}}" attr-for-selected="value">                        
-                        <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
-                                <paper-item value="{{item.name}}">{{item.name}}</paper-item>
-                        </template>
-                    </paper-listbox>
-                </paper-dropdown-menu>
+
+                <paper-input label="Amount" type="number" step="any" 
+                    required value="{{amount}}" autofocus>
+                    <div prefix>$</div>
+                </paper-input>
                 
                 <paper-dropdown-menu label="Account" noink no-animations>
-                    <paper-listbox class="dropdown-content" selected="{{account}}" attr-for-selected="value">                        
+                    <paper-listbox class="dropdown-content" 
+                        selected="{{account}}" attr-for-selected="value">                        
                         <template is="dom-repeat" items="{{_toArray(app.user.accounts)}}">
                                 <paper-item value="{{item.name}}">{{item.name}}</paper-item>
                         </template>
                     </paper-listbox>
                 </paper-dropdown-menu>
 
-                <paper-input label="Amount" type="number" step="any" required value="{{amount}}">
-                    <div prefix>$</div>
-                </paper-input>
+                <paper-dropdown-menu label="Category" noink no-animations>
+                    <paper-listbox class="dropdown-content" selected="{{category}}" 
+                        attr-for-selected="value">                        
+                        <template is="dom-repeat" items="{{_toArray(app.user.categories)}}">
+                                <paper-item value="{{item.name}}">{{item.name}}</paper-item>
+                        </template>
+                    </paper-listbox>
+                </paper-dropdown-menu>
                 
                 <paper-radio-group selected="{{type}}">
                     <paper-radio-button name="expense">Expense</paper-radio-button>

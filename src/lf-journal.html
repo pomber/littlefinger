@@ -30,9 +30,6 @@
             }
         </style>
 
-        <lf-record-repository app="[[app]]" list="{{records}}">
-        </lf-record-repository>
-
         <nav class="horizontal layout justified">
             <paper-tabs noink selected="0" scrollable class="flex">
                 <paper-tab>All</paper-tab>
@@ -62,9 +59,16 @@
                 </paper-material>
             </iron-collapse>
 
+            <iron-collapse id="transferDetails" horizontal class="flex">
+                <paper-material elevation="1">
+                    <lf-transfer id="transferForm" app="[[app]]" 
+                        on-detail-close="hideDetails">
+                    </lf-transfer>
+                </paper-material>
+            </iron-collapse>
+
         </div>
 
-        <lf-transfer id="transferForm" app="[[app]]"></lf-transfer>
         
     </template>
 
@@ -77,10 +81,13 @@
             },
 
             newTransfer: function() {
+                this.$.details.hide();
                 this.$.transferForm.show();
+                this.$.transferDetails.show();
             },
 
             newRecord: function() {
+                this.$.transferDetails.hide();
                 this.$.recordForm.show();
                 this.$.details.show();
             },
@@ -88,15 +95,19 @@
             edit: function(e) {                
                 var item = e.detail.item;
                 if (item.type == "transfer") {
+                    this.$.details.hide();
                     this.$.transferForm.show(item.$key);
+                    this.$.transferDetails.show();
                 } else {
+                    this.$.transferDetails.hide();
                     this.$.recordForm.show(item.$key);
+                    this.$.details.show();
                 }        
-                this.$.details.show();
             },
 
             hideDetails: function(e) {
                 this.$.details.hide();
+                this.$.transferDetails.hide();
             },
         });
     </script>
