@@ -1,7 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
-<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">>
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html"
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="lf-accounts.html">
 <link rel="import" href="sub-header-styles.html">
@@ -11,6 +12,12 @@
     <template>        
 
         <style include="iron-flex iron-flex-alignment sub-header-styles">
+            .main {
+                padding: 16px;
+            }
+            paper-textarea {                
+                background-color: white;
+            }
         </style>
 
         <nav class="horizontal layout justified">
@@ -20,6 +27,15 @@
                 </template>
             </paper-tabs>
         </nav>
+
+        <div class="main">
+            <paper-textarea label="Comma separated values"
+                rows="15" value="{{csv}}"></paper-textarea>
+            <div class="horizontal layout justified">
+                <h3 class="flex"></h3>
+                <paper-button on-tap="import">Import</paper-button>
+            </div>
+        </div>
 
     </template>
 
@@ -32,6 +48,10 @@
                     type: String,
                     value: "0"
                 }
+            },
+
+            import: function () {
+
             },
         });
     </script>
