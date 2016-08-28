@@ -21,9 +21,10 @@
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="{{account}}" scrollable class="flex">
+            <paper-tabs noink selected="{{account}}" 
+                attr-for-selected="name" scrollable class="flex">
                 <template is="dom-repeat" items="[[app.accounts]]">
-                    <paper-tab>[[item.name]]</paper-tab>
+                    <paper-tab name="[[item.name]]">[[item.name]]</paper-tab>
                 </template>
             </paper-tabs>
         </nav>
@@ -51,8 +52,41 @@
             },
 
             import: function () {
+                var self = this;
                 var result = Papa.parse(this.csv);
-                console.log(result);
+
+                var records = _.map(result.data, function(data) {
+                    if (data[5]) {
+                        return self.mapTransfer(data);
+                    } else {
+                        return self.mapRecord(data);
+                    }
+                });
+
+                console.log(records);
+            },
+
+            mapTransfer: function(data) {
+                return {
+                    category: data[4],
+                    date: data[0],
+                    amount: Number(data[2]),
+                    source: this.account,
+                    dest: data[5],
+                    description: data[1],
+                    type: data[3]
+                };
+            },
+
+            mapRecord: function(data) {
+                return {
+                    category: data[4],
+                    date: data[0],
+                    amount: Number(data[2]),
+                    account: this.account,
+                    description: data[1],
+                    type: data[3]
+                };
             },
         });
     </script>
