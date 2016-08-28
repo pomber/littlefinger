@@ -8,6 +8,8 @@
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/app-datepicker/app-datepicker-dialog.html">
+<link rel="import" href="../bower_components/app-datepicker/app-datepicker.html">
 
 <dom-module id="lf-record">
 
@@ -69,7 +71,14 @@
                     <paper-radio-button name="income">Income</paper-radio-button>
                 </paper-radio-group>
 
-                <paper-input label="Date" required type="date" value="{{date}}"></paper-input>
+                <paper-input label="Date" required value="{{date}}"></paper-input>
+                
+                <app-datepicker-dialog with-backdrop id="datepicker"
+                    disable-days="[]"
+                    date="{{date}}"
+                    on-iron-overlay-opened="_patchOverlay">                    
+                </app-datepicker-dialog>
+                <paper-button on-tap="_changeDate">Change Date</paper-button>
             </div>
             
             <div class="layout horizontal end-justified">
@@ -106,6 +115,10 @@
                 } else {
                     this.$.document.path = "/records/" + this.app.user.uid + "/" + recordId;
                 }
+            },
+
+            _changeDate: function(e) {                
+                this.$.datepicker.open();
             },
 
             _delete: function(e) {
@@ -162,6 +175,13 @@
                     items[key].id = key;
                     return items[key];
                 });
+            },
+
+            // https://github.com/PolymerElements/paper-dialog/issues/7
+            _patchOverlay: function (e) {
+                if (e.target.withBackdrop) {
+                    e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+                }
             },
         });
     </script>
