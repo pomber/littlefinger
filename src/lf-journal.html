@@ -1,25 +1,18 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
-<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
-<link rel="import" href="lf-icon.html">
-<link rel="import" href="lf-money.html">
 <link rel="import" href="lf-record.html">
-<link rel="import" href="lf-record-repository.html">
 <link rel="import" href="lf-transfer.html">
-<link rel="import" href="material-table-styles.html">
+<link rel="import" href="lf-record-list.html">
 <link rel="import" href="sub-header-styles.html">
 
 <dom-module id="lf-journal">
 
     <template>        
 
-        <style include="material-table-styles iron-flex iron-flex-alignment sub-header-styles"></style>
+        <style include="iron-flex iron-flex-alignment sub-header-styles"></style>
         <style>
             :host {
                 display: block;
@@ -57,26 +50,10 @@
                     <paper-button on-tap="newTransfer">New Transfer</paper-button>
                 </div>
 
-                <paper-listbox>                  
-                    <template is="dom-repeat" items="[[records]]">
-                        <paper-icon-item on-tap="editRecord">
-                            <lf-icon 
-                                icon="[[_getCategoryIcon(item)]]"
-                                label="[[item.category]]"
-                                color= "[[_getCategoryColor(item)]]" 
-                                item-icon></lf-icon>
-                            <paper-item-body two-line>
-                                <div class="horizontal layout justified">
-                                    <span>{{item.category}}</span>
-                                    <lf-money amount="{{item.amount}}"></lf-money>
-                                </div>
-                                <div secondary>
-                                    <span>{{item.date}}</span>
-                                </div>
-                            </paper-item-body>
-                        </paper-icon-item>
-                    </template>
-                </paper-listbox>
+                <lf-record-list
+                    app="[[app]]"
+                    on-item-tap="edit">
+                </lf-record-list>
             </paper-material>
 
             <iron-collapse id="details" horizontal class="flex">
@@ -108,8 +85,8 @@
                 this.$.details.show();
             },
 
-            editRecord: function(e) {                
-                var item = e.model.item;
+            edit: function(e) {                
+                var item = e.detail.item;
                 if (item.type == "transfer") {
                     this.$.transferForm.show(item.$key);
                 } else {
@@ -120,16 +97,6 @@
 
             hideDetails: function(e) {
                 this.$.details.hide();
-            },
-
-            _getCategoryIcon: function(record) {
-                var cat = this.app.getCategory(record.category); 
-                return cat && cat.icon;
-            },
-
-            _getCategoryColor: function(record) {
-                var cat = this.app.getCategory(record.category);
-                return cat && cat.color;
             },
         });
     </script>
