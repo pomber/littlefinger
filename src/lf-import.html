@@ -4,7 +4,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">>
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html"
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="lf-accounts.html">
+<link rel="import" href="papaparse.html">
 <link rel="import" href="sub-header-styles.html">
 
 <dom-module id="lf-import">
@@ -51,7 +51,8 @@
             },
 
             import: function () {
-
+                var result = Papa.parse(this.csv);
+                console.log(result);
             },
         });
     </script>
