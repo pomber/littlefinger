@@ -4,8 +4,10 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">>
 <link rel="import" href="../bower_components/paper-input/paper-textarea.html"
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/polymerfire/firebase.html">
 <link rel="import" href="papaparse.html">
 <link rel="import" href="sub-header-styles.html">
+<link rel="import" href="lf-record-repository.html">
 
 <dom-module id="lf-import">
 
@@ -19,6 +21,9 @@
                 background-color: white;
             }
         </style>
+
+        <lf-record-repository id="repository" app="[[app]]">
+        </lf-record-repository>
 
         <nav class="horizontal layout justified">
             <paper-tabs noink selected="{{account}}" 
@@ -48,8 +53,12 @@
                 page: {
                     type: String,
                     value: "0"
-                }
+                },                
             },
+
+            observers: [
+                '_accountsChanged(app.accounts.splices)'
+            ],
 
             import: function () {
                 var self = this;
@@ -64,12 +73,19 @@
                 });
 
                 console.log(records);
+                records.forEach(function (record) {
+                    self.$.repository.create(record);
+                });
             },
 
             mapTransfer: function(data) {
+                var date = data[0];
+                var ts = new Date(date).getTime();
                 return {
                     category: data[4],
-                    date: data[0],
+                    date: date,
+                    timestamp: ts,
+                    reverseTimestamp: -ts,
                     amount: Number(data[2]),
                     source: this.account,
                     dest: data[5],
@@ -79,14 +95,24 @@
             },
 
             mapRecord: function(data) {
+                var date = data[0];
+                var ts = new Date(date).getTime();
                 return {
                     category: data[4],
-                    date: data[0],
+                    date: date,
+                    timestamp: ts,
+                    reverseTimestamp: -ts,
                     amount: Number(data[2]),
                     account: this.account,
                     description: data[1],
                     type: data[3]
                 };
+            },
+
+            _accountsChanged: function () {
+                if (!this.account && this.app.accounts.length) {
+                    this.account = this.app.accounts[0].name;
+                }
             },
         });
     </script>
