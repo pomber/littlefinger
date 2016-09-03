@@ -62,17 +62,23 @@
 
             import: function () {
                 var self = this;
-                var result = Papa.parse(this.csv);
+                var result = Papa.parse(this.csv.trim());
 
                 var records = _.map(result.data, function(data) {
-                    if (data[5]) {
-                        return self.mapTransfer(data);
-                    } else {
-                        return self.mapRecord(data);
-                    }
+                    var record = data[5] ?
+                        self.mapTransfer(data) :
+                        self.mapRecord(data); 
+                    return self._validate(record);
                 });
 
                 console.log(records);
+                var invalid = _.find(records, "error");
+
+                if (invalid) {
+                    alert(JSON.stringify(invalid));
+                    return;
+                }
+
                 records.forEach(function (record) {
                     self.$.repository.create(record);
                 });
@@ -113,6 +119,14 @@
                 if (!this.account && this.app.accounts.length) {
                     this.account = this.app.accounts[0].name;
                 }
+            },
+
+            _validate: function (record) {
+                if (typeof record.category === "undefined"){
+                    record.error = "Missing category";
+                }
+
+                return record;
             },
         });
     </script>
