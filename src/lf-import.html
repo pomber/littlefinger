@@ -95,8 +95,9 @@
                     amount: Number(data[2]),
                     source: this.account,
                     dest: data[5],
-                    description: data[1],
-                    type: data[3]
+                    note: data[1],
+                    type: data[3],
+                    rate: data[6]
                 };
             },
 
@@ -110,8 +111,9 @@
                     reverseTimestamp: -ts,
                     amount: Number(data[2]),
                     account: this.account,
-                    description: data[1],
-                    type: data[3]
+                    note: data[1],
+                    type: data[3],
+                    rate: data[6]
                 };
             },
 
