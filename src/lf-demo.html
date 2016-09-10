@@ -1,17 +1,19 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="lf-icon.html">
-<link rel="import" href="lf-icon-picker.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="lf-account-details.html">
 
 <dom-module id="lf-demo">
 
   <template>
-        <div>
-            <lf-icon-picker 
-                type="accounts" 
-                icon="{{icon}}"
-                name="Groceries"></lf-icon-picker>
-            {{icon}}
-        </div>
+      <div>
+          <paper-input value="{{itemId}}">
+          </paper-input>
+
+          <lf-account-details
+            app="[[app]]"
+            item-id="[[itemId]]">
+          </lf-account-details>            
+      </div>
 
   </template>
 
