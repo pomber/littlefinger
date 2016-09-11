@@ -26,6 +26,7 @@
 
             save: function(data) {
                 if (!data.order) this._setOrder(data);
+                if (data.start) data.start = Number(data.start);
                 var storage = this.$.document;              
                 var key = this._getKey(data);
                 var path = this._getPath(key);
@@ -37,7 +38,9 @@
             get: function(key) {
                 var item = _.find(this.app.accounts, ["$key", key]);
                 if (item) return _.cloneDeep(item);
-                return {};
+                return {
+                    start: 0
+                };
             },
 
             destroy: function(item) {

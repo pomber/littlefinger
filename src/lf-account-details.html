@@ -75,7 +75,7 @@
             },
 
             _idChanged: function() {
-                this.isNew = !!this.itemId;
+                this.isNew = !this.itemId;
                 this.item = this.$.repo.get(this.itemId);
             },
 
