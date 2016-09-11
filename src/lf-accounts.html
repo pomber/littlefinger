@@ -1,50 +1,40 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
-<link rel="import" href="lf-account-repository.html">
-<link rel="import" href="lf-account.html">
-<link rel="import" href="material-table-styles.html">
+<link rel="import" href="lf-account-list.html">
+<link rel="import" href="lf-account-details.html">
 
 <dom-module id="lf-accounts">
 
     <template>        
 
-        <style include="material-table-styles iron-flex iron-flex-alignment"></style>
+        <style include="iron-flex iron-flex-alignment"></style>
         <style>
             :host {
                 display: block;
                 padding: 16px;
             }
+
+            paper-material {
+                @apply(--layout-self-start);
+                margin: 0px 5px;
+                min-width: 100px;
+                max-width: 768px;
+            }
         </style>
 
-        <lf-account-repository 
-            id="repository" app="[[app]]"
-            list="{{accounts}}">
-        </lf-account-repository>
-
-        <div class="horizontal layout justified">
-            <h3>{{masterName}}</h3>
-            <paper-button on-tap="create">New {{detailName}}</paper-button>
+        <div class="horizontal layout center-justified">
+            <paper-material elevation="1" style="max-width: 768px" class="flex">
+                <div class="horizontal layout justified">
+                    <h3></h3>
+                    <paper-button on-tap="create">New Account</paper-button>
+                </div>
+                <lf-account-list app="[[app]]" on-list-edit="edit">
+                </lf-account-list>
+            </paper-material> 
         </div>
-
-        <lf-account id="detailForm" app="[[app]]"></lf-account>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Currency</th>
-                </tr>
-            </thead>
-            <tbody>
-                <template is="dom-repeat" items="[[accounts]]">
-                    <tr on-tap="edit">
-                        <td>{{item.name}}</td>
-                        <td>{{item.currency}}</td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
         
     </template>
 
@@ -53,27 +43,12 @@
             is: 'lf-accounts',
             properties: {
                 app: Object,
-                masterName: {
-                    type: String,
-                    value: "Accounts",
-                },
-                detailName: {
-                    type: String,
-                    value: "Account",
-                },           
-                order: {
-                    type: String,
-                    value: "order"
-                }
             },
 
             create: function() {
-                this.$.detailForm.show();
             },
 
-            edit: function(e) {                
-                var item = e.model.item;                
-                this.$.detailForm.show(item.id);
+            edit: function(e) {
             },
         });
     </script>
