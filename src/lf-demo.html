@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="lf-account-details.html">
+<link rel="import" href="lf-account-list.html">
 
 <dom-module id="lf-demo">
 
@@ -9,10 +9,10 @@
           <paper-input value="{{itemId}}">
           </paper-input>
 
-          <lf-account-details
+          <lf-account-list
             app="[[app]]"
-            item-id="[[itemId]]">
-          </lf-account-details>            
+            on-list-edit="edit">
+          </lf-account-list>            
       </div>
 
   </template>
@@ -25,6 +25,10 @@
 
       properties: {
           app: Object,
+      },
+
+      edit: function(event) {
+        console.log(event);
       },
 
     });

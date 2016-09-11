@@ -1,0 +1,62 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="lf-account-repository.html">
+<link rel="import" href="lf-icon.html">
+
+<dom-module id="lf-account-list">
+
+    <template>        
+
+        <style include="iron-flex iron-flex-alignment"></style>
+
+        <lf-account-repository 
+            id="repo" app="[[app]]"
+            list="{{items}}">
+        </lf-account-repository>
+
+        <paper-listbox>                  
+            <template is="dom-repeat" items="[[items]]">
+                <paper-icon-item on-tap="edit">
+                    <lf-icon 
+                        icon="[[item.icon]]"
+                        label="[[item.name]]"
+                        color= "[[item.color]]" 
+                        item-icon></lf-icon>
+                    <paper-item-body two-line>
+                        <div class="horizontal layout justified">
+                            <span>{{item.name}}</span>
+                            <!--<span>{{item.frequency}}</span>-->
+                        </div>
+                        <div secondary>
+                            <span>{{item.currency}}</span>
+                        </div>
+                    </paper-item-body>
+                </paper-icon-item>
+            </template>
+        </paper-listbox>
+            
+        </div>
+        
+    </template>
+
+    <script>
+        Polymer({
+            is: 'lf-account-list',
+            
+            properties: {
+                app: Object,
+            },
+
+            edit: function(e) {                
+                var item = e.model.item;                
+                this.fire("list-edit", item);
+            },
+        });
+    </script>
+
+</dom-module>
