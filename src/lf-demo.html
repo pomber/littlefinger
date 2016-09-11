@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="lf-account-list.html">
+<link rel="import" href="lf-repository.html">
 
 <dom-module id="lf-demo">
 
@@ -9,10 +9,9 @@
           <paper-input value="{{itemId}}">
           </paper-input>
 
-          <lf-account-list
-            app="[[app]]"
-            on-list-edit="edit">
-          </lf-account-list>            
+          <lf-repository
+            app="[[app]]">
+          </lf-repository>            
       </div>
 
   </template>

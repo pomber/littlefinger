@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymerfire/firebase.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="lodash.html">
+
+<dom-module id="lf-repository">
+
+    <script>
+        Polymer({
+            is: 'lf-repository',
+
+            properties: {
+                app: {
+                    type: Object,
+                },
+                list: {
+                    type: Array,
+                    notify: true
+                },
+                path: String,
+            },
+
+            observers: [
+                '_userChanged(app.user.uid)'
+            ],
+
+            _userChanged: function(uid) {
+                if (!uid) return;
+
+                var self = this;
+                var db = firebase.database();
+                var path = '/records/' + uid;
+                var ref = db.ref(path);
+                ref.once('value', function(snap) {
+                    var value = snap.val();
+                    var list = self._toArray(value); 
+                    debugger;             
+                }); 
+            },
+
+            _toArray: function(map) {
+                return _.map(map, function(value, key) {
+                    value.$key = key;
+                    return value;
+                });
+            },
+        });
+    </script>
+
+</dom-module>
