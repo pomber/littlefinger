@@ -29,13 +29,31 @@
 
                 var self = this;
                 var db = firebase.database();
-                var path = '/records/' + uid;
-                var ref = db.ref(path);
+                self.path = '/records/' + uid;
+                var ref = db.ref(self.path);
                 ref.once('value', function(snap) {
                     var value = snap.val();
-                    var list = self._toArray(value); 
-                    debugger;             
+                    self.list = self._toArray(value); 
+                    self._registerListeners();
                 }); 
+            },
+
+            _registerListeners: function() {                
+                var last = _.maxBy(this.list, 'ts'); 
+                var start = last ? last.ts + 1 : 0;
+                
+                var db = firebase.database();
+                var ref = db.ref(self.path);
+
+                ref.orderByChild('ts')
+                    .startAt(start)
+                    .on('child_added', function(snap) {
+                        var key = snap.key();
+                        var value = snap.val();
+                        value.$key = key;
+                        debugger;
+                        self.list.push(value);
+                    });
             },
 
             _toArray: function(map) {
