@@ -26,13 +26,21 @@
 
             save: function(data) {
                 if (!data.order) this._setOrder(data);
-                if (data.start) data.start = Number(data.start);
-                var storage = this.$.document;              
-                var key = this._getKey(data);
-                var path = this._getPath(key);
+                if (data.start) data.start = Number(data.start);              
                 var clone = _.cloneDeep(data);
-                delete clone.$key;
-                storage.setStoredValue(path, clone);
+                var key = this._getKey(data);
+                if (key) {
+                    var storage = this.$.document;
+                    var path = this._getPath(key);
+                    delete clone.$key;
+                    storage.setStoredValue(path, clone);                    
+                } else {
+                    var path = this._getPath("");
+                    var doc = this.create('firebase-document', {
+                        data: clone
+                    });
+                    doc.save(path);
+                }
             },
 
             get: function(key) {
@@ -43,9 +51,9 @@
                 };
             },
 
-            destroy: function(item) {
+            destroy: function(key) {
                 var storage = this.$.document;
-                var path = this._getPath(item.$key);
+                var path = this._getPath(key);
                 storage.setStoredValue(path, null);
             },
 
@@ -57,7 +65,7 @@
             },
 
             _getKey: function(data) {
-                return data.$key || data.name;
+                return data.$key;
             },
 
             _sortAccounts: function() {
