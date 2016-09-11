@@ -80,16 +80,19 @@
             },
 
             _cancel: function(e) {
+                this.itemId = undefined;
                 this.fire("details-cancel");
             },
 
             _delete: function(e) {
                 this.$.repo.destroy(this.itemId);
+                this.itemId = undefined;
                 this.fire("details-delete");                
             },
 
             _persist: function() {        
                 this.$.repo.save(this.item);
+                this.itemId = undefined;
                 this.fire("details-save");
             },
         });

@@ -34,6 +34,15 @@
                 <lf-account-list app="[[app]]" on-list-edit="edit">
                 </lf-account-list>
             </paper-material> 
+
+            <iron-collapse id="details" horizontal class="flex">
+                <paper-material elevation="1" style="max-width: 768px">
+                    <lf-account-details id="form" app="[[app]]"
+                        on-details-cancel="hideForm"
+                        on-details-delete="hideForm"
+                        on-details-save="hideForm"></lf-account-details>
+                </paper-material>
+            </iron-collapse>
         </div>
         
     </template>
@@ -46,9 +55,17 @@
             },
 
             create: function() {
+                this.$.form.itemId = "";
+                this.$.details.show();
             },
 
             edit: function(e) {
+                this.$.form.itemId = e.detail.$key;
+                this.$.details.show();
+            },
+
+            hideForm: function() {
+                this.$.details.hide();
             },
         });
     </script>
