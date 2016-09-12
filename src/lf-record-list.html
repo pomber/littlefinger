@@ -6,7 +6,8 @@
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
-<link rel="import" href="lf-record-repository.html">
+<link rel="import" href="lf-repository.html">
+<link rel="import" href="lf-pager.html">
 <link rel="import" href="moment.html">
 
 <dom-module id="lf-record-list">
@@ -16,8 +17,11 @@
         <style include="iron-flex iron-flex-alignment">            
         </style>
 
-        <lf-record-repository app="[[app]]" page="{{records}}">
-        </lf-record-repository>
+        <lf-repository app="[[app]]" list="{{all}}">
+        </lf-repository>
+
+        <lf-pager all="[[all]]" page="{{records}}">
+        </lf-pager>
         
         <paper-listbox>                  
             <template is="dom-repeat" items="[[records]]">

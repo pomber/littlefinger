@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="lf-repository.html">
+<link rel="import" href="lf-pager.html">
 
 <dom-module id="lf-demo">
 
@@ -9,9 +9,15 @@
           <paper-input value="{{itemId}}">
           </paper-input>
 
-          <lf-repository
-            app="[[app]]">
-          </lf-repository>            
+          <lf-pager
+            all="[[list]]"
+            page="{{page}}">
+          </lf-pager>       
+
+          <pre>
+            {{page}}
+          </pre>
+
       </div>
 
   </template>
@@ -24,6 +30,19 @@
 
       properties: {
           app: Object,
+      },
+
+      ready: function() {
+        this.list = [
+          {v: 1},
+          {v: 2},
+          {v: 3},
+          {v: 8},
+          {v: 5},
+          {v: 6},
+          {v: 7},
+          {v: 4},
+        ]
       },
 
       edit: function(event) {

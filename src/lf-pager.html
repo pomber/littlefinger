@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="lodash.html">
+
+<dom-module id="lf-pager">
+
+    <script>
+        Polymer({
+            is: 'lf-pager',
+
+            properties: {
+                all: Array,
+                page: {
+                    type: Array,
+                    notify: true,
+                    computed: "_computePage(all, last, size)"
+                },
+                last: {
+                    type: Number,
+                    value: 0,
+                },
+                size: {
+                    type: Number,
+                    value: 5,
+                }
+            },
+
+            _computePage: function(all, last, size) {
+                var sorted = _.orderBy(all, "timestamp", "desc");
+                return _.take(sorted, this.size);
+            },
+        });
+    </script>
+
+</dom-module>
