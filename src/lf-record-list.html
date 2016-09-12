@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
 <link rel="import" href="lf-repository.html">
@@ -20,10 +21,12 @@
         <lf-repository app="[[app]]" list="{{all}}">
         </lf-repository>
 
-        <lf-pager all="[[all]]" page="{{records}}">
+        <lf-pager id="pager" all="[[all]]" page="{{records}}">
         </lf-pager>
-        
-        <paper-listbox>                  
+
+        <iron-scroll-threshold id="scroll" scroll-target="list"
+            on-lower-threshold="nextPage">
+        <paper-listbox id="list">                  
             <template is="dom-repeat" items="[[records]]">
                 <paper-icon-item on-tap="edit">
                     <lf-icon 
@@ -45,6 +48,7 @@
                 </paper-icon-item>
             </template>
         </paper-listbox>
+        </iron-scroll-threshold>
 
     </template>
 
@@ -56,9 +60,26 @@
                 app: Object
             },
 
+            observers: [
+                "_recordsChanged(records.length)",
+            ],
+
             edit: function(e) {                
                 var item = e.model.item;
                 this.fire("item-tap", {item: item});
+            },
+
+            nextPage: function() {
+                console.log("next page please");
+                this.$.pager.loadNext();
+            },
+
+            _recordsChanged: function() {
+                var self = this;
+                this.async(function () {
+                    console.log("clear");
+                    self.$.scroll.clearTriggers();
+                });
             },
 
             _getCategoryIcon: function(record) {

@@ -16,18 +16,22 @@
                 },
                 last: {
                     type: Number,
-                    value: 0,
+                    value: 10,
                 },
                 size: {
                     type: Number,
-                    value: 5,
+                    value: 10,
                 }
             },
 
             _computePage: function(all, last, size) {
                 var sorted = _.orderBy(all, "timestamp", "desc");
-                return _.take(sorted, this.size);
+                return _.take(sorted, this.last);
             },
+
+            loadNext: function() {
+                this.last += this.size;
+            }
         });
     </script>
 
