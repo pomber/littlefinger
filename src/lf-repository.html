@@ -52,7 +52,7 @@
                         var key = snap.key;
                         var value = snap.val();
                         value.$key = key;
-                        self.list.push(value);
+                        self.push("list", value);
                     });
 
                 var allRef = db.ref(self.path);
