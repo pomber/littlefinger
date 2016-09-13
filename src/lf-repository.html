@@ -38,7 +38,8 @@
                 }); 
             },
 
-            _registerListeners: function() {                
+            _registerListeners: function() {
+                var self = this;                
                 var last = _.maxBy(this.list, 'ts'); 
                 var start = last ? last.ts + 1 : 0;
                 
@@ -48,12 +49,28 @@
                 ref.orderByChild('ts')
                     .startAt(start)
                     .on('child_added', function(snap) {
-                        var key = snap.key();
+                        var key = snap.key;
                         var value = snap.val();
                         value.$key = key;
-                        debugger;
                         self.list.push(value);
                     });
+
+                var allRef = db.ref(self.path);
+                allRef.on('child_changed', function (snap) {
+                    var key = snap.key;
+                    var value = snap.val();
+                    value.$key = key;
+                    var index = _.findIndex(self.list, ["$key", key]);
+                    var prev = self.list[index];
+                    for (var property in value) {
+                        self.set(['list', index, property], value[property]);
+                    }
+                    for (var property in prev) {
+                        if(!value.hasOwnProperty(property)) {
+                            self.set(['list', index, property], undefined);
+                        }
+                    }
+                });
             },
 
             _toArray: function(map) {
