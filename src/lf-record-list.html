@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/iron-scroll-threshold/iron-scroll-threshold.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
 <link rel="import" href="lf-icon.html">
 <link rel="import" href="lf-money.html">
 <link rel="import" href="lf-repository.html">
@@ -18,11 +19,12 @@
         <style include="iron-flex iron-flex-alignment">            
         </style>
 
-        <lf-repository app="[[app]]" list="{{all}}">
-        </lf-repository>
-
-        <lf-pager id="pager" all="[[all]]" page="{{records}}">
-        </lf-pager>
+        <firebase-query id="query" log
+            path="/records/{{app.user.uid}}"
+            order-by-child="reverseTimestamp"
+            limit-to-first="[[count]]"
+            data="{{records}}">
+        </firebase-query>
 
         <iron-scroll-threshold id="scroll" scroll-target="list"
             on-lower-threshold="nextPage">
@@ -57,7 +59,11 @@
             is: 'lf-record-list',
 
             properties: {
-                app: Object
+                app: Object,
+                count: {
+                    type: Number,
+                    value: 10
+                }
             },
 
             observers: [
@@ -71,15 +77,14 @@
 
             nextPage: function() {
                 console.log("next page please");
-                this.$.pager.loadNext();
+                this.count = this.count + 10;
             },
 
             _recordsChanged: function() {
-                var self = this;
-                this.async(function () {
-                    console.log("clear");
-                    self.$.scroll.clearTriggers();
-                });
+                // var self = this;
+                // this.async(function () {
+                //     self.$.scroll.clearTriggers();
+                // });
             },
 
             _getCategoryIcon: function(record) {
