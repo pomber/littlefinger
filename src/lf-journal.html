@@ -48,9 +48,15 @@
                 </div>
 
                 <lf-record-list
+                    id="list"
                     app="[[app]]"
                     on-item-tap="edit">
                 </lf-record-list>
+
+                <div class="horizontal layout justified">
+                    <h3 class="flex"></h3>
+                    <paper-button on-tap="loadMore">Load More ...</paper-button>
+                </div>
             </paper-material>
 
             <iron-collapse id="details" horizontal class="flex">
@@ -90,6 +96,10 @@
                 this.$.transferDetails.hide();
                 this.$.recordForm.show();
                 this.$.details.show();
+            },
+
+            loadMore: function() {
+                this.$.list.nextPage();
             },
 
             edit: function(e) {                

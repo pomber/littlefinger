@@ -26,8 +26,6 @@
             data="{{records}}">
         </firebase-query>
 
-        <iron-scroll-threshold id="scroll" scroll-target="list"
-            on-lower-threshold="nextPage">
         <paper-listbox id="list">                  
             <template is="dom-repeat" items="[[records]]">
                 <paper-icon-item on-tap="edit">
@@ -50,7 +48,6 @@
                 </paper-icon-item>
             </template>
         </paper-listbox>
-        </iron-scroll-threshold>
 
     </template>
 
@@ -66,25 +63,13 @@
                 }
             },
 
-            observers: [
-                "_recordsChanged(records.length)",
-            ],
-
             edit: function(e) {                
                 var item = e.model.item;
                 this.fire("item-tap", {item: item});
             },
 
             nextPage: function() {
-                console.log("next page please");
                 this.count = this.count + 10;
-            },
-
-            _recordsChanged: function() {
-                // var self = this;
-                // this.async(function () {
-                //     self.$.scroll.clearTriggers();
-                // });
             },
 
             _getCategoryIcon: function(record) {
