@@ -31,11 +31,12 @@
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="0" scrollable class="flex">
-                <paper-tab>All</paper-tab>
-                <paper-tab>Bank Account</paper-tab>
-                <paper-tab>Credit Card</paper-tab>
-                <paper-tab>Cash</paper-tab>
+            <paper-tabs noink selected="{{account}}" fallback-selection="$all"
+                attr-for-selected="name" scrollable class="flex">
+                <paper-tab name="$all">All</paper-tab>
+                <template is="dom-repeat" items="[[app.accounts]]">
+                    <paper-tab name="[[item.name]]">[[item.name]]</paper-tab>
+                </template>
             </paper-tabs>
         </nav>
 
