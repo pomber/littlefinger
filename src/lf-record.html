@@ -80,6 +80,8 @@
                     on-iron-overlay-opened="_patchOverlay">                    
                 </app-datepicker-dialog>
                 <paper-button on-tap="_changeDate">Change Date</paper-button>
+
+                <paper-input label="Note" value="{{note}}"></paper-input>
             </div>
             
             <div class="layout horizontal end-justified">
@@ -139,7 +141,8 @@
                 this.record.type = this.type;
                 this.record.date = this.date;
                 this.record.timestamp = new Date(this.date).getTime();
-                this.record.reverseTimestamp = -this.record.timestamp; 
+                this.record.reverseTimestamp = -this.record.timestamp;
+                this.record.note = this.note; 
 
                 if (this.isNew)
                 {
@@ -157,6 +160,7 @@
                 this.account = values.account;
                 this.date = values.date;
                 this.type = values.type || "expense";
+                this.note = values.note || null;
             },
 
             _recordChanged: function() {
