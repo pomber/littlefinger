@@ -64,14 +64,16 @@
 
             <paper-input label="Rate" required type="number" value="{{rate}}" hidden$="{{hideRate}}"></paper-input>
 
-                <paper-input label="Date" required value="{{date}}"></paper-input>
-                
-                <app-datepicker-dialog with-backdrop id="datepicker"
-                    disable-days="[]"
-                    date="{{date}}"
-                    on-iron-overlay-opened="_patchOverlay">                    
-                </app-datepicker-dialog>
-                <paper-button on-tap="_changeDate">Change Date</paper-button>
+            <paper-input label="Date" required value="{{date}}"></paper-input>
+            
+            <app-datepicker-dialog with-backdrop id="datepicker"
+                disable-days="[]"
+                date="{{date}}"
+                on-iron-overlay-opened="_patchOverlay">                    
+            </app-datepicker-dialog>
+            <paper-button on-tap="_changeDate">Change Date</paper-button>
+            
+            <paper-input label="Note" value="{{note}}"></paper-input>
         </div>
             
             <div class="layout horizontal end-justified">
@@ -131,8 +133,10 @@
                 this.detail.date = this.date;
                 this.detail.timestamp = new Date(this.date).getTime();
                 this.detail.reverseTimestamp = -this.detail.timestamp; 
+                this.detail.note = this.note; 
                 this.$.source.save();
                 this.app.refreshBalances();
+
                 this.fire("detail-close");
             },
 
@@ -143,6 +147,7 @@
                 this.dest = values.dest;
                 this.date = values.date;
                 this.rate = values.rate;
+                this.note = values.note || null;
             },
 
             _itemChanged: function() {
