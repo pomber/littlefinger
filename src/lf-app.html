@@ -112,7 +112,7 @@
           <lf-reports name="reports" user="[[app.user]]"></lf-reports>
           <lf-settings name="settings" app="[[app]]"></lf-settings>
           <lf-import name="import" app="[[app]]"></lf-import>
-          <lf-demo name="demo" app="[[app]]"></lf-demo>
+          <lf-demo name="demo" app="[[app]]" page="{{subroute}}"></lf-demo>
         </iron-pages>
 
       </app-header-layout>
@@ -156,7 +156,7 @@
 
         // console.log("page", page);  
         if (page && this.routeData.page != page) {
-          this.set("routeData.page",page);
+          this.set("routeData.page", page);
         }
       },
 

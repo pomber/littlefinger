@@ -15,16 +15,16 @@
         </style>
 
         <nav class="horizontal layout justified">
-            <paper-tabs noink selected="{{page}}" scrollable class="flex">
-                <paper-tab>Categories</paper-tab>
-                <paper-tab>Accounts</paper-tab>
-                <paper-tab>Currencies</paper-tab>
+            <paper-tabs noink selected="{{page}}" scrollable class="flex" attr-for-selected="name">
+                <paper-tab name="categories">Categories</paper-tab>
+                <paper-tab name="accounts">Accounts</paper-tab>
+                <paper-tab name="currencies">Currencies</paper-tab>
             </paper-tabs>
         </nav>
 
-        <iron-pages selected="[[page]]">
-            <lf-categories app="[[app]]"></lf-categories>
-            <lf-accounts app="[[app]]"></lf-accounts>
+        <iron-pages selected="[[page]]" attr-for-selected="name">
+            <lf-categories app="[[app]]" name="categories"></lf-categories>
+            <lf-accounts app="[[app]]" name="accounts"></lf-accounts>
         </iron-pages>
         
     </template>
@@ -36,7 +36,7 @@
                 app: Object,
                 page: {
                     type: String,
-                    value: "0"
+                    notify: true,
                 }
             },
         });
