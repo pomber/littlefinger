@@ -72,7 +72,13 @@
         route="{{route}}"
         pattern="/:page"
         data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+        tail="{{subroute}}">
+    </app-route>
+    <app-route
+        route="{{subroute}}"
+        pattern="/:section"
+        data="{{subrouteData}}">
+    </app-route>
 
     <!--<app-drawer-layout fullbleed>-->
 
@@ -110,9 +116,9 @@
           <lf-cycle name="cycle" app="[[app]]"></lf-cycle>
           <lf-journal name="journal" app="[[app]]"></lf-journal>
           <lf-reports name="reports" user="[[app.user]]"></lf-reports>
-          <lf-settings name="settings" app="[[app]]"></lf-settings>
+          <lf-settings name="settings" app="[[app]]" page="{{subrouteData.section}}"></lf-settings>
           <lf-import name="import" app="[[app]]"></lf-import>
-          <lf-demo name="demo" app="[[app]]" page="{{subroute}}"></lf-demo>
+          <lf-demo name="demo" app="[[app]]"></lf-demo>
         </iron-pages>
 
       </app-header-layout>
