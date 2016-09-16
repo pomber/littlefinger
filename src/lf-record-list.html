@@ -73,13 +73,21 @@
             },
 
             _getCategoryIcon: function(record) {
-                var cat = this.app.getCategory(record.category); 
-                return cat && cat.icon;
+                if (record.type == "transfer") { 
+                    return "vaadin-icons:exchange";
+                } else {
+                    var cat = this.app.getCategory(record.category); 
+                    return cat && cat.icon;
+                }
             },
 
             _getCategoryColor: function(record) {
-                var cat = this.app.getCategory(record.category);
-                return cat && cat.color;
+                if (record.type == "transfer") { 
+                    return "blue-grey";
+                } else {
+                    var cat = this.app.getCategory(record.category);
+                    return cat && cat.color;
+                }
             },
 
             _getDate: function(record) {
